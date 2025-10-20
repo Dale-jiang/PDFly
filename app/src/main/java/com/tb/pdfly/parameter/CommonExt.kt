@@ -3,6 +3,7 @@ package com.tb.pdfly.parameter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.util.TypedValue
 import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
