@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">PDFly</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="share_app">Share App</string>
+    <string name="language">Language</string>
 </resources>
