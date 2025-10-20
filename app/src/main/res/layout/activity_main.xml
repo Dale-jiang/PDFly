@@ -4,15 +4,130 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="31dp"
-        android:text="DOC Reader"
-        android:textColor="#FF000000"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/layout_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_f6f6f6"
+        app:layout_constraintBottom_toTopOf="@+id/layout_bottom" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_home"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="7dp"
+            android:foreground="?actionBarItemBackground"
+            android:padding="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_history"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_home_selector" />
+
+        <View
+            android:id="@+id/home_indicator"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="-6dp"
+            android:background="@drawable/mian_indicator"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/btn_home"
+            app:layout_constraintStart_toStartOf="@+id/btn_home"
+            app:layout_constraintTop_toBottomOf="@+id/btn_home" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_history"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="7dp"
+            android:foreground="?actionBarItemBackground"
+            android:padding="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_create"
+            app:layout_constraintStart_toEndOf="@+id/btn_home"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_history_selector" />
+
+        <View
+            android:id="@+id/history_indicator"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="-6dp"
+            android:background="@drawable/mian_indicator"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/btn_history"
+            app:layout_constraintStart_toStartOf="@+id/btn_history"
+            app:layout_constraintTop_toBottomOf="@+id/btn_history" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_create"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_create" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_bookmarks"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="7dp"
+            android:foreground="?actionBarItemBackground"
+            android:padding="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_mine"
+            app:layout_constraintStart_toEndOf="@+id/btn_create"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_bookmarks_selector" />
+
+        <View
+            android:id="@+id/bookmarks_indicator"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="-6dp"
+            android:background="@drawable/mian_indicator"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/btn_bookmarks"
+            app:layout_constraintStart_toStartOf="@+id/btn_bookmarks"
+            app:layout_constraintTop_toBottomOf="@+id/btn_bookmarks" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_mine"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="7dp"
+            android:foreground="?actionBarItemBackground"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_bookmarks"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_mine_selector" />
+
+        <View
+            android:id="@+id/mine_indicator"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="-6dp"
+            android:background="@drawable/mian_indicator"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/btn_mine"
+            app:layout_constraintStart_toStartOf="@+id/btn_mine"
+            app:layout_constraintTop_toBottomOf="@+id/btn_mine" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
