@@ -17,7 +17,7 @@ import com.tb.pdfly.utils.isFirstAskStorage
 
 abstract class BaseFilePermissionActivity<T : ViewBinding>(inflate: (layoutInflater: LayoutInflater) -> T) : BaseActivity<T>(inflate) {
 
-    open fun onStoragePermissionGranted() = Unit
+    abstract fun onStoragePermissionGranted()
 
     private val permissionArr by lazy { arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE) }
 

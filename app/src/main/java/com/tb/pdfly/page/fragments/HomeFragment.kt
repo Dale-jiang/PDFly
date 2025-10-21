@@ -1,11 +1,17 @@
 package com.tb.pdfly.page.fragments
 
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import com.tb.pdfly.databinding.FragmentHomeBinding
 import com.tb.pdfly.page.base.BaseFragment
+import com.tb.pdfly.page.vm.GlobalVM
 import com.tb.pdfly.parameter.dpToPx
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+
+    private val viewModel by activityViewModels<GlobalVM>()
+
 
     override fun initView() {
 
@@ -25,15 +31,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding?.apply {
 
             viewPermission.btnAllow.setOnClickListener {
-
-
-
-
+                viewModel.askPermissionLiveData.postValue(true)
             }
 
 
         }
 
+
+        viewModel.showNoPermissionLiveData.observe(this) {
+            binding?.apply {
+                viewPermission.root.isVisible = it
+                loadingView.isVisible = !it
+            }
+        }
 
     }
 
