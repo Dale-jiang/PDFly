@@ -67,8 +67,8 @@ object HotStartManager {
         isHotStart = false
     }
 
-    fun navigateToSettingPage() {
-        isToSettingPage = true
+    fun navigateToSettingPage(boolean: Boolean) {
+        isToSettingPage = boolean
     }
 
     private fun isScreenInteractive(): Boolean {

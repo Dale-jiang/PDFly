@@ -22,6 +22,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
 
 
+        binding?.apply {
+
+            viewPermission.btnAllow.setOnClickListener {
+
+
+
+
+            }
+
+
+        }
+
+
     }
 
 }

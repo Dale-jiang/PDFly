@@ -1,80 +1,52 @@
 package com.tb.pdfly.utils
 
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.tb.pdfly.parameter.app
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
-class SharedPreferencesUtil private constructor(context: Context) {
 
-    companion object {
-        private const val PREFS_NAME = "pdfly_shared_prefs"
+private val sharedPreferences by lazy {
+    app.getSharedPreferences("pdfly_shared_prefs", Context.MODE_PRIVATE)
+}
 
-        @Volatile
-        private var INSTANCE: SharedPreferencesUtil? = null
-
-        fun getInstance(context: Context): SharedPreferencesUtil {
-            return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: SharedPreferencesUtil(context.applicationContext).also { INSTANCE = it }
-            }
-        }
-    }
-
-    private val sharedPreferences: SharedPreferences =
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-
-    fun putString(key: String, value: String) {
-        sharedPreferences.edit { putString(key, value) }
-    }
-
-    fun getString(key: String, defaultValue: String = ""): String {
-        return sharedPreferences.getString(key, defaultValue) ?: defaultValue
-    }
-
-    fun putInt(key: String, value: Int) {
-        sharedPreferences.edit { putInt(key, value) }
-    }
-
-    fun getInt(key: String, defaultValue: Int = 0): Int {
-        return sharedPreferences.getInt(key, defaultValue)
-    }
-
-    fun putBoolean(key: String, value: Boolean) {
-        sharedPreferences.edit { putBoolean(key, value) }
-    }
-
-    fun getBoolean(key: String, defaultValue: Boolean = false): Boolean {
-        return sharedPreferences.getBoolean(key, defaultValue)
-    }
-
-    fun putFloat(key: String, value: Float) {
-        sharedPreferences.edit { putFloat(key, value) }
-    }
-
-    fun getFloat(key: String, defaultValue: Float = 0f): Float {
-        return sharedPreferences.getFloat(key, defaultValue)
-    }
-
-    fun putLong(key: String, value: Long) {
-        sharedPreferences.edit { putLong(key, value) }
-    }
-
-    fun getLong(key: String, defaultValue: Long = 0L): Long {
-        return sharedPreferences.getLong(key, defaultValue)
-    }
-
-    fun putStringSet(key: String, value: Set<String>) {
-        sharedPreferences.edit { putStringSet(key, value) }
-    }
-
-    fun getStringSet(key: String, defaultValue: Set<String> = emptySet()): Set<String> {
-        return sharedPreferences.getStringSet(key, defaultValue) ?: defaultValue
-    }
-
-    fun remove(key: String) {
-        sharedPreferences.edit { remove(key) }
-    }
-
-    fun clear() {
-        sharedPreferences.edit { clear() }
+class PrefBoolean(private val default: Boolean) : ReadWriteProperty<Any?, Boolean> {
+    override fun getValue(thisRef: Any?, property: KProperty<*>) = sharedPreferences.getBoolean(property.name, default)
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: Boolean) {
+        sharedPreferences.edit(commit = true) { putBoolean(property.name, value) }
     }
 }
+
+class PrefInt(private val default: Int) : ReadWriteProperty<Any?, Int> {
+    override fun getValue(thisRef: Any?, property: KProperty<*>) = sharedPreferences.getInt(property.name, default)
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) {
+        sharedPreferences.edit(commit = true) { putInt(property.name, value) }
+    }
+}
+
+class PrefLong(private val default: Long) : ReadWriteProperty<Any?, Long> {
+    override fun getValue(thisRef: Any?, property: KProperty<*>) = sharedPreferences.getLong(property.name, default)
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: Long) {
+        sharedPreferences.edit(commit = true) { putLong(property.name, value) }
+    }
+}
+
+class PrefString(private val default: String? = null) : ReadWriteProperty<Any?, String> {
+    override fun getValue(thisRef: Any?, property: KProperty<*>) = sharedPreferences.getString(property.name, default) ?: default ?: ""
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
+        sharedPreferences.edit(commit = true) { putString(property.name, value) }
+    }
+}
+
+class PrefDouble(private val default: Double = 0.0) : ReadWriteProperty<Any?, Double> {
+    override fun getValue(thisRef: Any?, property: KProperty<*>): Double {
+        return sharedPreferences.getString(property.name, default.toString())?.toDoubleOrNull() ?: default
+    }
+
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: Double) {
+        sharedPreferences.edit(commit = true) { putString(property.name, value.toString()) }
+    }
+}
+
+var isFirstAskStorage by PrefBoolean(true)

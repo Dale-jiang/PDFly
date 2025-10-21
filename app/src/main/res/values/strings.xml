@@ -14,4 +14,5 @@
     <string name="no_history_yet">No history yet!\nOnce you open or read a PDF, it will appear here.</string>
     <string name="no_bookmarks_yet">No bookmarks yet!\nAdd your favorite PDFs here for quick access anytime.</string>
     <string name="allow_file_permissions_to_manage_documents">Allow file permissions to manage documents</string>
+    <string name="an_unknown_error_occurred">An unknown error occurred</string>
 </resources>
