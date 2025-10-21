@@ -36,7 +36,11 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
         initAdapter()
         val list = mutableListOf<FileInfo>()
         for (i in 0..10) {
-            list.add(FileInfo())
+            if (mTabType == TabType.COLLECTION) {
+                list.add(FileInfo(isCollection = true))
+            } else {
+                list.add(FileInfo())
+            }
         }
         mAdapter.submitList(list)
     }

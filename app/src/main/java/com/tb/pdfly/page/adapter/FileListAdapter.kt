@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.tb.pdfly.R
 import com.tb.pdfly.databinding.ItemFileListBinding
 import com.tb.pdfly.parameter.FileInfo
 
@@ -33,7 +34,8 @@ class FileListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val user = getItem(position)
+        val info = getItem(position)
+        holder.binding.itemMore.setImageResource(if (info.isCollection) R.drawable.ic_item_collection else R.drawable.ic_more)
         holder.binding.itemName.text = "--->>>>test${position}"
         holder.binding.itemDesc.text = "--->>>>dest${position}"
     }
