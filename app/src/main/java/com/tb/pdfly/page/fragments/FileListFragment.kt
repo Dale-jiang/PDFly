@@ -15,6 +15,7 @@ import com.tb.pdfly.parameter.FileType
 import com.tb.pdfly.parameter.TabType
 import com.tb.pdfly.parameter.changeNameLiveData
 import com.tb.pdfly.parameter.database
+import com.tb.pdfly.parameter.fileDeleteLiveData
 import com.tb.pdfly.parameter.showFileDetailsDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -73,6 +74,11 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
                 } else it
             }
             mAdapter.submitList(null)
+            mAdapter.submitList(newList)
+        }
+
+        fileDeleteLiveData.observe(this) { path ->
+            val newList = mAdapter.currentList.filter { it.path != path }
             mAdapter.submitList(newList)
         }
     }

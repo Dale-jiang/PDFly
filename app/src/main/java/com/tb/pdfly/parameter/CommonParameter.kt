@@ -13,6 +13,7 @@ internal const val WEB_URL_KEY = "WEB_URL_KEY"
 
 val database by lazy { AppDatabase.getInstance(app) }
 val changeNameLiveData = MutableLiveData<Pair<String, String>>()
+val fileDeleteLiveData = MutableLiveData<String>()
 
 val mimetypeMap by lazy {
     mapOf(

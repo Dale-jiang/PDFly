@@ -111,6 +111,17 @@ fun Context.shareFile(path: String, mimeType: String) {
     }
 }
 
+fun Context.notifyMediaStoreFileDeleted(file: File) {
+    if (!file.exists()) return
+    MediaScannerConnection.scanFile(this, arrayOf(file.absolutePath), null) { path, uri ->
+        runCatching {
+            contentResolver.delete(uri, null, null)
+        }
+    }
+    notifySystemToScan(file)
+}
+
+
 fun notifySystemToScan(file: File?) {
     if (file == null || !file.exists()) return
     val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
@@ -212,18 +223,17 @@ fun AppCompatActivity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boo
         dialog.dismiss()
     }
     binding.btnDelete.setOnClickListener {
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            val file = File(fileItem.path)
-//            file.delete().let { success ->
-//                if (success) {
-//                    val findItem = app.database.fileItemDao().getFileByPath(fileItem.path)
-//                    if (null != findItem) app.database.fileItemDao().delete(findItem)
-//                    pdfList.remove(fileItem)
-//                    app.notifyDeleteItem.postValue(fileItem.path)
-//                    notifyMediaStoreFileDeleted(file)
-//                }
-//            }
-//        }
+        lifecycleScope.launch(Dispatchers.IO + SupervisorJob()) {
+            val file = File(fileItem.path)
+            file.delete().let { success ->
+                if (success) {
+                    val findItem = database.fileInfoDao().getFileByPath(fileItem.path)
+                    if (null != findItem) database.fileInfoDao().delete(findItem)
+                    fileDeleteLiveData.postValue(fileItem.path)
+                    notifyMediaStoreFileDeleted(file)
+                }
+            }
+        }
         dialog.dismiss()
     }
     dialog.show()
