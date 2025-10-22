@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.util.TypedValue
@@ -15,19 +16,16 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.DialogFileDetailsBinding
-import com.tb.pdfly.page.base.BaseActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.tb.pdfly.databinding.DialogRenameBinding
 import java.io.File
-import kotlin.jvm.java
 
 fun AppCompatActivity.myEnableEdgeToEdge(parentView: ViewGroup? = null, topPadding: Boolean = true, bottomPadding: Boolean = true) {
     runCatching {
@@ -74,6 +72,34 @@ fun Context.hasStoragePermission(): Boolean {
     }
 }
 
+fun buildUri(context: Context, path: String?): Uri? {
+    if (path.isNullOrBlank()) return null
+    return if (path.startsWith("/")) if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        FileProvider.getUriForFile(context, context.packageName + ".pdfly.fileProvider", File(path))
+    else File(path).toUri() else path.toUri()
+}
+
+fun Context.shareFile(path: String, mimeType: String) {
+
+    runCatching {
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = mimeType.ifBlank { "*/*" }
+            putExtra(Intent.EXTRA_STREAM, buildUri(this@shareFile, path))
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        startActivity(Intent.createChooser(intent, getString(R.string.share)))
+    }.onFailure {
+        if (mimeType.isNotEmpty() && mimeType != "*/*") {
+            shareFile(path, "*/*")
+        } else {
+            Toast.makeText(this, getString(R.string.an_unknown_error_occurred), Toast.LENGTH_LONG).show()
+        }
+    }
+}
+
 fun Activity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boolean = false) {
     val binding = DialogFileDetailsBinding.inflate(LayoutInflater.from(this), window.decorView as ViewGroup, false)
     val dialog = BottomSheetDialog(this).apply {
@@ -93,12 +119,12 @@ fun Activity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boolean = fa
         binding.btnDelete.isVisible = false
     }
 
-    binding.dialogImage.setImageResource(fileType?.iconId?: R.drawable.ic_language)
+    binding.dialogImage.setImageResource(fileType?.iconId ?: R.drawable.ic_language)
     binding.dialogName.text = fileItem.displayName
     binding.dialogDesc.text = fileItem.path
     binding.btnRename.setOnClickListener {
         dialog.dismiss()
-//        showRenameDialog(fileItem)
+        showRenameDialog(fileItem)
     }
     binding.btnPrint.setOnClickListener {
         dialog.dismiss()
@@ -124,7 +150,7 @@ fun Activity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boolean = fa
 //        EventPoster.send("print_click")
     }
     binding.btnShare.setOnClickListener {
-//        shareFile(fileItem.path, fileItem.mimeType)
+        shareFile(fileItem.path, fileItem.mimeType)
     }
     binding.btnCollection.setOnClickListener {
 //        lifecycleScope.launch(Dispatchers.IO) {
@@ -173,5 +199,23 @@ fun Activity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boolean = fa
 //            }
 //        }
 //    }
+    dialog.show()
+}
+
+fun Activity.showRenameDialog(info: FileInfo) {
+    val binding = DialogRenameBinding.inflate(LayoutInflater.from(this), window.decorView as ViewGroup, false)
+    val dialog = BottomSheetDialog(this).apply {
+        setContentView(binding.root)
+    }
+    dialog.create()
+    runCatching {
+        val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.setBackgroundColor(Color.TRANSPARENT)
+    }
+    //binding.editInput.setText(fileItem.displayName.substringBeforeLast("."))
+    binding.btnCancel.setOnClickListener { dialog.dismiss() }
+    binding.btnSave.setOnClickListener {
+
+    }
     dialog.show()
 }
