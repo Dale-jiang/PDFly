@@ -3,6 +3,7 @@ package com.tb.pdfly.page.fragments
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.FragmentFileListBinding
 import com.tb.pdfly.page.MainActivity
@@ -12,7 +13,11 @@ import com.tb.pdfly.page.vm.GlobalVM
 import com.tb.pdfly.parameter.FileInfo
 import com.tb.pdfly.parameter.FileType
 import com.tb.pdfly.parameter.TabType
+import com.tb.pdfly.parameter.database
 import com.tb.pdfly.parameter.showFileDetailsDialog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListBinding::inflate) {
@@ -66,7 +71,14 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
         mAdapter = FileListAdapter(requireContext(), itemClick = {
 
         }, moreClick = {
-            (requireActivity() as MainActivity).showFileDetailsDialog(it)
+            if (mTabType == TabType.COLLECTION) {
+                lifecycleScope.launch(Dispatchers.IO + SupervisorJob()) {
+                    it.isCollection = false
+                    database.fileInfoDao().upsert(it)
+                }
+            } else {
+                (requireActivity() as MainActivity).showFileDetailsDialog(it)
+            }
         })
         binding?.recyclerView?.itemAnimator = null
         binding?.recyclerView?.adapter = mAdapter
@@ -75,36 +87,30 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
     private fun formatData(data: List<FileInfo>) {
         if (null == mFileType || mFileType == FileType.ALL) {
             binding?.viewEmpty?.isVisible = data.isEmpty()
-            binding?.viewEmpty?.text = getString(R.string.no_files_tips)
+            binding?.viewEmpty?.text = getEmptyTips()
             mAdapter.submitList(data)
         } else {
             val result = data.filter { item -> item.getFileType() == mFileType }
             binding?.viewEmpty?.isVisible = result.isEmpty()
+            binding?.viewEmpty?.text = getEmptyTips()
             mAdapter.submitList(result)
         }
     }
 
     private fun getEmptyTips(): String {
-        return when (mFileType) {
-            FileType.PDF -> {
-                getString(R.string.no_pdf_tips)
+        return when (mTabType) {
+            TabType.HISTORY -> {
+                getString(R.string.no_history_yet)
             }
 
-            FileType.WORD -> {
-                getString(R.string.no_pdf_tips)
+            TabType.COLLECTION -> {
+                getString(R.string.no_bookmarks_yet)
             }
 
-            FileType.EXCEL -> {
-                getString(R.string.no_pdf_tips)
-            }
-
-            FileType.PPT -> {
-                getString(R.string.no_pdf_tips)
-            }
-
-            else -> {
+            TabType.HOME -> {
                 getString(R.string.no_files_tips)
             }
+
         }
     }
 

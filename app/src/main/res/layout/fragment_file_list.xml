@@ -21,7 +21,7 @@
         android:fontFamily="@font/syne"
         android:gravity="center"
         android:includeFontPadding="false"
-        android:text="@string/no_pdf_tips"
+        android:text="@string/no_files_tips"
         android:textColor="#666666"
         android:textSize="17sp"
         android:visibility="gone"
