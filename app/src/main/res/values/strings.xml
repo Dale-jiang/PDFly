@@ -27,4 +27,9 @@
     <string name="creating">Creating...</string>
     <string name="create_success">Create Success</string>
     <string name="create_failed">Create failed</string>
+    <string name="result">Result</string>
+    <string name="completed">Complete</string>
+    <string name="allow">Allow</string>
+    <string name="open_it">Open it !</string>
+    <string name="created_successfully">Created successfully</string>
 </resources>

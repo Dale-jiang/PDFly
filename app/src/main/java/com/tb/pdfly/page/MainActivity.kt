@@ -28,6 +28,7 @@ import com.tb.pdfly.parameter.database
 import com.tb.pdfly.parameter.hasStoragePermission
 import com.tb.pdfly.parameter.notifyPdfUpdate
 import com.tb.pdfly.parameter.showLoading
+import com.tb.pdfly.parameter.toActivity
 import com.tb.pdfly.utils.applife.HotStartManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -196,7 +197,10 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
                         )
                         database.fileInfoDao().upsert(fileItem)
                         viewModel.scanDocs(this@MainActivity)
-                        // TODO:
+                        toActivity<CompleteActivity> {
+                            putExtra(CompleteActivity.FILE_INFO, fileItem)
+                            putExtra(CompleteActivity.RESULT_DES, getString(R.string.created_successfully))
+                        }
                     } else {
                         Toast.makeText(this@MainActivity, getString(R.string.create_failed), Toast.LENGTH_LONG).show()
                     }

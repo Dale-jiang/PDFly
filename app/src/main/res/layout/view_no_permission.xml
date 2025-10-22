@@ -27,7 +27,7 @@
         android:fontFamily="@font/sora"
         android:gravity="center"
         android:includeFontPadding="false"
-        android:text="Allow"
+        android:text="@string/allow"
         android:textColor="#FFFFFFFF"
         android:textSize="15sp"
         android:textStyle="bold" />
