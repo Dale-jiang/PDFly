@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import com.tb.pdfly.R
 import kotlinx.parcelize.Parcelize
 
+@Keep
 @Parcelize
 @Entity(tableName = "file_info_table")
 data class FileInfo(

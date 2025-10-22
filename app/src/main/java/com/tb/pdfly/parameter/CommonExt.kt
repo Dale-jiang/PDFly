@@ -5,15 +5,19 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -23,8 +27,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.DialogFileDetailsBinding
+import com.tb.pdfly.databinding.DialogLoadingBinding
 import com.tb.pdfly.databinding.DialogRenameBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -103,6 +109,31 @@ fun Context.shareFile(path: String, mimeType: String) {
             Toast.makeText(this, getString(R.string.an_unknown_error_occurred), Toast.LENGTH_LONG).show()
         }
     }
+}
+
+fun notifySystemToScan(file: File?) {
+    if (file == null || !file.exists()) return
+    val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+    intent.setData(("file://" + file.absolutePath).toUri())
+    app.sendBroadcast(intent)
+}
+
+fun Context.notifyPdfUpdate(file: File) {
+    if (!file.exists()) return
+    MediaScannerConnection.scanFile(this, arrayOf(file.absolutePath), arrayOf("application/pdf")) { path, uri -> }
+    notifySystemToScan(file)
+}
+
+fun Activity.showLoading(contentId: Int = R.string.loading): AlertDialog? {
+    val binding = DialogLoadingBinding.inflate(LayoutInflater.from(this), window.decorView as ViewGroup, false)
+    binding.textGeneral.text = getString(contentId)
+
+    val dialog = MaterialAlertDialogBuilder(this)
+        .setView(binding.root)
+        .setCancelable(false)
+        .show()
+    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    return dialog
 }
 
 fun AppCompatActivity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boolean = false) {
@@ -208,7 +239,18 @@ fun AppCompatActivity.showRenameDialog(info: FileInfo) {
         val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
         bottomSheet?.setBackgroundColor(Color.TRANSPARENT)
     }
-    binding.editInput.setText(info.displayName.substringBeforeLast("."))
+    binding.editInput.apply {
+        val name = info.displayName.substringBeforeLast(".")
+        setText(name)
+        setSelection(name.length)
+        requestFocus()
+        isFocusable = true
+        isFocusableInTouchMode = true
+        postDelayed({
+            val imm = this@showRenameDialog.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+        }, 200L)
+    }
     binding.btnCancel.setOnClickListener { dialog.dismiss() }
     binding.btnSave.setOnClickListener {
 
@@ -223,7 +265,7 @@ fun AppCompatActivity.showRenameDialog(info: FileInfo) {
             val afterFile = File(originalFile.parent, afterName)
 
             if (afterFile.exists()) {
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     Toast.makeText(this@showRenameDialog, getString(R.string.file_name_already_exists), Toast.LENGTH_SHORT).show()
                 }
                 return@launch
@@ -243,6 +285,11 @@ fun AppCompatActivity.showRenameDialog(info: FileInfo) {
                 }
                 changeNameLiveData.postValue(Pair(originalFile.path, afterFile.path))
                 withContext(Dispatchers.Main) {
+                    runCatching {
+                        val imm = this@showRenameDialog.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(binding.editInput.windowToken, 0)
+                    }
+
                     dialog.dismiss()
                 }
             } else {

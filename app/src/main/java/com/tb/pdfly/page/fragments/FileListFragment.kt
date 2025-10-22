@@ -98,12 +98,16 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
         if (null == mFileType || mFileType == FileType.ALL) {
             binding?.viewEmpty?.isVisible = data.isEmpty()
             binding?.viewEmpty?.text = getEmptyTips()
-            mAdapter.submitList(data)
+            mAdapter.submitList(data) {
+                binding?.recyclerView?.scrollToPosition(0)
+            }
         } else {
             val result = data.filter { item -> item.getFileType() == mFileType }
             binding?.viewEmpty?.isVisible = result.isEmpty()
             binding?.viewEmpty?.text = getEmptyTips()
-            mAdapter.submitList(result)
+            mAdapter.submitList(result) {
+                binding?.recyclerView?.scrollToPosition(0)
+            }
         }
     }
 

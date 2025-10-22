@@ -1,20 +1,56 @@
 package com.tb.pdfly.page
 
+import android.net.Uri
+import android.os.Environment
+import android.widget.Toast
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
+import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
+import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
+import com.tb.pdfly.R
 import com.tb.pdfly.databinding.ActivityMainBinding
 import com.tb.pdfly.page.base.BaseFilePermissionActivity
+import com.tb.pdfly.page.dialog.RenameDialog
 import com.tb.pdfly.page.fragments.CollectionFragment
 import com.tb.pdfly.page.fragments.HistoryFragment
 import com.tb.pdfly.page.fragments.HomeFragment
 import com.tb.pdfly.page.fragments.SettingsFragment
 import com.tb.pdfly.page.vm.GlobalVM
+import com.tb.pdfly.parameter.FileInfo
+import com.tb.pdfly.parameter.database
 import com.tb.pdfly.parameter.hasStoragePermission
+import com.tb.pdfly.parameter.notifyPdfUpdate
+import com.tb.pdfly.parameter.showLoading
+import com.tb.pdfly.utils.applife.HotStartManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
 
 class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+
+    private val createLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+        HotStartManager.navigateToSettingPage(false)
+        if (result.resultCode == RESULT_OK) {
+            val result = GmsDocumentScanningResult.fromActivityResultIntent(result.data)
+            result?.pdf?.let { pdf ->
+                val pdfUri = pdf.uri
+                onCreatedSucceed(pdfUri)
+            } ?: Toast.makeText(this, getString(R.string.an_unknown_error_occurred), Toast.LENGTH_LONG).show()
+        } else if (result.resultCode == RESULT_CANCELED) {
+            Toast.makeText(this, getString(R.string.create_cancelled), Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(this, getString(R.string.an_unknown_error_occurred), Toast.LENGTH_LONG).show()
+        }
+    }
 
     private val viewModel by viewModels<GlobalVM>()
 
@@ -28,8 +64,9 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
         }
 
         initViewPager()
-        binding.btnCreate.setOnClickListener {
 
+        binding.btnCreate.setOnClickListener {
+            goCreatePdf()
         }
 
         viewModel.askPermissionLiveData.observe(this) {
@@ -116,5 +153,82 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
         }
     }
 
+    private fun goCreatePdf() {
+        if (hasStoragePermission().not()) {
+            viewModel.askPermissionLiveData.postValue(true)
+            return
+        }
+        val options = GmsDocumentScannerOptions.Builder()
+            .setGalleryImportAllowed(true)
+            .setResultFormats(GmsDocumentScannerOptions.RESULT_FORMAT_PDF)
+            .setScannerMode(GmsDocumentScannerOptions.SCANNER_MODE_FULL)
+            .build()
+        val scanner = GmsDocumentScanning.getClient(options)
+        scanner.getStartScanIntent(this)
+            .addOnSuccessListener { intentSender ->
+                HotStartManager.navigateToSettingPage(true)
+                createLauncher.launch(IntentSenderRequest.Builder(intentSender).build())
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, getString(R.string.an_unknown_error_occurred), Toast.LENGTH_LONG).show()
+            }
+    }
+
+    private fun onCreatedSucceed(uri: Uri) {
+        RenameDialog {
+            if (it.isEmpty().not()) {
+                lifecycleScope.launch {
+
+                    val loadingDialog = showLoading(R.string.creating)
+                    val startTime = System.currentTimeMillis()
+                    val result = savePDFFile(uri, it)
+
+                    val delayTime = 2000L + startTime - System.currentTimeMillis()
+                    if (delayTime > 0) delay(delayTime)
+
+                    if (null != result) {
+                        val fileItem = FileInfo(
+                            displayName = result.name,
+                            path = result.path,
+                            mimeType = "application/pdf",
+                            size = result.length(),
+                            dateAdded = result.lastModified(),
+                        )
+                        database.fileInfoDao().upsert(fileItem)
+                        viewModel.scanDocs(this@MainActivity)
+                        // TODO:
+                    } else {
+                        Toast.makeText(this@MainActivity, getString(R.string.create_failed), Toast.LENGTH_LONG).show()
+                    }
+
+                    loadingDialog?.dismiss()
+                }
+            } else {
+                runCatching {
+                    contentResolver.delete(uri, null, null)
+                }
+            }
+        }.show(supportFragmentManager, "DialogRenamePDF")
+    }
+
+    private suspend fun savePDFFile(uri: Uri, name: String): File? = withContext(Dispatchers.IO) {
+        val path = uri.path ?: return@withContext null
+        val inputFile = File(path)
+        val targetDir = File(
+            Environment.getExternalStorageDirectory(), "${Environment.DIRECTORY_DOCUMENTS}${File.separator}pdf${File.separator}pdfly"
+        ).apply {
+            if (!exists()) mkdirs()
+        }
+        val targetFile = File(targetDir, "$name.pdf")
+        try {
+            inputFile.copyTo(targetFile, true)
+            inputFile.delete()
+            notifyPdfUpdate(targetFile)
+            targetFile
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 
 }
