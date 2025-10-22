@@ -64,8 +64,9 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/syne"
                 android:includeFontPadding="false"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:textColor="#666666"
+                android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="@+id/dialog_image"
                 app:layout_constraintEnd_toStartOf="@+id/btn_collection"
                 app:layout_constraintStart_toEndOf="@+id/dialog_image"
@@ -82,7 +83,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_item_collection" />
+                app:srcCompat="@drawable/ic_item_collection_grey" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

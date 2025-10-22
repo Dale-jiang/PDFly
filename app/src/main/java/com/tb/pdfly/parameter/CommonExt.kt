@@ -21,10 +21,15 @@ import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.DialogFileDetailsBinding
 import com.tb.pdfly.databinding.DialogRenameBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 fun AppCompatActivity.myEnableEdgeToEdge(parentView: ViewGroup? = null, topPadding: Boolean = true, bottomPadding: Boolean = true) {
@@ -100,7 +105,7 @@ fun Context.shareFile(path: String, mimeType: String) {
     }
 }
 
-fun Activity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boolean = false) {
+fun AppCompatActivity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boolean = false) {
     val binding = DialogFileDetailsBinding.inflate(LayoutInflater.from(this), window.decorView as ViewGroup, false)
     val dialog = BottomSheetDialog(this).apply {
         setContentView(binding.root)
@@ -122,6 +127,16 @@ fun Activity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boolean = fa
     binding.dialogImage.setImageResource(fileType?.iconId ?: R.drawable.image_file_other)
     binding.dialogName.text = fileItem.displayName
     binding.dialogDesc.text = fileItem.path
+
+    lifecycleScope.launch(Dispatchers.IO) {
+        val findItem = database.fileInfoDao().getFileByPath(fileItem.path)
+        if (null != findItem) {
+            withContext(Dispatchers.Main) {
+                binding.btnCollection.setImageResource(if (findItem.isCollection) R.drawable.ic_item_collection else R.drawable.ic_item_collection_grey)
+            }
+        }
+    }
+
     binding.btnRename.setOnClickListener {
         dialog.dismiss()
         showRenameDialog(fileItem)
@@ -153,22 +168,16 @@ fun Activity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boolean = fa
         shareFile(fileItem.path, fileItem.mimeType)
     }
     binding.btnCollection.setOnClickListener {
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            val findItem = app.database.fileItemDao().getFileByPath(fileItem.path)
-//            val isFavorite = (findItem?.isFavorite ?: false).not()
-//            val item = findItem ?: fileItem
-//            item.isFavorite = isFavorite
-//            withContext(Dispatchers.Main) {
-//                binding.btnCollect.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                    if (fileItem.isFavorite) R.drawable.ic_bookmark_checked else R.drawable.ic_bookmark_no_check,
-//                    0,
-//                    0,
-//                    0
-//                )
-//            }
-//            app.database.fileItemDao().upsert(item)
-//        }
-//        EventPoster.send("pdf_bookmarks_click")
+        lifecycleScope.launch(Dispatchers.IO + SupervisorJob()) {
+            val findItem = database.fileInfoDao().getFileByPath(fileItem.path)
+            val isCollected = (findItem?.isCollection ?: false).not()
+            val item = findItem ?: fileItem
+            item.isCollection = isCollected
+            withContext(Dispatchers.Main) {
+                binding.btnCollection.setImageResource(if (fileItem.isCollection) R.drawable.ic_item_collection else R.drawable.ic_item_collection_grey)
+            }
+            database.fileInfoDao().upsert(item)
+        }
         dialog.dismiss()
     }
     binding.btnDelete.setOnClickListener {
@@ -186,19 +195,6 @@ fun Activity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boolean = fa
 //        }
         dialog.dismiss()
     }
-//    lifecycleScope.launch(Dispatchers.IO) {
-//        val findItem = app.database.fileItemDao().getFileByPath(fileItem.path)
-//        if (null != findItem) {
-//            withContext(Dispatchers.Main) {
-//                binding.btnCollect.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                    if (findItem.isFavorite) R.drawable.ic_bookmark_checked else R.drawable.ic_bookmark_no_check,
-//                    0,
-//                    0,
-//                    0
-//                )
-//            }
-//        }
-//    }
     dialog.show()
 }
 

@@ -5,6 +5,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.FragmentFileListBinding
+import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.page.adapter.FileListAdapter
 import com.tb.pdfly.page.base.BaseFragment
 import com.tb.pdfly.page.vm.GlobalVM
@@ -65,7 +66,7 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
         mAdapter = FileListAdapter(requireContext(), itemClick = {
 
         }, moreClick = {
-            requireActivity().showFileDetailsDialog(it)
+            (requireActivity() as MainActivity).showFileDetailsDialog(it)
         })
         binding?.recyclerView?.itemAnimator = null
         binding?.recyclerView?.adapter = mAdapter
