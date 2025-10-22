@@ -91,4 +91,10 @@ dependencies {
     implementation "com.google.firebase:firebase-config"
     implementation "com.google.firebase:firebase-messaging"
 //    implementation "com.google.firebase:firebase-crashlytics"
+
+    def room_version = "2.7.1"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation("androidx.room:room-ktx:$room_version")
+    //noinspection KaptUsageInsteadOfKsp
+    kapt "androidx.room:room-compiler:$room_version"
 }

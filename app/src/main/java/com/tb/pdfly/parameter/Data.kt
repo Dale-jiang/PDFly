@@ -2,11 +2,15 @@ package com.tb.pdfly.parameter
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.tb.pdfly.R
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Entity(tableName = "file_info_table")
 data class FileInfo(
+    @PrimaryKey(autoGenerate = true) var id: Long = 0L,
     var displayName: String = "",
     var path: String = "",
     val mimeType: String = "",

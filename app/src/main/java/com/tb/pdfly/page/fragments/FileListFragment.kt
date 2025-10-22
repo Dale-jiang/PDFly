@@ -38,9 +38,27 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
     override fun initView() {
         initAdapter()
 
-        viewModel.onScanResultLiveData.observe(this) {
-            formatData(it)
+        when (mTabType) {
+            TabType.HOME -> {
+                viewModel.onScanResultLiveData.observe(this) {
+                    formatData(it)
+                }
+            }
+
+            TabType.HISTORY -> {
+                viewModel.onHistoryLiveData.observe(this) {
+                    formatData(it)
+                }
+            }
+
+            TabType.COLLECTION -> {
+                viewModel.onCollectionLiveData.observe(this) {
+                    formatData(it)
+                }
+            }
         }
+
+
     }
 
     private fun initAdapter() {
@@ -65,13 +83,27 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
         }
     }
 
-    private fun getEmptyTips(): String{
-      return  when(mFileType){
-             FileType.PDF -> {getString(R.string.no_pdf_tips)}
-             FileType.WORD -> {getString(R.string.no_pdf_tips)}
-             FileType.EXCEL-> {getString(R.string.no_pdf_tips)}
-             FileType.PPT -> {getString(R.string.no_pdf_tips)}
-            else -> {getString(R.string.no_files_tips)}
+    private fun getEmptyTips(): String {
+        return when (mFileType) {
+            FileType.PDF -> {
+                getString(R.string.no_pdf_tips)
+            }
+
+            FileType.WORD -> {
+                getString(R.string.no_pdf_tips)
+            }
+
+            FileType.EXCEL -> {
+                getString(R.string.no_pdf_tips)
+            }
+
+            FileType.PPT -> {
+                getString(R.string.no_pdf_tips)
+            }
+
+            else -> {
+                getString(R.string.no_files_tips)
+            }
         }
     }
 

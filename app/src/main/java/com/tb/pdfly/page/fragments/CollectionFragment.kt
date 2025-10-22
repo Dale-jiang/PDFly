@@ -2,19 +2,25 @@ package com.tb.pdfly.page.fragments
 
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.FragmentCollectionBinding
 import com.tb.pdfly.databinding.FragmentSettingsBinding
 import com.tb.pdfly.page.base.BaseFragment
+import com.tb.pdfly.page.vm.GlobalVM
 import com.tb.pdfly.parameter.FileType
 import com.tb.pdfly.parameter.TabType
 import com.tb.pdfly.parameter.dpToPx
+import kotlin.getValue
 
 class CollectionFragment : BaseFragment<FragmentCollectionBinding>(FragmentCollectionBinding::inflate) {
 
+    private val viewModel by activityViewModels<GlobalVM>()
+
     override fun initView() {
+        viewModel.fetchCollectionFiles()
         initViewPager()
     }
 

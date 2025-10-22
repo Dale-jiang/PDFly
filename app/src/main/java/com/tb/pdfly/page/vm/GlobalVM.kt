@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tb.pdfly.parameter.FileInfo
+import com.tb.pdfly.parameter.database
 import com.tb.pdfly.parameter.mimetypeMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -21,11 +22,12 @@ class GlobalVM : ViewModel() {
     val askPermissionLiveData = MutableLiveData<Boolean>()
     val onScanResultLiveData = MutableLiveData<List<FileInfo>>()
 
+    val onHistoryLiveData = MutableLiveData<List<FileInfo>>()
+    val onCollectionLiveData = MutableLiveData<List<FileInfo>>()
+
     fun scanDocs(context: Context) {
 
         viewModelScope.launch(Dispatchers.IO + SupervisorJob()) {
-
-            // val dbList: List<FileInfo> = FileRepository.getAllBookmarksInfo()
 
             val resolver: ContentResolver = context.contentResolver
             val uri: Uri = MediaStore.Files.getContentUri("external")
@@ -72,5 +74,22 @@ class GlobalVM : ViewModel() {
 
         }
     }
+
+    fun fetchHistoryFiles() {
+        viewModelScope.launch(Dispatchers.IO) {
+            database.fileInfoDao().getHistoryFiles().collect {
+                onHistoryLiveData.postValue(it)
+            }
+        }
+    }
+
+    fun fetchCollectionFiles() {
+        viewModelScope.launch(Dispatchers.IO) {
+            database.fileInfoDao().getCollectionFiles().collect {
+                onCollectionLiveData.postValue(it)
+            }
+        }
+    }
+
 
 }
