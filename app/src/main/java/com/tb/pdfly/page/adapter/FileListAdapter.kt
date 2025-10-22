@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.ItemFileListBinding
 import com.tb.pdfly.parameter.FileInfo
+import com.tb.pdfly.parameter.TabType
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class FileListAdapter(
     private val context: Context,
+    private val tabType: TabType,
     private val itemClick: (FileInfo) -> Unit,
     private val moreClick: (FileInfo) -> Unit
 ) : ListAdapter<FileInfo, FileListAdapter.ViewHolder>(DiffCallback()) {
@@ -42,7 +44,7 @@ class FileListAdapter(
 
         holder.binding.apply {
             itemImage.setImageResource(info.getFileType()?.iconId ?: R.drawable.image_file_other)
-            itemMore.setImageResource(if (info.isCollection) R.drawable.ic_item_collection else R.drawable.ic_more)
+            itemMore.setImageResource(if (tabType== TabType.COLLECTION) R.drawable.ic_item_collection else R.drawable.ic_more)
             itemName.text = info.displayName
             itemDesc.text = buildString {
                 append(SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(Date(info.dateAdded)))

@@ -20,5 +20,6 @@
     <string name="print">Print</string>
     <string name="open">Open</string>
     <string name="delete">Delete</string>
-    <string name="type_your_pdf_name">Type your PDF name</string>
+    <string name="type_your_pdf_name">Please enter</string>
+    <string name="file_name_already_exists">File name already exists!</string>
 </resources>

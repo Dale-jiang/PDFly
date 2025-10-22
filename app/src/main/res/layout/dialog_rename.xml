@@ -29,7 +29,7 @@
         android:fontFamily="@font/syne"
         android:gravity="center_vertical"
         android:hint="@string/type_your_pdf_name"
-        android:maxLength="50"
+        android:maxLength="100"
         android:maxLines="1"
         android:paddingHorizontal="16dp"
         android:textColor="@color/black"

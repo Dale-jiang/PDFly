@@ -1,5 +1,6 @@
 package com.tb.pdfly.parameter
 
+import androidx.lifecycle.MutableLiveData
 import com.tb.pdfly.app.MyApp
 import com.tb.pdfly.db.AppDatabase
 
@@ -11,6 +12,7 @@ internal const val EMAIL = ""
 internal const val WEB_URL_KEY = "WEB_URL_KEY"
 
 val database by lazy { AppDatabase.getInstance(app) }
+val changeNameLiveData = MutableLiveData<Pair<String, String>>()
 
 val mimetypeMap by lazy {
     mapOf(

@@ -13,11 +13,13 @@ import com.tb.pdfly.page.vm.GlobalVM
 import com.tb.pdfly.parameter.FileInfo
 import com.tb.pdfly.parameter.FileType
 import com.tb.pdfly.parameter.TabType
+import com.tb.pdfly.parameter.changeNameLiveData
 import com.tb.pdfly.parameter.database
 import com.tb.pdfly.parameter.showFileDetailsDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import java.io.File
 
 @Suppress("DEPRECATION")
 class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListBinding::inflate) {
@@ -64,11 +66,19 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
             }
         }
 
-
+        changeNameLiveData.observe(this) { pair ->
+            val newList = mAdapter.currentList.map {
+                if (it.path == pair.first) {
+                    it.copy(path = pair.second, displayName = File(pair.second).name)
+                } else it
+            }
+            mAdapter.submitList(null)
+            mAdapter.submitList(newList)
+        }
     }
 
     private fun initAdapter() {
-        mAdapter = FileListAdapter(requireContext(), itemClick = {
+        mAdapter = FileListAdapter(requireContext(), mTabType, itemClick = {
 
         }, moreClick = {
             if (mTabType == TabType.COLLECTION) {

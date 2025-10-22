@@ -198,7 +198,7 @@ fun AppCompatActivity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boo
     dialog.show()
 }
 
-fun Activity.showRenameDialog(info: FileInfo) {
+fun AppCompatActivity.showRenameDialog(info: FileInfo) {
     val binding = DialogRenameBinding.inflate(LayoutInflater.from(this), window.decorView as ViewGroup, false)
     val dialog = BottomSheetDialog(this).apply {
         setContentView(binding.root)
@@ -208,9 +208,50 @@ fun Activity.showRenameDialog(info: FileInfo) {
         val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
         bottomSheet?.setBackgroundColor(Color.TRANSPARENT)
     }
-    //binding.editInput.setText(fileItem.displayName.substringBeforeLast("."))
+    binding.editInput.setText(info.displayName.substringBeforeLast("."))
     binding.btnCancel.setOnClickListener { dialog.dismiss() }
     binding.btnSave.setOnClickListener {
+
+        if (binding.editInput.text.toString().isBlank()) {
+            Toast.makeText(this, getString(R.string.type_your_pdf_name), Toast.LENGTH_SHORT).show()
+            return@setOnClickListener
+        }
+
+        lifecycleScope.launch(Dispatchers.IO + SupervisorJob()) {
+            val originalFile = File(info.path)
+            val afterName = "${binding.editInput.text.toString().replace(Regex("[\\\\/:*?\"<>|\\x00]"), "_")}.${info.displayName.substringAfterLast('.', "")}"
+            val afterFile = File(originalFile.parent, afterName)
+
+            if (afterFile.exists()) {
+                withContext(Dispatchers.Main){
+                    Toast.makeText(this@showRenameDialog, getString(R.string.file_name_already_exists), Toast.LENGTH_SHORT).show()
+                }
+                return@launch
+            }
+
+            val success = originalFile.renameTo(afterFile)
+            if (success) {
+                val findItem = database.fileInfoDao().getFileByPath(info.path)
+                if (null != findItem) {
+                    findItem.displayName = afterFile.name
+                    findItem.path = afterFile.path
+                    database.fileInfoDao().upsert(findItem)
+                }
+                info.apply {
+                    path = afterFile.path
+                    displayName = afterFile.name
+                }
+                changeNameLiveData.postValue(Pair(originalFile.path, afterFile.path))
+                withContext(Dispatchers.Main) {
+                    dialog.dismiss()
+                }
+            } else {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@showRenameDialog, getString(R.string.an_unknown_error_occurred), Toast.LENGTH_LONG).show()
+                    dialog.dismiss()
+                }
+            }
+        }
 
     }
     dialog.show()
