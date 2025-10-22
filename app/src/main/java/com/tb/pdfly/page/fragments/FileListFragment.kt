@@ -9,6 +9,7 @@ import com.tb.pdfly.page.vm.GlobalVM
 import com.tb.pdfly.parameter.FileInfo
 import com.tb.pdfly.parameter.FileType
 import com.tb.pdfly.parameter.TabType
+import com.tb.pdfly.parameter.showFileDetailsDialog
 
 @Suppress("DEPRECATION")
 class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListBinding::inflate) {
@@ -50,7 +51,7 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
         mAdapter = FileListAdapter(requireContext(), itemClick = {
 
         }, moreClick = {
-
+            requireActivity().showFileDetailsDialog(it)
         })
         binding?.recyclerView?.itemAnimator = null
         binding?.recyclerView?.adapter = mAdapter

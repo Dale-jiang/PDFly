@@ -38,6 +38,14 @@ class FileListAdapter(
         holder.binding.itemMore.setImageResource(if (info.isCollection) R.drawable.ic_item_collection else R.drawable.ic_more)
         holder.binding.itemName.text = "--->>>>test${position}"
         holder.binding.itemDesc.text = "--->>>>dest${position}"
+
+        holder.binding.itemMore.setOnClickListener {
+            moreClick(info)
+        }
+
+        holder.binding.root.setOnClickListener {
+            itemClick(info)
+        }
     }
 
 }

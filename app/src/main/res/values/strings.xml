@@ -15,4 +15,9 @@
     <string name="no_bookmarks_yet">No bookmarks yet!\nAdd your favorite PDFs here for quick access anytime.</string>
     <string name="allow_file_permissions_to_manage_documents">Allow file permissions to manage documents</string>
     <string name="an_unknown_error_occurred">An unknown error occurred</string>
+    <string name="rename">Rename</string>
+    <string name="share">Share</string>
+    <string name="print">Print</string>
+    <string name="open">Open</string>
+    <string name="delete">Delete</string>
 </resources>
