@@ -29,9 +29,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 viewModel.askPermissionLiveData.postValue(true)
             }
 
-
         }
 
+        viewModel.onScanResultLiveData.observe(this) {
+            binding?.loadingView?.isVisible = false
+        }
 
         viewModel.showNoPermissionLiveData.observe(this) {
             binding?.apply {

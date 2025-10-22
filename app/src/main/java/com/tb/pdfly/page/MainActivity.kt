@@ -22,7 +22,7 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
 
         if (hasStoragePermission()) {
             viewModel.showNoPermissionLiveData.postValue(false)
-            //viewModel.scanFiles(getBaseActivity())
+            viewModel.scanDocs(this)
         } else {
             viewModel.showNoPermissionLiveData.postValue(true)
         }
@@ -40,7 +40,7 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
 
     override fun onStoragePermissionGranted() {
         viewModel.showNoPermissionLiveData.postValue(false)
-        //todo
+        viewModel.scanDocs(this)
     }
 
     private fun initViewPager() {

@@ -1,6 +1,7 @@
 package com.tb.pdfly.page.adapter
 
 import android.content.Context
+import android.text.format.Formatter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.ItemFileListBinding
 import com.tb.pdfly.parameter.FileInfo
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class FileListAdapter(
     private val context: Context,
@@ -35,18 +39,27 @@ class FileListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val info = getItem(position)
-        holder.binding.itemImage.setImageResource(info.getFileType()?.iconId ?: R.drawable.image_file_other)
-        holder.binding.itemMore.setImageResource(if (info.isCollection) R.drawable.ic_item_collection else R.drawable.ic_more)
-        holder.binding.itemName.text = "--->>>>test${position}"
-        holder.binding.itemDesc.text = "--->>>>dest${position}"
 
-        holder.binding.itemMore.setOnClickListener {
-            moreClick(info)
+        holder.binding.apply {
+            itemImage.setImageResource(info.getFileType()?.iconId ?: R.drawable.image_file_other)
+            itemMore.setImageResource(if (info.isCollection) R.drawable.ic_item_collection else R.drawable.ic_more)
+            itemName.text = info.displayName
+            itemDesc.text = buildString {
+                append(SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(Date(info.dateAdded)))
+                append("  ")
+                append(Formatter.formatFileSize(context, info.size))
+            }
+
+            itemMore.setOnClickListener {
+                moreClick(info)
+            }
+
+            root.setOnClickListener {
+                itemClick(info)
+            }
         }
 
-        holder.binding.root.setOnClickListener {
-            itemClick(info)
-        }
+
     }
 
 }
