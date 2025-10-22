@@ -28,9 +28,9 @@ enum class TabType {
 
 @Keep
 enum class FileType(val iconId: Int) {
-    ALL(-1),
-    PDF(R.drawable.image_first_loading_logo),
-    WORD(R.drawable.image_first_loading_logo),
-    EXCEL(R.drawable.image_first_loading_logo),
-    PPT(R.drawable.image_first_loading_logo),
+    ALL(R.drawable.image_file_other),
+    PDF(R.drawable.image_file_pdf),
+    WORD(R.drawable.image_file_word),
+    EXCEL(R.drawable.image_file_excel),
+    PPT(R.drawable.image_file_ppt),
 }

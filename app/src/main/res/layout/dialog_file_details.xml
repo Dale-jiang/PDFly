@@ -32,7 +32,7 @@
                 android:layout_margin="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_language" />
+                tools:src="@drawable/image_file_pdf" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/dialog_name"

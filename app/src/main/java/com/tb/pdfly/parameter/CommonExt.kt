@@ -119,7 +119,7 @@ fun Activity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boolean = fa
         binding.btnDelete.isVisible = false
     }
 
-    binding.dialogImage.setImageResource(fileType?.iconId ?: R.drawable.ic_language)
+    binding.dialogImage.setImageResource(fileType?.iconId ?: R.drawable.image_file_other)
     binding.dialogName.text = fileItem.displayName
     binding.dialogDesc.text = fileItem.path
     binding.btnRename.setOnClickListener {
