@@ -33,7 +33,7 @@
 
         <activity
             android:name=".page.MainActivity"
-            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:configChanges="screenSize|orientation|keyboard"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
@@ -59,6 +59,12 @@
         <activity
             android:name=".page.read.DocReadActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".page.read.PDFReadActivity"
+            android:configChanges="screenSize|orientation|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 

@@ -10,6 +10,7 @@ import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.page.adapter.FileListAdapter
 import com.tb.pdfly.page.base.BaseFragment
 import com.tb.pdfly.page.read.DocReadActivity
+import com.tb.pdfly.page.read.PDFReadActivity
 import com.tb.pdfly.page.vm.GlobalVM
 import com.tb.pdfly.parameter.FileInfo
 import com.tb.pdfly.parameter.FileType
@@ -93,7 +94,9 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
                     putExtra(DocReadActivity.FILE_INFO, it)
                 }
             } else {
-                // TODO:
+                requireActivity().toActivity<PDFReadActivity> {
+                    putExtra(PDFReadActivity.FILE_INFO, it)
+                }
             }
 
         }, moreClick = {

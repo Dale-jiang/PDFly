@@ -29,7 +29,7 @@ class DocReadActivity : BaseActivity<ActivityDocReadBinding>(ActivityDocReadBind
 
     override fun initView() {
 
-        if (fileInfo == null) {
+        if (fileInfo == null || !File(fileInfo!!.path).exists()) {
             Toast.makeText(this, getString(R.string.an_unknown_error_occurred), Toast.LENGTH_LONG).show()
             finish()
             return

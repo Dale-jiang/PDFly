@@ -35,4 +35,7 @@
     <string name="check_out_this_app">Check out this app!</string>
     <string name="i_found_this_amazing_app_check_it_out">I found this amazing app, check it out: %1$s</string>
     <string name="share_app_link_via">Share app link via</string>
+    <string name="enter_password_to_view_pdf">Enter password to view PDF</string>
+    <string name="please_enter_password">Please enter password</string>
+    <string name="incorrect_password">Incorrect password</string>
 </resources>
