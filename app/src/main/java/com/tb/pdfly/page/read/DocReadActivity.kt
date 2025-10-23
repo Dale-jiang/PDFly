@@ -3,6 +3,7 @@ package com.tb.pdfly.page.read
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.content.FileProvider
+import androidx.lifecycle.lifecycleScope
 import com.seapeak.docviewer.DocViewerFragment
 import com.seapeak.docviewer.config.DocConfig
 import com.seapeak.docviewer.config.DocType
@@ -11,6 +12,9 @@ import com.tb.pdfly.databinding.ActivityDocReadBinding
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.parameter.FileInfo
 import com.tb.pdfly.parameter.FileType
+import com.tb.pdfly.parameter.database
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 
 @Suppress("DEPRECATION")
@@ -54,7 +58,14 @@ class DocReadActivity : BaseActivity<ActivityDocReadBinding>(ActivityDocReadBind
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit()
+
+            lifecycleScope.launch(Dispatchers.IO) {
+                val findItem = database.fileInfoDao().getFileByPath(path) ?: this@apply
+                findItem.recentViewTime = System.currentTimeMillis()
+                database.fileInfoDao().upsert(findItem)
+            }
         }
+
 
         onBackPressedDispatcher.addCallback {
             finish()

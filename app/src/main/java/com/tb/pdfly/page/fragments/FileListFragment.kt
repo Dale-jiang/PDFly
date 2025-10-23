@@ -88,6 +88,7 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
     private fun initAdapter() {
         mAdapter = FileListAdapter(requireContext(), mTabType, itemClick = {
             if (it.getFileType() != FileType.PDF) {
+
                 requireActivity().toActivity<DocReadActivity> {
                     putExtra(DocReadActivity.FILE_INFO, it)
                 }
