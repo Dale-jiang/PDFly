@@ -5,8 +5,10 @@ import androidx.lifecycle.lifecycleScope
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.ActivityCompleteBinding
 import com.tb.pdfly.page.base.BaseActivity
+import com.tb.pdfly.page.read.PDFReadActivity
 import com.tb.pdfly.parameter.FileInfo
 import com.tb.pdfly.parameter.database
+import com.tb.pdfly.parameter.toActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -45,7 +47,9 @@ class CompleteActivity : BaseActivity<ActivityCompleteBinding>(ActivityCompleteB
                     }
                 }
 
-                // TODO:  open
+                toActivity<PDFReadActivity> {
+                    putExtra(PDFReadActivity.FILE_INFO, fileInfo)
+                }
 
                 finish()
             }
