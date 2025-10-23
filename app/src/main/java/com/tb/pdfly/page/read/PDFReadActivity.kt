@@ -14,7 +14,6 @@ import com.tb.pdfly.parameter.database
 import com.tb.pdfly.parameter.showFileDetailsDialog
 import com.tb.pdfly.utils.CommonUtils.isPdfEncrypted
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 
