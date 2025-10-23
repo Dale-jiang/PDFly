@@ -4,9 +4,9 @@ import android.os.ParcelFileDescriptor
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.lifecycle.lifecycleScope
-import com.ahmer.pdfium.PdfiumCore
-import com.ahmer.pdfviewer.scroll.DefaultScrollHandle
-import com.ahmer.pdfviewer.util.FitPolicy
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle
+import com.github.barteksc.pdfviewer.util.FitPolicy
+import com.shockwave.pdfium.PdfiumCore
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.ActivityPdfReadBinding
 import com.tb.pdfly.page.base.BaseActivity
@@ -50,7 +50,7 @@ class PDFReadActivity : BaseActivity<ActivityPdfReadBinding>(ActivityPdfReadBind
                             .password(pass)
                             .enableSwipe(true)
                             .swipeHorizontal(false)
-                            .enableDoubleTap(true)
+                            .enableDoubletap(true)
                             .enableAnnotationRendering(true)
                             .scrollHandle(DefaultScrollHandle(this@PDFReadActivity))
                             .enableAntialiasing(true)
@@ -68,7 +68,7 @@ class PDFReadActivity : BaseActivity<ActivityPdfReadBinding>(ActivityPdfReadBind
                     binding.pdfView.fromFile(File(path))
                         .enableSwipe(true)
                         .swipeHorizontal(false)
-                        .enableDoubleTap(true)
+                        .enableDoubletap(true)
                         .enableAnnotationRendering(true)
                         .scrollHandle(DefaultScrollHandle(this@PDFReadActivity))
                         .enableAntialiasing(true)
@@ -101,8 +101,8 @@ class PDFReadActivity : BaseActivity<ActivityPdfReadBinding>(ActivityPdfReadBind
         var fd: ParcelFileDescriptor? = null
         return try {
             fd = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
-            pdfiumCore.newDocument(fd)
-            pdfiumCore.close()
+            val pdfDocument = pdfiumCore.newDocument(fd)
+            pdfiumCore.closeDocument(pdfDocument)
             false
         } catch (e: Exception) {
             val msg = e.message?.lowercase() ?: ""

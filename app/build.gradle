@@ -103,6 +103,5 @@ dependencies {
 
     implementation 'com.github.seapeak233:AndroidDocViewer:0.0.3'
 
-    implementation 'io.github.ahmerafzal1:ahmer-pdfium:1.9.2'
-    implementation 'io.github.ahmerafzal1:ahmer-pdfviewer:2.0.1'
+    implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
 }

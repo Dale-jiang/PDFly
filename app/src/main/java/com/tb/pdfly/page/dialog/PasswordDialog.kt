@@ -9,13 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import com.ahmer.pdfium.PdfiumCore
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import androidx.fragment.app.DialogFragment
+import com.shockwave.pdfium.PdfiumCore
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.DialogPasswordBinding
 import java.io.File
 
-class PasswordDialog(private val path: String, private val result: (String) -> Unit) : BottomSheetDialogFragment() {
+class PasswordDialog(private val path: String, private val result: (String) -> Unit) : DialogFragment() {
 
     private var viewBinding: DialogPasswordBinding? = null
 
@@ -88,8 +88,8 @@ class PasswordDialog(private val path: String, private val result: (String) -> U
         var fd: ParcelFileDescriptor? = null
         return try {
             fd = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
-            pdfiumCore.newDocument(fd, password)
-            pdfiumCore.close()
+            val pdfDocument = pdfiumCore.newDocument(fd, password)
+            pdfiumCore.closeDocument(pdfDocument)
             true
         } catch (e: Exception) {
             false
