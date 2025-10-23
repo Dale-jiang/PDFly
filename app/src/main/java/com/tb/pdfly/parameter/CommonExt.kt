@@ -1,6 +1,7 @@
 package com.tb.pdfly.parameter
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -11,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -255,13 +257,16 @@ fun AppCompatActivity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boo
 
 fun AppCompatActivity.showRenameDialog(info: FileInfo) {
     val binding = DialogRenameBinding.inflate(LayoutInflater.from(this), window.decorView as ViewGroup, false)
-    val dialog = BottomSheetDialog(this).apply {
+    val dialog = Dialog(this).apply {
         setContentView(binding.root)
     }
     dialog.create()
     runCatching {
-        val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-        bottomSheet?.setBackgroundColor(Color.TRANSPARENT)
+        dialog.window?.decorView?.background = null
+        dialog.window?.apply {
+            setGravity(Gravity.CENTER)
+            setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
     }
     binding.editInput.apply {
         val name = info.displayName.substringBeforeLast(".")

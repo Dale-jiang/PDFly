@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import androidx.fragment.app.DialogFragment
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.DialogRenameBinding
 import java.io.File
@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class RenameDialog(private val result: (String) -> Unit) : BottomSheetDialogFragment() {
+class RenameDialog(private val result: (String) -> Unit) : DialogFragment() {
 
     private var viewBinding: DialogRenameBinding? = null
 
