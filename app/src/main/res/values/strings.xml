@@ -32,4 +32,7 @@
     <string name="allow">Allow</string>
     <string name="open_it">Open it !</string>
     <string name="created_successfully">Created successfully</string>
+    <string name="check_out_this_app">Check out this app!</string>
+    <string name="i_found_this_amazing_app_check_it_out">I found this amazing app, check it out: %1$s</string>
+    <string name="share_app_link_via">Share app link via</string>
 </resources>
