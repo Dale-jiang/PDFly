@@ -2,7 +2,6 @@ package com.tb.pdfly.page.dialog
 
 import android.content.Context
 import android.os.Bundle
-import android.os.ParcelFileDescriptor
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +9,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.shockwave.pdfium.PdfiumCore
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.DialogPasswordBinding
-import java.io.File
+import com.tb.pdfly.utils.CommonUtils.isPdfPasswordCorrect
 
 class PasswordDialog(private val path: String, private val result: (String) -> Unit) : DialogFragment() {
 
@@ -56,7 +54,7 @@ class PasswordDialog(private val path: String, private val result: (String) -> U
                     return@setOnClickListener
                 }
                 val pwd = editInput.text.toString()
-                if (isPdfPasswordCorrect(path, pwd)) {
+                if (isPdfPasswordCorrect(requireActivity(), path, pwd)) {
                     result.invoke(pwd)
                     dismiss()
 
@@ -78,24 +76,6 @@ class PasswordDialog(private val path: String, private val result: (String) -> U
         }
 
 
-    }
-
-    private fun isPdfPasswordCorrect(filePath: String, password: String): Boolean {
-        val file = File(filePath)
-        if (!file.exists()) return false
-
-        val pdfiumCore = PdfiumCore(requireActivity())
-        var fd: ParcelFileDescriptor? = null
-        return try {
-            fd = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
-            val pdfDocument = pdfiumCore.newDocument(fd, password)
-            pdfiumCore.closeDocument(pdfDocument)
-            true
-        } catch (e: Exception) {
-            false
-        } finally {
-            fd?.close()
-        }
     }
 
 

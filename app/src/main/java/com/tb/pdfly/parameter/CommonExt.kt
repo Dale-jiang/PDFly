@@ -32,6 +32,11 @@ import com.tb.pdfly.R
 import com.tb.pdfly.databinding.DialogFileDetailsBinding
 import com.tb.pdfly.databinding.DialogLoadingBinding
 import com.tb.pdfly.databinding.DialogRenameBinding
+import com.tb.pdfly.page.base.BaseActivity
+import com.tb.pdfly.page.read.DocReadActivity
+import com.tb.pdfly.page.read.PDFReadActivity
+import com.tb.pdfly.utils.CommonUtils.isPdfEncrypted
+import com.tb.pdfly.utils.CommonUtils.printPdfFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -164,6 +169,7 @@ fun AppCompatActivity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boo
     if (fromDetails) {
         binding.btnRename.isVisible = false
         binding.btnDelete.isVisible = false
+        binding.btnOpen.isVisible = false
     }
 
     binding.dialogImage.setImageResource(fileType?.iconId ?: R.drawable.image_file_other)
@@ -185,27 +191,35 @@ fun AppCompatActivity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boo
     }
     binding.btnPrint.setOnClickListener {
         dialog.dismiss()
-//        runCatching {
-//            val core = Document.openDocument(fileItem.path)
-//            if (core.needsPassword()) {
-//                core.destroy()
-//                Toast.makeText(this, getString(R.string.pwd_protected_tips), Toast.LENGTH_LONG).show()
-//                return@setOnClickListener
-//            } else {
-//                core.destroy()
-//            }
-//        }
-//        (this as? BaseActivity<*>)?.let { act ->
-//            AdConfig.mergeIntController.showFullScreenAd(act, eventName = "pdb_print_int", canShowAd = {
-//                isTestDevice.not() && UserBlockRepository.isBuyUser()
-//            }, dismissed = {
-//                act.printContext?.let { ctx ->
-//                    printPdfFile(ctx, fileItem)
-//                }
-//            })
-//        }
-//        EventPoster.send("print_click")
+        runCatching {
+
+            if (isPdfEncrypted(this, fileItem.path)) {
+                Toast.makeText(this, getString(R.string.pwd_protected_tips), Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+        }
+        (this as? BaseActivity<*>)?.let { act ->
+            act.printContext?.let { ctx ->
+                printPdfFile(ctx, fileItem)
+            }
+        }
     }
+
+    binding.btnOpen.setOnClickListener {
+        if (fileItem.getFileType() != FileType.PDF) {
+
+            toActivity<DocReadActivity> {
+                putExtra(DocReadActivity.FILE_INFO, fileItem)
+            }
+        } else {
+            toActivity<PDFReadActivity> {
+                putExtra(PDFReadActivity.FILE_INFO, fileItem)
+            }
+        }
+
+        dialog.dismiss()
+    }
+
     binding.btnShare.setOnClickListener {
         shareFile(fileItem.path, fileItem.mimeType)
     }
