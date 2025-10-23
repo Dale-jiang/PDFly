@@ -39,7 +39,6 @@ class PDFReadActivity : BaseActivity<ActivityPdfReadBinding>(ActivityPdfReadBind
             fileInfo?.apply {
                 binding.title.text = displayName
                 val needPass = isPdfEncrypted(this@PDFReadActivity, this.path)
-                delay(500)
                 if (needPass) {
                     PasswordDialog(path) { pass ->
 
