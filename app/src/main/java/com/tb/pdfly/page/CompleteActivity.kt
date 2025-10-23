@@ -1,16 +1,12 @@
 package com.tb.pdfly.page
 
 import androidx.activity.addCallback
-import androidx.lifecycle.lifecycleScope
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.ActivityCompleteBinding
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.page.read.PDFReadActivity
 import com.tb.pdfly.parameter.FileInfo
-import com.tb.pdfly.parameter.database
 import com.tb.pdfly.parameter.toActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 class CompleteActivity : BaseActivity<ActivityCompleteBinding>(ActivityCompleteBinding::inflate) {
@@ -39,13 +35,13 @@ class CompleteActivity : BaseActivity<ActivityCompleteBinding>(ActivityCompleteB
             dialogDesc.text = fileInfo?.path ?: ""
 
             btnOpen.setOnClickListener {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    runCatching {
-                        val findItem = database.fileInfoDao().getFileByPath(fileInfo?.path ?: "") ?: fileInfo
-                        findItem?.recentViewTime = System.currentTimeMillis()
-                        findItem?.let { database.fileInfoDao().upsert(findItem) }
-                    }
-                }
+//                lifecycleScope.launch(Dispatchers.IO) {
+//                    runCatching {
+//                        val findItem = database.fileInfoDao().getFileByPath(fileInfo?.path ?: "") ?: fileInfo
+//                        findItem?.recentViewTime = System.currentTimeMillis()
+//                        findItem?.let { database.fileInfoDao().upsert(findItem) }
+//                    }
+//                }
 
                 toActivity<PDFReadActivity> {
                     putExtra(PDFReadActivity.FILE_INFO, fileInfo)

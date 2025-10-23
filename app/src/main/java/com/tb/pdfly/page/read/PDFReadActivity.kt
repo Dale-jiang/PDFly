@@ -10,8 +10,10 @@ import com.tb.pdfly.databinding.ActivityPdfReadBinding
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.page.dialog.PasswordDialog
 import com.tb.pdfly.parameter.FileInfo
+import com.tb.pdfly.parameter.database
 import com.tb.pdfly.parameter.showFileDetailsDialog
 import com.tb.pdfly.utils.CommonUtils.isPdfEncrypted
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
@@ -63,6 +65,8 @@ class PDFReadActivity : BaseActivity<ActivityPdfReadBinding>(ActivityPdfReadBind
                             .nightMode(false)
                             .load()
 
+                        saveHistory()
+
                     }.show(supportFragmentManager, "pass")
                 } else {
                     binding.pdfView.fromFile(File(path))
@@ -80,6 +84,8 @@ class PDFReadActivity : BaseActivity<ActivityPdfReadBinding>(ActivityPdfReadBind
                         .pageSnap(false)
                         .nightMode(false)
                         .load()
+
+                    saveHistory()
                 }
             }
         }
@@ -95,5 +101,15 @@ class PDFReadActivity : BaseActivity<ActivityPdfReadBinding>(ActivityPdfReadBind
         }
     }
 
+
+    private fun saveHistory() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            runCatching {
+                val findItem = database.fileInfoDao().getFileByPath(fileInfo?.path ?: "") ?: fileInfo
+                findItem?.recentViewTime = System.currentTimeMillis()
+                findItem?.let { database.fileInfoDao().upsert(findItem) }
+            }
+        }
+    }
 
 }
