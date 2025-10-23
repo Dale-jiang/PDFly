@@ -9,6 +9,7 @@ import com.tb.pdfly.databinding.FragmentFileListBinding
 import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.page.adapter.FileListAdapter
 import com.tb.pdfly.page.base.BaseFragment
+import com.tb.pdfly.page.read.DocReadActivity
 import com.tb.pdfly.page.vm.GlobalVM
 import com.tb.pdfly.parameter.FileInfo
 import com.tb.pdfly.parameter.FileType
@@ -17,6 +18,7 @@ import com.tb.pdfly.parameter.changeNameLiveData
 import com.tb.pdfly.parameter.database
 import com.tb.pdfly.parameter.fileDeleteLiveData
 import com.tb.pdfly.parameter.showFileDetailsDialog
+import com.tb.pdfly.parameter.toActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -85,6 +87,13 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
 
     private fun initAdapter() {
         mAdapter = FileListAdapter(requireContext(), mTabType, itemClick = {
+            if (it.getFileType() != FileType.PDF) {
+                requireActivity().toActivity<DocReadActivity> {
+                    putExtra(DocReadActivity.FILE_INFO, it)
+                }
+            } else {
+                // TODO:
+            }
 
         }, moreClick = {
             if (mTabType == TabType.COLLECTION) {
