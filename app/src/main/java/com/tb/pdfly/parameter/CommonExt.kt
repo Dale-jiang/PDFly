@@ -30,15 +30,18 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.DialogFileDetailsBinding
 import com.tb.pdfly.databinding.DialogLoadingBinding
 import com.tb.pdfly.databinding.DialogRenameBinding
 import com.tb.pdfly.page.base.BaseActivity
+import com.tb.pdfly.page.dialog.RateDialog
 import com.tb.pdfly.page.read.DocReadActivity
 import com.tb.pdfly.page.read.PDFReadActivity
 import com.tb.pdfly.utils.CommonUtils.isPdfEncrypted
 import com.tb.pdfly.utils.CommonUtils.printPdfFile
+import com.tb.pdfly.utils.alreadyRatedApp
 import com.tb.pdfly.utils.defaultLocalCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -345,4 +348,22 @@ fun Context.updateResources(): Context = run {
     configuration.setLocale(locale)
     resources.updateConfiguration(configuration, resources.displayMetrics)
     return createConfigurationContext(configuration)
+}
+
+fun AppCompatActivity.showRatingDialog() {
+//    if (alreadyRatedApp) return
+//    alreadyRatedApp = true
+    RateDialog {
+        runCatching {
+            val manager = ReviewManagerFactory.create(this)
+            val request = manager.requestReviewFlow()
+            request.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val reviewInfo = task.result
+                    val flow = manager.launchReviewFlow(this, reviewInfo)
+                    flow.addOnCompleteListener { _ -> }
+                }
+            }
+        }
+    }.show(supportFragmentManager, "google_Rate")
 }

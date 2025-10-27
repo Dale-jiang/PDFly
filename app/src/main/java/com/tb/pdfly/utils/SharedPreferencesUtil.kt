@@ -53,3 +53,4 @@ class PrefDouble(private val default: Double = 0.0) : ReadWriteProperty<Any?, Do
 var isFirstLaunch by PrefBoolean(true)
 var isFirstAskStorage by PrefBoolean(true)
 var defaultLocalCode by PrefString(Locale.getDefault().language)
+var alreadyRatedApp by PrefBoolean(default = false)

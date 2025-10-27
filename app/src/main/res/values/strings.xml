@@ -63,4 +63,7 @@
     <string name="missing_some_editing_features">Missing some editing features</string>
     <string name="prefer_using_phone_s_built_in_pdf_tool">Prefer using phone’s built-in PDF tool</string>
     <string name="cancel">Cancel</string>
+    <string name="confirm_uninstall_pdfly">Confirm uninstall PDFly?</string>
+    <string name="rate_tip">Enjoying our app? Support us with a 5⭐ rating!</string>
+    <string name="ok">OK</string>
 </resources>

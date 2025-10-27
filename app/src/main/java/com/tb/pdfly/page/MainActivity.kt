@@ -28,6 +28,7 @@ import com.tb.pdfly.parameter.database
 import com.tb.pdfly.parameter.hasStoragePermission
 import com.tb.pdfly.parameter.notifyPdfUpdate
 import com.tb.pdfly.parameter.showLoading
+import com.tb.pdfly.parameter.showRatingDialog
 import com.tb.pdfly.parameter.toActivity
 import com.tb.pdfly.utils.applife.HotStartManager
 import kotlinx.coroutines.Dispatchers
@@ -54,6 +55,11 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
     }
 
     private val viewModel by viewModels<GlobalVM>()
+
+    override fun onResume() {
+        super.onResume()
+        showRatingDialog()
+    }
 
     override fun initView() {
 
