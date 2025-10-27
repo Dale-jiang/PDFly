@@ -1,12 +1,13 @@
 package com.tb.pdfly.parameter
 
 import androidx.lifecycle.MutableLiveData
+import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.app.MyApp
 import com.tb.pdfly.db.AppDatabase
 
 internal lateinit var app: MyApp
 
-internal const val PRIVACY_URL = "https://www.baidu.com"
+var PRIVACY_URL = if (BuildConfig.DEBUG) "https://www.bing.com" else "https://sites.google.com/view/pdfly--privacypolicy/home"
 internal const val EMAIL = ""
 
 internal const val WEB_URL_KEY = "WEB_URL_KEY"

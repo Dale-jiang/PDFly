@@ -3,6 +3,7 @@ package com.tb.pdfly.utils
 import android.content.Context
 import androidx.core.content.edit
 import com.tb.pdfly.parameter.app
+import java.util.Locale
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -50,3 +51,4 @@ class PrefDouble(private val default: Double = 0.0) : ReadWriteProperty<Any?, Do
 }
 
 var isFirstAskStorage by PrefBoolean(true)
+var defaultLocalCode by PrefString(Locale.getDefault().language)

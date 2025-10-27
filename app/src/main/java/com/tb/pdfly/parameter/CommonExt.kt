@@ -39,11 +39,13 @@ import com.tb.pdfly.page.read.DocReadActivity
 import com.tb.pdfly.page.read.PDFReadActivity
 import com.tb.pdfly.utils.CommonUtils.isPdfEncrypted
 import com.tb.pdfly.utils.CommonUtils.printPdfFile
+import com.tb.pdfly.utils.defaultLocalCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.util.Locale
 
 fun AppCompatActivity.myEnableEdgeToEdge(parentView: ViewGroup? = null, topPadding: Boolean = true, bottomPadding: Boolean = true) {
     runCatching {
@@ -331,4 +333,16 @@ fun AppCompatActivity.showRenameDialog(info: FileInfo) {
 
     }
     dialog.show()
+}
+
+
+@Suppress("DEPRECATION")
+fun Context.updateResources(): Context = run {
+    val language = defaultLocalCode.ifBlank { Locale.getDefault().language }
+    val locale = Locale(language)
+    Locale.setDefault(locale)
+    val configuration = resources.configuration
+    configuration.setLocale(locale)
+    resources.updateConfiguration(configuration, resources.displayMetrics)
+    return createConfigurationContext(configuration)
 }

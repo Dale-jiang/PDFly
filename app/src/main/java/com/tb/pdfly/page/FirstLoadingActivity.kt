@@ -3,6 +3,7 @@ package com.tb.pdfly.page
 import androidx.activity.addCallback
 import com.tb.pdfly.databinding.ActivityFirstLoadingBinding
 import com.tb.pdfly.page.base.BaseActivity
+import com.tb.pdfly.page.guide.LanguageActivity
 import com.tb.pdfly.parameter.myEnableEdgeToEdge
 import com.tb.pdfly.parameter.toActivity
 import com.tb.pdfly.utils.CountdownTimer
@@ -38,7 +39,9 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
 
     private fun doNext() {
         countdownTimer.stop()
-        toActivity<MainActivity>(finishCurrent = true)
+        toActivity<LanguageActivity>(finishCurrent = true) {
+            putExtra(LanguageActivity.INTENT_KEY, false)
+        }
     }
 
 
