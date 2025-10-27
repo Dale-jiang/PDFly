@@ -23,7 +23,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="DiscouragedApi,LockedOrientationActivity,UnusedAttribute">
         <activity
-            android:name=".page.FirstLoadingActivity"
+            android:name=".page.guide.FirstLoadingActivity"
             android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
@@ -84,6 +84,16 @@
             android:configChanges="screenSize|orientation|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".page.guide.UninstallStep1Activity"
+            android:configChanges="density|keyboardHidden|screenSize"
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name=".page.guide.UninstallStep2Activity"
+            android:configChanges="density|keyboardHidden|screenSize"
+            android:launchMode="singleTop" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

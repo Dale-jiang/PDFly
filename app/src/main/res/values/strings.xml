@@ -47,4 +47,11 @@
     <string name="Scan">Scan\n</string>
     <string name="uninstall">Uninstall</string>
     <string name="view">View</string>
+    <string name="uninstall_step_1_des_1"><![CDATA[Feedback & Improvement]]></string>
+    <string name="uninstall_step_1_des_2">We value your experience and will keep improving</string>
+    <string name="pdf_features_not_working_well">PDF features not working well?</string>
+    <string name="try_again">Try Again</string>
+    <string name="missing_a_feature_you_need">Missing a feature you need?</string>
+    <string name="discover_more">Discover More</string>
+    <string name="keep_using">Keep Using</string>
 </resources>

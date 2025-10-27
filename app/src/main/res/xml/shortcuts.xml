@@ -9,7 +9,7 @@
         android:shortcutShortLabel="@string/uninstall">
         <intent
             android:action="pdf_uninstall"
-            android:targetClass="com.tb.pdfly.page.FirstLoadingActivity"
+            android:targetClass="com.tb.pdfly.page.guide.FirstLoadingActivity"
             android:targetPackage="com.tb.pdfly">
             <extra
                 android:name="key_uninstall"
@@ -25,7 +25,7 @@
         android:shortcutShortLabel="@string/view">
         <intent
             android:action="pdf_uninstall"
-            android:targetClass="com.tb.pdfly.page.FirstLoadingActivity"
+            android:targetClass="com.tb.pdfly.page.guide.FirstLoadingActivity"
             android:targetPackage="com.tb.pdfly">
             <extra
                 android:name="key_uninstall"
@@ -41,7 +41,7 @@
         android:shortcutShortLabel="@string/Scan">
         <intent
             android:action="pdf_uninstall"
-            android:targetClass="com.tb.pdfly.page.FirstLoadingActivity"
+            android:targetClass="com.tb.pdfly.page.guide.FirstLoadingActivity"
             android:targetPackage="com.tb.pdfly">
             <extra
                 android:name="key_uninstall"

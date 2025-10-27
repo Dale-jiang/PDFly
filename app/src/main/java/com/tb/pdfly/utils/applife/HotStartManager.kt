@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.PowerManager
 import android.util.Log
-import com.tb.pdfly.page.FirstLoadingActivity
+import com.tb.pdfly.page.guide.FirstLoadingActivity
 import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.toActivity
