@@ -40,4 +40,8 @@
     <string name="incorrect_password">Incorrect password</string>
     <string name="pwd_protected_tips">Password-protected PDFs are not supported for this feature.</string>
     <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="guide_des_1">PDF Reading &amp; Printing</string>
+    <string name="guide_des_2">Scan Documents and Images to Create PDF</string>
+    <string name="start">Start</string>
 </resources>

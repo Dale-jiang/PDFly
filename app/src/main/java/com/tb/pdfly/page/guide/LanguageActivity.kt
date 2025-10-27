@@ -2,6 +2,7 @@ package com.tb.pdfly.page.guide
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.tb.pdfly.R
@@ -49,13 +50,15 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
     override fun initView() {
         binding.apply {
 
+            onBackPressedDispatcher.addCallback {
+                if (isFromSetting) finish()
+            }
             ivBack.isVisible = isFromSetting
-            ivBack.setOnClickListener { if (isFromSetting) finish() }
+            ivBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
             btnNext.setOnClickListener {
                 autoNextJob?.cancel()
                 toNextView()
             }
-
 
             lifecycleScope.launch(Dispatchers.Main) {
                 val listData = languages.toMutableList().sortedByDescending { it.second == defaultLocalCode }
@@ -90,8 +93,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         if (isFromSetting) {
             toActivity<MainActivity>(finishCurrent = true) { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) }
         } else {
-            // TODO:
-            toActivity<MainActivity>(finishCurrent = true) { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) }
+            toActivity<UserGuideActivity>(finishCurrent = true) { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) }
         }
     }
 

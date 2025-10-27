@@ -76,6 +76,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".page.guide.UserGuideActivity"
+            android:configChanges="screenSize|orientation|keyboard"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.pdfly.fileProvider"
