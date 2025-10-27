@@ -5,6 +5,7 @@ import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.FragmentSettingsBinding
 import com.tb.pdfly.page.base.BaseFragment
+import com.tb.pdfly.page.guide.LanguageActivity
 import com.tb.pdfly.page.web.WebViewActivity
 import com.tb.pdfly.parameter.PRIVACY_URL
 import com.tb.pdfly.parameter.WEB_URL_KEY
@@ -28,7 +29,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
             }
 
             itemLanguage.setOnClickListener {
-
+                requireActivity().toActivity<LanguageActivity> {
+                    putExtra(LanguageActivity.INTENT_KEY, true)
+                }
             }
 
 
@@ -42,8 +45,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         shareIntent.setType("text/plain")
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.check_out_this_app))
         shareIntent.putExtra(
-            Intent.EXTRA_TEXT,
-            getString(R.string.i_found_this_amazing_app_check_it_out, appLink)
+            Intent.EXTRA_TEXT, getString(R.string.i_found_this_amazing_app_check_it_out, appLink)
         )
         HotStartManager.navigateToSettingPage(true)
         startActivity(Intent.createChooser(shareIntent, getString(R.string.share_app_link_via)))
