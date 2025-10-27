@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcuts_uninstall"
+        android:shortcutId="shortcut_uninstall"
+        android:shortcutLongLabel="@string/uninstall"
+        android:shortcutShortLabel="@string/uninstall">
+        <intent
+            android:action="pdf_uninstall"
+            android:targetClass="com.tb.pdfly.page.FirstLoadingActivity"
+            android:targetPackage="com.tb.pdfly">
+            <extra
+                android:name="key_uninstall"
+                android:value="shortcut_uninstall" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcuts_view"
+        android:shortcutId="shortcut_merge"
+        android:shortcutLongLabel="@string/view"
+        android:shortcutShortLabel="@string/view">
+        <intent
+            android:action="pdf_uninstall"
+            android:targetClass="com.tb.pdfly.page.FirstLoadingActivity"
+            android:targetPackage="com.tb.pdfly">
+            <extra
+                android:name="key_uninstall"
+                android:value="shortcut_view" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcuts_create"
+        android:shortcutId="shortcut_split"
+        android:shortcutLongLabel="@string/Scan"
+        android:shortcutShortLabel="@string/Scan">
+        <intent
+            android:action="pdf_uninstall"
+            android:targetClass="com.tb.pdfly.page.FirstLoadingActivity"
+            android:targetPackage="com.tb.pdfly">
+            <extra
+                android:name="key_uninstall"
+                android:value="shortcut_scan" />
+        </intent>
+    </shortcut>
+
+</shortcuts>

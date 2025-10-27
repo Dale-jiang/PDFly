@@ -44,4 +44,7 @@
     <string name="guide_des_1">PDF Reading &amp; Printing</string>
     <string name="guide_des_2">Scan Documents and Images to Create PDF</string>
     <string name="start">Start</string>
+    <string name="Scan">Scan\n</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="view">View</string>
 </resources>
