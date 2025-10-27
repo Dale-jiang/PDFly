@@ -54,4 +54,13 @@
     <string name="missing_a_feature_you_need">Missing a feature you need?</string>
     <string name="discover_more">Discover More</string>
     <string name="keep_using">Keep Using</string>
+    <string name="uninstall_step_2_des_1">Help Us Improve Before You Go</string>
+    <string name="uninstall_step_2_des_2">You can select multiple reasons</string>
+    <string name="not_user_friendly">Not user-friendly</string>
+    <string name="too_many_ads_displayed">Too many ads displayed</string>
+    <string name="viewing_experience_could_be_better">Viewing experience could be better</string>
+    <string name="notifications_are_too_frequent">Notifications are too frequent</string>
+    <string name="missing_some_editing_features">Missing some editing features</string>
+    <string name="prefer_using_phone_s_built_in_pdf_tool">Prefer using phone’s built-in PDF tool</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -32,5 +32,171 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/app_name" />
 
-   
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_des1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/sora"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="@string/uninstall_step_2_des_1"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_des2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/syne"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="@string/uninstall_step_2_des_2"
+        android:textColor="#FF888888"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_des1" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_des2">
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/radio_1"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/item_settings_bg"
+            android:fontFamily="@font/syne"
+            android:includeFontPadding="false"
+            android:layoutDirection="rtl"
+            android:paddingHorizontal="12dp"
+            android:text="@string/not_user_friendly"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/radio_2"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/item_settings_bg"
+            android:fontFamily="@font/syne"
+            android:includeFontPadding="false"
+            android:layoutDirection="rtl"
+            android:paddingHorizontal="12dp"
+            android:text="@string/too_many_ads_displayed"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/radio_3"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/item_settings_bg"
+            android:fontFamily="@font/syne"
+            android:includeFontPadding="false"
+            android:layoutDirection="rtl"
+            android:paddingHorizontal="12dp"
+            android:text="@string/viewing_experience_could_be_better"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/radio_4"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/item_settings_bg"
+            android:fontFamily="@font/syne"
+            android:includeFontPadding="false"
+            android:layoutDirection="rtl"
+            android:paddingHorizontal="12dp"
+            android:text="@string/notifications_are_too_frequent"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/radio_5"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/item_settings_bg"
+            android:fontFamily="@font/syne"
+            android:includeFontPadding="false"
+            android:layoutDirection="rtl"
+            android:paddingHorizontal="12dp"
+            android:text="@string/missing_some_editing_features"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/radio_6"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/item_settings_bg"
+            android:fontFamily="@font/syne"
+            android:includeFontPadding="false"
+            android:layoutDirection="rtl"
+            android:paddingHorizontal="12dp"
+            android:text="@string/prefer_using_phone_s_built_in_pdf_tool"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btn_keep"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/ripple_primary_10"
+        android:fontFamily="@font/sora"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="@string/try_again"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btn_uninstall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btn_uninstall"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="52dp"
+        android:background="@drawable/ripple_cancel_bg"
+        android:fontFamily="@font/sora"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="@string/uninstall"
+        android:textColor="#0E0E0E"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
