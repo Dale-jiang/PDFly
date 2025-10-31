@@ -50,10 +50,7 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
 
     override fun initView() {
         onBackPressedDispatcher.addCallback { }
-
         if (hasRequestUMP) startLoading() else doUmpRequest()
-
-
     }
 
     private fun startLoading() {
