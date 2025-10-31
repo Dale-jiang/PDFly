@@ -56,3 +56,7 @@ var defaultLocalCode by PrefString(Locale.getDefault().language)
 var alreadyRatedApp by PrefBoolean(default = false)
 
 var installReferrerStr by PrefString(default = "")
+var hasRequestUMP by PrefBoolean(default = false)
+
+var defaultLanguage by PrefString(default = "")
+var firstCountryCode by PrefString(default = "")

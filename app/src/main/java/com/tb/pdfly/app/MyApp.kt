@@ -6,6 +6,7 @@ import com.google.android.libraries.ads.mobile.sdk.initialization.Initialization
 import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.showLog
+import com.tb.pdfly.utils.CommonUtils
 import com.tb.pdfly.utils.CommonUtils.ioScope
 import com.tb.pdfly.utils.RemoteConfigUtils
 import com.tb.pdfly.utils.applife.AppLifecycleUtils
@@ -19,6 +20,7 @@ class MyApp : Application() {
         AppLifecycleUtils.initialize(this)
         RemoteConfigUtils.initRemoteConfig()
         initAdmob()
+        CommonUtils.initCountryInfo()
     }
 
     override fun onTerminate() {

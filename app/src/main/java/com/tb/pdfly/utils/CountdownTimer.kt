@@ -8,6 +8,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@Deprecated("k")
 class CountdownTimer(
     private val totalTimeMillis: Long,
     private val intervalMillis: Long = 1000L,

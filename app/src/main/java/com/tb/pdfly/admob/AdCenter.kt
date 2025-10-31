@@ -9,17 +9,22 @@ object AdCenter {
 
     var pdfly_open = 1
     val buyUserTags = mutableListOf(
-        "fb4a",
-        "instagram",
-        "ig4a",
-        "gclid",
-        "not%20set",
-        "youtubeads",
-        "%7B%22",
-        "adjust",
-        "bytedance",
+        "fb4a", "instagram", "ig4a",
+        "gclid", "not%20set", "youtubeads",
+        "%7B%22", "adjust", "bytedance",
         "livead"
     )
+
+    val countryCodeList by lazy {
+        listOf(
+            "AT", "BE", "BG", "HR",
+            "CY", "CZ", "DK", "EE", "FI",
+            "SI", "ES", "SE", "NO", "IS", "LI",
+            "FR", "DE", "GR", "HU", "IE", "IT",
+            "LV", "LT", "LU", "MT", "NL", "PL", "PT",
+            "RO", "SK", "CH", "GB"
+        )
+    }
 
     val pdflyLaunch by lazy { FullAdLoader("pdfly_launch") }
     val pdflyScanInt by lazy { FullAdLoader("pdfly_scan_int") }
@@ -46,7 +51,7 @@ object AdCenter {
     }
 
     fun isFuckingUser(): Boolean = run {
-        // TODO:  
+        // TODO:
         return false
     }
 

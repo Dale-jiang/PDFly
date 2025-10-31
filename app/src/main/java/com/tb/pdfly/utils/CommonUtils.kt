@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import java.io.File
+import java.util.Locale
 
 object CommonUtils {
 
@@ -62,5 +63,14 @@ object CommonUtils {
         printManager?.print("PDF Print Jobs", PrintAdapter(fileItem), null)
     }
 
+    fun initCountryInfo() = runCatching {
+        if (firstCountryCode.isEmpty()) {
+            firstCountryCode = Locale.getDefault().country.uppercase(Locale.getDefault())
+        }
+
+        if (defaultLanguage.isEmpty()) {
+            defaultLanguage = Locale.getDefault().language
+        }
+    }
 
 }

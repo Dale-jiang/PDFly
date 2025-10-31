@@ -5,6 +5,7 @@ import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.app.MyApp
 import com.tb.pdfly.db.AppDatabase
 
+typealias CallBack = () -> Unit
 internal lateinit var app: MyApp
 
 var PRIVACY_URL = if (BuildConfig.DEBUG) "https://www.bing.com" else "https://sites.google.com/view/pdfly--privacypolicy/home"
