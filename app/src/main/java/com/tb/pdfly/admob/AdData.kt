@@ -1,5 +1,32 @@
 package com.tb.pdfly.admob
 
+import android.os.Parcelable
+import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+
+
+@Parcelize
+@Keep
+data class AdConfig(
+    @SerializedName("pdfly_launch") val pdflyLaunch: List<AdConfigItem> = emptyList(),
+    @SerializedName("pdfly_scan_int") val pdflyScanInt: List<AdConfigItem> = emptyList(),
+    @SerializedName("pdfly_back_int") val pdflyBackInt: List<AdConfigItem> = emptyList(),
+    @SerializedName("pdfly_main_nat") val pdflyMainNat: List<AdConfigItem> = emptyList(),
+    @SerializedName("pdfly_scan_nat") val pdflyScanNat: List<AdConfigItem> = emptyList(),
+    @SerializedName("pdfly_main_ban") val pdflyMainBan: List<AdConfigItem> = emptyList()
+) : Parcelable
+
+@Keep
+@Parcelize
+data class AdConfigItem(
+    @SerializedName("pdfly_id") val adId: String,
+    @SerializedName("pdfly_amtt") val adPlatform: String,
+    @SerializedName("pdfly_tyr") val adType: String,
+    @SerializedName("pdfly_time") val adExpireTime: Int,
+    @SerializedName("pdfly_top") val adWeight: Int
+) : Parcelable
+
 const val AD_JSON = """
     {
   "pdfly_launch": [
