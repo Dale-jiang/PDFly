@@ -5,7 +5,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.tb.pdfly.R
 import com.tb.pdfly.admob.AdConfigItem
-import com.tb.pdfly.admob.ad.FullAd
+import com.tb.pdfly.admob.ad.FullAdImpl
 import com.tb.pdfly.admob.interfaces.IAd
 import com.tb.pdfly.admob.interfaces.IAdLoader
 import com.tb.pdfly.page.base.BaseActivity
@@ -34,7 +34,7 @@ class FullAdLoader(override val adPosition: String) : IAdLoader {
         }
     }
 
-    override fun loadAd(context: Context) {
+    override fun loadAd(context: Context) = run {
         if (mAdItems.isEmpty() || isLoading) return
 
         adLoadList.firstOrNull()?.apply {
@@ -58,7 +58,7 @@ class FullAdLoader(override val adPosition: String) : IAdLoader {
         }
 
         activity.lifecycleScope.launch(Dispatchers.Main) {
-            val ad = adLoadList.removeFirstOrNull() as? FullAd
+            val ad = adLoadList.removeFirstOrNull() as? FullAdImpl
             if (ad == null) {
                 onClose()
                 return@launch
@@ -72,7 +72,7 @@ class FullAdLoader(override val adPosition: String) : IAdLoader {
                 }
             }
 
-            ad.showAd(activity, null, onClose)
+            ad.showAd(activity, null, 0, onClose)
 //            PostCenter.postLogEvent("cc_ad_impression", hashMapOf("ad_pos_id" to posId))
             onLoaded = {}
             loadAd(activity)

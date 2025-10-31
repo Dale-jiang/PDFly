@@ -14,7 +14,7 @@ interface IAd {
     var adLoadTime: Long
 
     fun loadAd(context: Context, onLoaded: (success: Boolean, msg: String?) -> Unit)
-    fun showAd(activity: BaseActivity<*>, parent: ViewGroup?, onClose: () -> Unit)
+    fun showAd(activity: BaseActivity<*>, parent: ViewGroup?, nativeType: Int, onClose: () -> Unit)
     fun destroy()
 
     fun isAdExpire(): Boolean {

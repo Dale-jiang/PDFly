@@ -20,7 +20,7 @@ import com.tb.pdfly.parameter.showLog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class FullAd(override var adPosition: String?, override var adItem: AdConfigItem? = null, override var adLoadTime: Long) : IAd {
+class FullAdImpl(override var adPosition: String?, override var adItem: AdConfigItem? = null, override var adLoadTime: Long) : IAd {
 
     private var mAd: Any? = null
 
@@ -68,7 +68,7 @@ class FullAd(override var adPosition: String?, override var adItem: AdConfigItem
     }
 
 
-    override fun showAd(activity: BaseActivity<*>, parent: ViewGroup?, onClose: () -> Unit) {
+    override fun showAd(activity: BaseActivity<*>, parent: ViewGroup?,nativeType: Int, onClose: () -> Unit) {
         when (val a = mAd) {
             is InterstitialAd -> {
 

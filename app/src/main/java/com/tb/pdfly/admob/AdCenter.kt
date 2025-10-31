@@ -3,6 +3,7 @@ package com.tb.pdfly.admob
 import android.os.Build
 import com.google.gson.Gson
 import com.tb.pdfly.admob.loader.FullAdLoader
+import com.tb.pdfly.admob.loader.NativeAdLoader
 import com.tb.pdfly.utils.installReferrerStr
 
 object AdCenter {
@@ -29,6 +30,9 @@ object AdCenter {
     val pdflyLaunch by lazy { FullAdLoader("pdfly_launch") }
     val pdflyScanInt by lazy { FullAdLoader("pdfly_scan_int") }
     val pdflyBackInt by lazy { FullAdLoader("pdfly_back_int") }
+    val pdflyMainNat by lazy { NativeAdLoader("pdfly_main_nat") }
+    val pdflyScanNat by lazy { NativeAdLoader("pdfly_scan_nat") }
+    var bannerId = ""
 
     fun initAdConfig(json: String = AD_JSON) {
         val parsedData = runCatching {
@@ -39,6 +43,11 @@ object AdCenter {
             pdflyLaunch.initData(it.pdflyLaunch.toMutableList())
             pdflyScanInt.initData(it.pdflyScanInt.toMutableList())
             pdflyBackInt.initData(it.pdflyBackInt.toMutableList())
+            pdflyMainNat.initData(it.pdflyMainNat.toMutableList())
+            pdflyScanNat.initData(it.pdflyScanNat.toMutableList())
+            if (it.pdflyMainBan.isNotEmpty()) {
+                bannerId = it.pdflyMainBan[0].adId
+            }
         }
     }
 

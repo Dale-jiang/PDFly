@@ -2,7 +2,8 @@ package com.tb.pdfly.admob.interfaces
 
 import android.content.Context
 import com.tb.pdfly.admob.AdConfigItem
-import com.tb.pdfly.admob.ad.FullAd
+import com.tb.pdfly.admob.ad.FullAdImpl
+import com.tb.pdfly.admob.ad.NativeAdImpl
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.showLog
@@ -16,14 +17,14 @@ interface IAdLoader {
     var isLoading: Boolean
 
     fun initData(list: MutableList<AdConfigItem>?)
-    fun canShow(activity: BaseActivity<*>): Boolean
     fun loadAd(context: Context = app)
+    fun canShow(activity: BaseActivity<*>): Boolean
 
     private fun createAd(item: AdConfigItem): IAd? {
         return when (item.adPlatform) {
             "admob" -> when (item.adType) {
-                "op", "int" -> FullAd(adPosition, adItem = item, System.currentTimeMillis())
-                // "nat" -> PBNativeAd(adPosition, adItem = item, System.currentTimeMillis())
+                "op", "int" -> FullAdImpl(adPosition, adItem = item, System.currentTimeMillis())
+                 "nat" -> NativeAdImpl(adPosition, adItem = item, System.currentTimeMillis())
                 else -> null
             }
 
