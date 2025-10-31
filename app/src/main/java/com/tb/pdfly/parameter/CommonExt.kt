@@ -11,6 +11,7 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -31,6 +32,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.DialogFileDetailsBinding
 import com.tb.pdfly.databinding.DialogLoadingBinding
@@ -41,7 +43,6 @@ import com.tb.pdfly.page.read.DocReadActivity
 import com.tb.pdfly.page.read.PDFReadActivity
 import com.tb.pdfly.utils.CommonUtils.isPdfEncrypted
 import com.tb.pdfly.utils.CommonUtils.printPdfFile
-import com.tb.pdfly.utils.alreadyRatedApp
 import com.tb.pdfly.utils.defaultLocalCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -49,6 +50,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.Locale
+
+fun String.showLog(tag: String = "----PDFLY----") {
+    if (BuildConfig.DEBUG) {
+        Log.e(tag, this)
+    }
+}
 
 fun AppCompatActivity.myEnableEdgeToEdge(parentView: ViewGroup? = null, topPadding: Boolean = true, bottomPadding: Boolean = true) {
     runCatching {

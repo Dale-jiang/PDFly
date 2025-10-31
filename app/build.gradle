@@ -114,20 +114,20 @@ dependencies {
     implementation 'com.google.android.play:review:2.0.2'
     implementation 'com.google.android.play:review-ktx:2.0.2'
 
-    implementation 'com.google.android.libraries.ads.mobile.sdk:ads-mobile-sdk:0.19.0-beta01'
+    implementation 'com.google.android.libraries.ads.mobile.sdk:ads-mobile-sdk:0.21.0-beta01'
     //facebook
-    implementation("com.google.ads.mediation:facebook:6.20.0.0")
+    implementation("com.google.ads.mediation:facebook:6.20.0.2")
     //pangle
-    implementation("com.google.ads.mediation:pangle:7.5.0.4.0")
+    implementation("com.google.ads.mediation:pangle:7.6.0.4.1")
     //applovin
-    implementation("com.google.ads.mediation:applovin:13.4.0.0")
+    implementation("com.google.ads.mediation:applovin:13.4.0.1")
     //mintegral
-    implementation("com.google.ads.mediation:mintegral:16.9.91.1")
+    implementation("com.google.ads.mediation:mintegral:16.10.11.0")
     //litoff
-    implementation("com.google.ads.mediation:vungle:7.5.1.0")
+    implementation("com.google.ads.mediation:vungle:7.6.0.0")
     //unity
-    implementation("com.unity3d.ads:unity-ads:4.16.1")
-    implementation("com.google.ads.mediation:unity:4.16.1.0")
+    implementation("com.unity3d.ads:unity-ads:4.16.2")
+    implementation("com.google.ads.mediation:unity:4.16.3.0")
 
     // UMP
     implementation("com.google.android.ump:user-messaging-platform:3.2.0")

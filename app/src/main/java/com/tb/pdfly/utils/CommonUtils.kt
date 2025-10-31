@@ -7,9 +7,17 @@ import android.print.PrintManager
 import com.shockwave.pdfium.PdfiumCore
 import com.tb.pdfly.page.adapter.PrintAdapter
 import com.tb.pdfly.parameter.FileInfo
+import com.tb.pdfly.parameter.showLog
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import java.io.File
 
 object CommonUtils {
+
+    val ioScope by lazy { CoroutineScope(Dispatchers.IO + SupervisorJob() + CoroutineExceptionHandler { _, error -> "Error: ${error.message}".showLog() }) }
+    val mainScope by lazy { CoroutineScope(Dispatchers.Main + SupervisorJob() + CoroutineExceptionHandler { _, error -> "Error: ${error.message}".showLog() }) }
 
     fun isPdfEncrypted(context: Context, filePath: String): Boolean {
         val file = File(filePath)
