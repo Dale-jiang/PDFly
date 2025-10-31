@@ -6,6 +6,7 @@ import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
 import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.admob.AD_JSON
+import com.tb.pdfly.admob.AdCenter
 import com.tb.pdfly.admob.AdCenter.buyUserTags
 import com.tb.pdfly.admob.AdCenter.pdfly_open
 import com.tb.pdfly.parameter.showLog
@@ -23,7 +24,7 @@ object RemoteConfigUtils {
 
     fun initRemoteConfig() {
         if (BuildConfig.DEBUG) {
-//            AdCenter.initData()
+            AdCenter.initAdConfig()
             return
         }
         fetchAndActivateRemoteConfig()
@@ -49,7 +50,7 @@ object RemoteConfigUtils {
         }.getOrElse {
             AD_JSON
         }
-//        AdCenter.initData(json)
+        AdCenter.initAdConfig(json)
     }
 
     private fun getReferConfig() {

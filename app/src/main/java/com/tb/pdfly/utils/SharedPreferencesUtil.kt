@@ -54,3 +54,5 @@ var isFirstLaunch by PrefBoolean(true)
 var isFirstAskStorage by PrefBoolean(true)
 var defaultLocalCode by PrefString(Locale.getDefault().language)
 var alreadyRatedApp by PrefBoolean(default = false)
+
+var installReferrerStr by PrefString(default = "")
