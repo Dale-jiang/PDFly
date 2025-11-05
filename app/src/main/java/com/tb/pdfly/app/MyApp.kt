@@ -1,6 +1,9 @@
 package com.tb.pdfly.app
 
 import android.app.Application
+import com.adjust.sdk.Adjust
+import com.adjust.sdk.AdjustConfig
+import com.adjust.sdk.LogLevel
 import com.google.android.libraries.ads.mobile.sdk.MobileAds
 import com.google.android.libraries.ads.mobile.sdk.initialization.InitializationConfig
 import com.tb.pdfly.BuildConfig
@@ -21,6 +24,7 @@ class MyApp : Application() {
         AppLifecycleUtils.initialize(this)
         RemoteConfigUtils.initRemoteConfig()
         initAdmob()
+        initAdjust()
         CommonUtils.initCountryInfo()
         ReportCenter.infoManager.fetchAllInfo()
     }
@@ -40,4 +44,20 @@ class MyApp : Application() {
             }
         }
     }
+
+    fun initAdjust() = runCatching {
+        Adjust.addGlobalCallbackParameter("customer_user_id", ReportCenter.mDistinctId)
+        val (appToken, environment) = if (BuildConfig.DEBUG) {
+            "ih2pm2dr3k74" to AdjustConfig.ENVIRONMENT_SANDBOX
+        } else {
+            "" to AdjustConfig.ENVIRONMENT_PRODUCTION
+        }
+        val config = AdjustConfig(this@MyApp, appToken, environment).apply {
+            setLogLevel(LogLevel.WARN)
+        }
+        Adjust.initSdk(config)
+    }.onFailure {
+        it.printStackTrace()
+    }
+
 }

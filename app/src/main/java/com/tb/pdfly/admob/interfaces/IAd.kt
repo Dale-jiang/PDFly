@@ -3,6 +3,8 @@ package com.tb.pdfly.admob.interfaces
 import android.content.Context
 import android.os.Bundle
 import android.view.ViewGroup
+import com.adjust.sdk.Adjust
+import com.adjust.sdk.AdjustAdRevenue
 import com.google.android.libraries.ads.mobile.sdk.common.AdValue
 import com.google.android.libraries.ads.mobile.sdk.common.ResponseInfo
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -39,9 +41,10 @@ interface IAd {
         reportGoogle30(adValue.valueMicros)
         report2Firebase(adValue.valueMicros)
         report2FaceBook(adValue.valueMicros)
+        report2Adjust(adValue, responseInfo)
     }
 
-    private fun reportGoogle30(adValue: Long) {
+    private fun reportGoogle30(adValue: Long) = run {
 
         val revenue: Double = adValue / 1000000.0
         val updatedRevenue = total001Revenue + revenue
@@ -60,7 +63,16 @@ interface IAd {
 
     }
 
-    private fun report2Firebase(adValue: Long) {
+    private fun report2Adjust(adValue: AdValue, responseInfo: ResponseInfo?) = run {
+        runCatching {
+            Adjust.trackAdRevenue(AdjustAdRevenue("admob_sdk").also {
+                it.setRevenue(adValue.valueMicros / 1000000.0, adValue.currencyCode)
+                it.adRevenueNetwork = responseInfo?.loadedAdSourceResponseInfo?.name ?: ""
+            })
+        }
+    }
+
+    private fun report2Firebase(adValue: Long) = run {
         runCatching {
             if (!BuildConfig.DEBUG) {
                 val revenue: Double = adValue / 1000000.0
@@ -72,7 +84,7 @@ interface IAd {
         }
     }
 
-    private fun report2FaceBook(adValue: Long) {
+    private fun report2FaceBook(adValue: Long) = run {
         runCatching {
             if (!BuildConfig.DEBUG) {
                 val revenue: Double = adValue / 1000000.0

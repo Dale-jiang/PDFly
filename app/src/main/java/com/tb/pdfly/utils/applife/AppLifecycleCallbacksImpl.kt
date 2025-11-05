@@ -3,6 +3,7 @@ package com.tb.pdfly.utils.applife
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import com.adjust.sdk.Adjust
 
 class AppLifecycleCallbacksImpl : Application.ActivityLifecycleCallbacks {
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -14,9 +15,11 @@ class AppLifecycleCallbacksImpl : Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityResumed(activity: Activity) {
+        Adjust.onResume()
     }
 
     override fun onActivityPaused(activity: Activity) {
+        Adjust.onPause()
     }
 
     override fun onActivityStopped(activity: Activity) {
