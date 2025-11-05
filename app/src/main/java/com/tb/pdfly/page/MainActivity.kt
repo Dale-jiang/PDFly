@@ -49,8 +49,10 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
         if (result.resultCode == RESULT_OK) {
             val result = GmsDocumentScanningResult.fromActivityResultIntent(result.data)
             result?.pdf?.let { pdf ->
-                val pdfUri = pdf.uri
-                onCreatedSucceed(pdfUri)
+                showCreateAd {
+                    val pdfUri = pdf.uri
+                    onCreatedSucceed(pdfUri)
+                }
             } ?: Toast.makeText(this, getString(R.string.an_unknown_error_occurred), Toast.LENGTH_LONG).show()
         } else if (result.resultCode == RESULT_CANCELED) {
             Toast.makeText(this, getString(R.string.create_cancelled), Toast.LENGTH_LONG).show()
@@ -67,6 +69,9 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
     }
 
     override fun initView() {
+
+        AdCenter.pdflyScanInt.loadAd(this)
+        AdCenter.pdflyBackInt.loadAd(this)
 
         if (hasStoragePermission()) {
             viewModel.showNoPermissionLiveData.postValue(false)
@@ -272,6 +277,20 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
             val ad = AdCenter.pdflyLaunch
             if (ad.canShow(this@MainActivity)) {
                 ad.showFullAd(this@MainActivity, "exit_launch", showLoading = false) { callBack() }
+            } else {
+                ad.loadAd(this@MainActivity)
+                callBack()
+            }
+        }
+    }
+
+    private fun showCreateAd(callBack: CallBack) {
+        ReportCenter.reportManager.report("pdfly_ad_chance", mapOf("ad_pos_id" to "pdfly_scan_int"))
+        lifecycleScope.launch {
+            while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
+            val ad = AdCenter.pdflyScanInt
+            if (ad.canShow(this@MainActivity)) {
+                ad.showFullAd(this@MainActivity, "pdfly_scan_int", showLoading = true) { callBack() }
             } else {
                 ad.loadAd(this@MainActivity)
                 callBack()

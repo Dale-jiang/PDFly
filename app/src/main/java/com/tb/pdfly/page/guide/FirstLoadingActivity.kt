@@ -89,7 +89,6 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
 
     private fun doNext() {
         countdownTimer.stop()
-
         when (keyUninstall) {
             "shortcut_view" -> {
                 toGuideIfNeeded {
@@ -129,6 +128,7 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
     }
 
     private fun showOpenAd(callBack: CallBack) {
+        countdownTimer.stop()
         lifecycleScope.launch {
             while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
             val ad = AdCenter.pdflyLaunch
