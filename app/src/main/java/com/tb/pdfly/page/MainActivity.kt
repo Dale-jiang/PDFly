@@ -3,11 +3,13 @@ package com.tb.pdfly.page
 import android.net.Uri
 import android.os.Environment
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -15,6 +17,7 @@ import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
 import com.tb.pdfly.R
+import com.tb.pdfly.admob.AdCenter
 import com.tb.pdfly.databinding.ActivityMainBinding
 import com.tb.pdfly.page.base.BaseFilePermissionActivity
 import com.tb.pdfly.page.dialog.RenameDialog
@@ -23,6 +26,7 @@ import com.tb.pdfly.page.fragments.HistoryFragment
 import com.tb.pdfly.page.fragments.HomeFragment
 import com.tb.pdfly.page.fragments.SettingsFragment
 import com.tb.pdfly.page.vm.GlobalVM
+import com.tb.pdfly.parameter.CallBack
 import com.tb.pdfly.parameter.FileInfo
 import com.tb.pdfly.parameter.database
 import com.tb.pdfly.parameter.hasStoragePermission
@@ -30,6 +34,7 @@ import com.tb.pdfly.parameter.notifyPdfUpdate
 import com.tb.pdfly.parameter.showLoading
 import com.tb.pdfly.parameter.showRatingDialog
 import com.tb.pdfly.parameter.toActivity
+import com.tb.pdfly.report.ReportCenter
 import com.tb.pdfly.utils.applife.HotStartManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -80,6 +85,7 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
             checkStoragePermission()
         }
 
+        handleOnBackPressed()
     }
 
     override fun onStoragePermissionGranted() {
@@ -238,6 +244,38 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
         } catch (e: Exception) {
             e.printStackTrace()
             null
+        }
+    }
+
+    private fun handleOnBackPressed() {
+        onBackPressedDispatcher.addCallback {
+            if (!AdCenter.adNoNeededShow()) {
+                ReportCenter.reportManager.report("pdfly_ad_chance", mapOf("ad_pos_id" to "exit_launch"))
+            }
+            if (AdCenter.pdflyLaunch.canShow(this@MainActivity)) {
+                showExitAd {
+                    moveTaskToBack(true)
+                }
+            } else moveTaskToBack(true)
+        }
+    }
+
+    private fun showExitAd(callBack: CallBack) {
+
+        if (AdCenter.adNoNeededShow()) {
+            callBack()
+            return
+        }
+
+        lifecycleScope.launch {
+            while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
+            val ad = AdCenter.pdflyLaunch
+            if (ad.canShow(this@MainActivity)) {
+                ad.showFullAd(this@MainActivity, "exit_launch", showLoading = false) { callBack() }
+            } else {
+                ad.loadAd(this@MainActivity)
+                callBack()
+            }
         }
     }
 
