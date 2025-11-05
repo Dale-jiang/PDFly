@@ -6,6 +6,7 @@ import com.google.android.libraries.ads.mobile.sdk.initialization.Initialization
 import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.showLog
+import com.tb.pdfly.report.ReportCenter
 import com.tb.pdfly.utils.CommonUtils
 import com.tb.pdfly.utils.CommonUtils.ioScope
 import com.tb.pdfly.utils.RemoteConfigUtils
@@ -21,6 +22,7 @@ class MyApp : Application() {
         RemoteConfigUtils.initRemoteConfig()
         initAdmob()
         CommonUtils.initCountryInfo()
+        ReportCenter.infoManager.fetchAllInfo()
     }
 
     override fun onTerminate() {

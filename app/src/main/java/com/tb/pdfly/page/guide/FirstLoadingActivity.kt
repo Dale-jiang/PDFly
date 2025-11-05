@@ -14,6 +14,7 @@ import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.parameter.CallBack
 import com.tb.pdfly.parameter.myEnableEdgeToEdge
 import com.tb.pdfly.parameter.toActivity
+import com.tb.pdfly.report.ReportCenter
 import com.tb.pdfly.utils.CountdownTimer
 import com.tb.pdfly.utils.firstCountryCode
 import com.tb.pdfly.utils.hasRequestUMP
@@ -49,6 +50,8 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
     }
 
     override fun initView() {
+        ReportCenter.reportManager.reportSession()
+        ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to "pdfly_launch"))
         onBackPressedDispatcher.addCallback { }
         if (hasRequestUMP) startLoading() else doUmpRequest()
     }

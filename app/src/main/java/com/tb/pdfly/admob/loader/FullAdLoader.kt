@@ -11,6 +11,7 @@ import com.tb.pdfly.admob.interfaces.IAdLoader
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.parameter.CallBack
 import com.tb.pdfly.parameter.showLoading
+import com.tb.pdfly.report.ReportCenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -73,7 +74,7 @@ class FullAdLoader(override val adPosition: String) : IAdLoader {
             }
 
             ad.showAd(activity, null, 0, onClose)
-//            PostCenter.postLogEvent("cc_ad_impression", hashMapOf("ad_pos_id" to posId))
+            ReportCenter.reportManager.report("pdfly_ad_impression", hashMapOf("ad_pos_id" to posId))
             onLoaded = {}
             loadAd(activity)
         }

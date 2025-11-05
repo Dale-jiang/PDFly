@@ -18,6 +18,7 @@ import com.tb.pdfly.databinding.LayoutAdNativeLargeBinding
 import com.tb.pdfly.databinding.LayoutAdNativeTinyBinding
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.parameter.showLog
+import com.tb.pdfly.report.ReportCenter
 
 class NativeAdImpl(override var adPosition: String?, override var adItem: AdConfigItem? = null, override var adLoadTime: Long) : IAd {
 
@@ -41,7 +42,7 @@ class NativeAdImpl(override var adPosition: String?, override var adItem: AdConf
                     nativeAd.adEventCallback = object : NativeAdEventCallback {
 
                         override fun onAdPaid(value: AdValue) {
-                            //    PostCenter.postCustomEvent("ew_ad_impression", mapOf("ad_pos_id" to adPosition))
+                            ReportCenter.reportManager.report("pdfly_ad_impression", mapOf("ad_pos_id" to adPosition))
                             onPaidEventListener(value, mNative?.getResponseInfo())
                         }
 

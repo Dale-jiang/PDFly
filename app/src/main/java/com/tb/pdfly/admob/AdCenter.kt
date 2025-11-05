@@ -4,6 +4,7 @@ import android.os.Build
 import com.google.gson.Gson
 import com.tb.pdfly.admob.loader.FullAdLoader
 import com.tb.pdfly.admob.loader.NativeAdLoader
+import com.tb.pdfly.utils.cloakResult
 import com.tb.pdfly.utils.installReferrerStr
 
 object AdCenter {
@@ -60,8 +61,7 @@ object AdCenter {
     }
 
     fun isFuckingUser(): Boolean = run {
-        // TODO:
-        return false
+        return cloakResult == "monic"
     }
 
     fun isFather(): Boolean = run {
