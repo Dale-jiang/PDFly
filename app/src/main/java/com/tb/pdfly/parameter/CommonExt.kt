@@ -43,6 +43,7 @@ import com.tb.pdfly.page.read.DocReadActivity
 import com.tb.pdfly.page.read.PDFReadActivity
 import com.tb.pdfly.utils.CommonUtils.isPdfEncrypted
 import com.tb.pdfly.utils.CommonUtils.printPdfFile
+import com.tb.pdfly.utils.alreadyRatedApp
 import com.tb.pdfly.utils.defaultLocalCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -358,8 +359,8 @@ fun Context.updateResources(): Context = run {
 }
 
 fun AppCompatActivity.showRatingDialog() {
-//    if (alreadyRatedApp) return
-//    alreadyRatedApp = true
+    if (alreadyRatedApp) return
+    alreadyRatedApp = true
     RateDialog {
         runCatching {
             val manager = ReviewManagerFactory.create(this)
