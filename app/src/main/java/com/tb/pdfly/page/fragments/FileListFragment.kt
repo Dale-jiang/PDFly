@@ -3,8 +3,10 @@ package com.tb.pdfly.page.fragments
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.tb.pdfly.R
+import com.tb.pdfly.admob.AdCenter
 import com.tb.pdfly.databinding.FragmentFileListBinding
 import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.page.adapter.FileListAdapter
@@ -12,6 +14,7 @@ import com.tb.pdfly.page.base.BaseFragment
 import com.tb.pdfly.page.read.DocReadActivity
 import com.tb.pdfly.page.read.PDFReadActivity
 import com.tb.pdfly.page.vm.GlobalVM
+import com.tb.pdfly.parameter.CallBack
 import com.tb.pdfly.parameter.FileInfo
 import com.tb.pdfly.parameter.FileType
 import com.tb.pdfly.parameter.TabType
@@ -20,8 +23,10 @@ import com.tb.pdfly.parameter.database
 import com.tb.pdfly.parameter.fileDeleteLiveData
 import com.tb.pdfly.parameter.showFileDetailsDialog
 import com.tb.pdfly.parameter.toActivity
+import com.tb.pdfly.report.ReportCenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -88,17 +93,18 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
 
     private fun initAdapter() {
         mAdapter = FileListAdapter(requireContext(), mTabType, itemClick = {
-            if (it.getFileType() != FileType.PDF) {
+            showViewAd {
+                if (it.getFileType() != FileType.PDF) {
 
-                requireActivity().toActivity<DocReadActivity> {
-                    putExtra(DocReadActivity.FILE_INFO, it)
-                }
-            } else {
-                requireActivity().toActivity<PDFReadActivity> {
-                    putExtra(PDFReadActivity.FILE_INFO, it)
+                    requireActivity().toActivity<DocReadActivity> {
+                        putExtra(DocReadActivity.FILE_INFO, it)
+                    }
+                } else {
+                    requireActivity().toActivity<PDFReadActivity> {
+                        putExtra(PDFReadActivity.FILE_INFO, it)
+                    }
                 }
             }
-
         }, moreClick = {
             if (mTabType == TabType.COLLECTION) {
                 lifecycleScope.launch(Dispatchers.IO + SupervisorJob()) {
@@ -106,7 +112,19 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
                     database.fileInfoDao().upsert(it)
                 }
             } else {
-                (requireActivity() as MainActivity).showFileDetailsDialog(it)
+                (requireActivity() as MainActivity).showFileDetailsDialog(it) {
+                    showViewAd {
+                        if (it.getFileType() != FileType.PDF) {
+                            requireActivity().toActivity<DocReadActivity> {
+                                putExtra(DocReadActivity.FILE_INFO, it)
+                            }
+                        } else {
+                            requireActivity().toActivity<PDFReadActivity> {
+                                putExtra(PDFReadActivity.FILE_INFO, it)
+                            }
+                        }
+                    }
+                }
             }
         })
         binding?.recyclerView?.itemAnimator = null
@@ -144,6 +162,21 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
                 getString(R.string.no_files_tips)
             }
 
+        }
+    }
+
+    private fun showViewAd(callBack: CallBack) {
+        ReportCenter.reportManager.report("pdfly_ad_chance", mapOf("ad_pos_id" to "pdfly_scan_int"))
+        lifecycleScope.launch {
+            while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
+            val ad = AdCenter.pdflyScanInt
+            val ac = requireActivity() as MainActivity
+            if (ad.canShow(ac)) {
+                ad.showFullAd(ac, "pdfly_scan_int", showLoading = true) { callBack() }
+            } else {
+                ad.loadAd(ac)
+                callBack()
+            }
         }
     }
 

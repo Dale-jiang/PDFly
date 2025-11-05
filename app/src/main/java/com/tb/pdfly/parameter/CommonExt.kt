@@ -39,8 +39,6 @@ import com.tb.pdfly.databinding.DialogLoadingBinding
 import com.tb.pdfly.databinding.DialogRenameBinding
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.page.dialog.RateDialog
-import com.tb.pdfly.page.read.DocReadActivity
-import com.tb.pdfly.page.read.PDFReadActivity
 import com.tb.pdfly.utils.CommonUtils.isPdfEncrypted
 import com.tb.pdfly.utils.CommonUtils.printPdfFile
 import com.tb.pdfly.utils.alreadyRatedApp
@@ -167,7 +165,7 @@ fun Activity.showLoading(contentId: Int = R.string.loading): AlertDialog? {
     return dialog
 }
 
-fun AppCompatActivity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boolean = false) {
+fun AppCompatActivity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boolean = false, callBack: CallBack = {}) {
     val binding = DialogFileDetailsBinding.inflate(LayoutInflater.from(this), window.decorView as ViewGroup, false)
     val dialog = BottomSheetDialog(this).apply {
         setContentView(binding.root)
@@ -221,17 +219,7 @@ fun AppCompatActivity.showFileDetailsDialog(fileItem: FileInfo, fromDetails: Boo
     }
 
     binding.btnOpen.setOnClickListener {
-        if (fileItem.getFileType() != FileType.PDF) {
-
-            toActivity<DocReadActivity> {
-                putExtra(DocReadActivity.FILE_INFO, fileItem)
-            }
-        } else {
-            toActivity<PDFReadActivity> {
-                putExtra(PDFReadActivity.FILE_INFO, fileItem)
-            }
-        }
-
+        callBack.invoke()
         dialog.dismiss()
     }
 
