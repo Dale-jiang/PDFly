@@ -43,21 +43,12 @@ class CompleteActivity : BaseActivity<ActivityCompleteBinding>(ActivityCompleteB
             dialogDesc.text = fileInfo?.path ?: ""
 
             btnOpen.setOnClickListener {
-//                lifecycleScope.launch(Dispatchers.IO) {
-//                    runCatching {
-//                        val findItem = database.fileInfoDao().getFileByPath(fileInfo?.path ?: "") ?: fileInfo
-//                        findItem?.recentViewTime = System.currentTimeMillis()
-//                        findItem?.let { database.fileInfoDao().upsert(findItem) }
-//                    }
-//                }
                 showViewAd {
-                    toActivity<PDFReadActivity> {
+                    toActivity<PDFReadActivity>(finishCurrent = true) {
                         putExtra(PDFReadActivity.FILE_INFO, fileInfo)
                     }
                 }
-                finish()
             }
-
         }
 
         showNatAd()
