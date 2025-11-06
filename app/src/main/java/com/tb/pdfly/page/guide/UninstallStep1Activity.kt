@@ -31,7 +31,7 @@ class UninstallStep1Activity : BaseActivity<ActivityUninstallStep1Binding>(Activ
             layoutDiscover.setOnClickListener { goBackHome() }
             btnKeep.setOnClickListener { goBackHome() }
             btnUninstall.setOnClickListener {
-                showNextAd{
+                showNextAd {
                     toActivity<UninstallStep2Activity>(finishCurrent = true)
                 }
             }
@@ -68,13 +68,16 @@ class UninstallStep1Activity : BaseActivity<ActivityUninstallStep1Binding>(Activ
     private fun showNatAd() {
         if (AdCenter.adNoNeededShow()) return
         ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to "pdfly_uninstall_nat1"))
-        val nAd = AdCenter.pdflyScanNat
+        val nAd = AdCenter.pdflyMainNat
         nAd.waitingNativeAd(this@UninstallStep1Activity) {
-            if (nAd.canShow(this@UninstallStep1Activity)) {
-                binding.adContainer.apply {
-                    ad?.destroy()
-                    nAd.showNativeAd(this@UninstallStep1Activity, this, "pdfly_uninstall_nat1") {
-                        ad = it
+            lifecycleScope.launch {
+                while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
+                if (nAd.canShow(this@UninstallStep1Activity)) {
+                    binding.adContainer.apply {
+                        ad?.destroy()
+                        nAd.showNativeAd(this@UninstallStep1Activity, this, "pdfly_uninstall_nat1") {
+                            ad = it
+                        }
                     }
                 }
             }

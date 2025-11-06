@@ -75,11 +75,14 @@ class CompleteActivity : BaseActivity<ActivityCompleteBinding>(ActivityCompleteB
         ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to "pdfly_result_nat"))
         val nAd = AdCenter.pdflyScanNat
         nAd.waitingNativeAd(this@CompleteActivity) {
-            if (nAd.canShow(this@CompleteActivity)) {
-                binding.adContainer.apply {
-                    ad?.destroy()
-                    nAd.showNativeAd(this@CompleteActivity, this, "pdfly_result_nat") {
-                        ad = it
+            lifecycleScope.launch {
+                while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
+                if (nAd.canShow(this@CompleteActivity)) {
+                    binding.adContainer.apply {
+                        ad?.destroy()
+                        nAd.showNativeAd(this@CompleteActivity, this, "pdfly_result_nat") {
+                            ad = it
+                        }
                     }
                 }
             }

@@ -98,11 +98,14 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(FragmentHistoryBind
         val nAd = AdCenter.pdflyMainNat
         val ac = requireActivity() as MainActivity
         nAd.waitingNativeAd(ac) {
-            if (nAd.canShow(ac)) {
-                binding?.adContainer?.apply {
-                    ad?.destroy()
-                    nAd.showNativeAd(ac, this, "pdfly_main_nat", 0) {
-                        ad = it
+            lifecycleScope.launch {
+                while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
+                if (nAd.canShow(ac)) {
+                    binding?.adContainer?.apply {
+                        ad?.destroy()
+                        nAd.showNativeAd(ac, this, "pdfly_main_nat", 0) {
+                            ad = it
+                        }
                     }
                 }
             }

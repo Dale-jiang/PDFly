@@ -82,6 +82,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         }
 
         if (!isFromSetting) AdCenter.pdflyScanNat.loadAd(app)
+        AdCenter.pdflyBackInt.loadAd(app)
         showNatAd()
     }
 
@@ -151,11 +152,14 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to posId))
         val nAd = AdCenter.pdflyMainNat
         nAd.waitingNativeAd(this@LanguageActivity) {
-            if (nAd.canShow(this@LanguageActivity)) {
-                binding.adContainer.apply {
-                    ad?.destroy()
-                    nAd.showNativeAd(this@LanguageActivity, this, posId) {
-                        ad = it
+            lifecycleScope.launch {
+                while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
+                if (nAd.canShow(this@LanguageActivity)) {
+                    binding.adContainer.apply {
+                        ad?.destroy()
+                        nAd.showNativeAd(this@LanguageActivity, this, posId) {
+                            ad = it
+                        }
                     }
                 }
             }

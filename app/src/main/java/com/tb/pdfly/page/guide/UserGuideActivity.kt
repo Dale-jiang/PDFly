@@ -121,11 +121,14 @@ class UserGuideActivity : BaseActivity<ActivityUserGuideBinding>(ActivityUserGui
         ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to "new_intro_nat"))
         val nAd = AdCenter.pdflyScanNat
         nAd.waitingNativeAd(this@UserGuideActivity) {
-            if (nAd.canShow(this@UserGuideActivity)) {
-                binding.adContainer.apply {
-                    ad?.destroy()
-                    nAd.showNativeAd(this@UserGuideActivity, this, "new_intro_nat") {
-                        ad = it
+            lifecycleScope.launch {
+                while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
+                if (nAd.canShow(this@UserGuideActivity)) {
+                    binding.adContainer.apply {
+                        ad?.destroy()
+                        nAd.showNativeAd(this@UserGuideActivity, this, "new_intro_nat") {
+                            ad = it
+                        }
                     }
                 }
             }
