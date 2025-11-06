@@ -4,15 +4,20 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.tb.pdfly.R
+import com.tb.pdfly.admob.AdCenter
+import com.tb.pdfly.admob.interfaces.IAd
 import com.tb.pdfly.databinding.ActivityLanguageBinding
 import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.page.adapter.LanguageAdapter
 import com.tb.pdfly.page.base.BaseActivity
+import com.tb.pdfly.parameter.CallBack
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.toActivity
 import com.tb.pdfly.parameter.updateResources
+import com.tb.pdfly.report.ReportCenter
 import com.tb.pdfly.utils.defaultLocalCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -51,7 +56,12 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         binding.apply {
 
             onBackPressedDispatcher.addCallback {
-                if (isFromSetting) finish()
+                if (isFromSetting) {
+                    showBackAd {
+                        finish()
+                    }
+                }
+
             }
             ivBack.isVisible = isFromSetting
             ivBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
@@ -70,6 +80,8 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
                 startAutoNext()
             }
         }
+
+        showNatAd()
     }
 
     @SuppressLint("SetTextI18n")
@@ -93,9 +105,65 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         if (isFromSetting) {
             toActivity<MainActivity>(finishCurrent = true) { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) }
         } else {
-            toActivity<UserGuideActivity>(finishCurrent = true) { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) }
+            showNextAd {
+                toActivity<UserGuideActivity>(finishCurrent = true) { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) }
+            }
         }
     }
 
+    private fun showNextAd(callBack: CallBack) {
+        ReportCenter.reportManager.report("pdfly_ad_chance", mapOf("ad_pos_id" to "new_langua_int"))
+        lifecycleScope.launch {
+            while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
+            val ad = AdCenter.pdflyScanInt
+            if (ad.canShow(this@LanguageActivity)) {
+                ad.showFullAd(this@LanguageActivity, "new_langua_int", showLoading = true) { callBack() }
+            } else {
+                ad.loadAd(this@LanguageActivity)
+                callBack()
+            }
+        }
+    }
+
+    private fun showBackAd(callBack: CallBack) {
+        if (AdCenter.adNoNeededShow()) {
+            callBack()
+            return
+        }
+        ReportCenter.reportManager.report("pdfly_ad_chance", mapOf("ad_pos_id" to "pdfly_back_int"))
+        lifecycleScope.launch {
+            while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
+            val ad = AdCenter.pdflyBackInt
+            if (ad.canShow(this@LanguageActivity)) {
+                ad.showFullAd(this@LanguageActivity, "pdfly_back_int", showLoading = true) { callBack() }
+            } else {
+                ad.loadAd(this@LanguageActivity)
+                callBack()
+            }
+        }
+    }
+
+    private var ad: IAd? = null
+    private fun showNatAd() {
+        if (AdCenter.adNoNeededShow()) return
+        val posId = if (isFromSetting) "langua_nat" else "new_langua_nat"
+        ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to posId))
+        val nAd = AdCenter.pdflyMainNat
+        nAd.waitingNativeAd(this@LanguageActivity) {
+            if (nAd.canShow(this@LanguageActivity)) {
+                binding.adContainer.apply {
+                    ad?.destroy()
+                    nAd.showNativeAd(this@LanguageActivity, this, posId) {
+                        ad = it
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ad?.destroy()
+    }
 
 }

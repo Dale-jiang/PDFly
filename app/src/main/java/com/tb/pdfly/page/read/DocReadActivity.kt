@@ -3,17 +3,22 @@ package com.tb.pdfly.page.read
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.content.FileProvider
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.seapeak.docviewer.DocViewerFragment
 import com.seapeak.docviewer.config.DocConfig
 import com.seapeak.docviewer.config.DocType
 import com.tb.pdfly.R
+import com.tb.pdfly.admob.AdCenter
 import com.tb.pdfly.databinding.ActivityDocReadBinding
 import com.tb.pdfly.page.base.BaseActivity
+import com.tb.pdfly.parameter.CallBack
 import com.tb.pdfly.parameter.FileInfo
 import com.tb.pdfly.parameter.FileType
 import com.tb.pdfly.parameter.database
+import com.tb.pdfly.report.ReportCenter
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -68,11 +73,32 @@ class DocReadActivity : BaseActivity<ActivityDocReadBinding>(ActivityDocReadBind
 
 
         onBackPressedDispatcher.addCallback {
-            finish()
+            showBackAd {
+                finish()
+            }
         }
         binding.ivBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
     }
+
+    private fun showBackAd(callBack: CallBack) {
+        if (AdCenter.adNoNeededShow()) {
+            callBack()
+            return
+        }
+        ReportCenter.reportManager.report("pdfly_ad_chance", mapOf("ad_pos_id" to "pdfly_back_int"))
+        lifecycleScope.launch {
+            while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
+            val ad = AdCenter.pdflyBackInt
+            if (ad.canShow(this@DocReadActivity)) {
+                ad.showFullAd(this@DocReadActivity, "pdfly_back_int", showLoading = true) { callBack() }
+            } else {
+                ad.loadAd(this@DocReadActivity)
+                callBack()
+            }
+        }
+    }
+
 
 }

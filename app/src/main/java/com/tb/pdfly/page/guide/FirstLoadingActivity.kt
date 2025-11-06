@@ -12,6 +12,7 @@ import com.tb.pdfly.databinding.ActivityFirstLoadingBinding
 import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.parameter.CallBack
+import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.myEnableEdgeToEdge
 import com.tb.pdfly.parameter.toActivity
 import com.tb.pdfly.report.ReportCenter
@@ -89,6 +90,8 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
 
     private fun doNext() {
         countdownTimer.stop()
+        AdCenter.pdflyMainNat.loadAd(app)
+        AdCenter.pdflyScanInt.loadAd(app)
         when (keyUninstall) {
             "shortcut_view" -> {
                 toGuideIfNeeded {
