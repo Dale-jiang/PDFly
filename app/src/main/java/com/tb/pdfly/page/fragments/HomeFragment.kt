@@ -1,6 +1,5 @@
 package com.tb.pdfly.page.fragments
 
-import android.util.Log
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -60,9 +59,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         lifecycleScope.launch(Dispatchers.Main) {
             delay(1000)
             if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                Log.e("AD_DEBUG", "HomeFragment onResume start")
                 showMainNatAd()
-                Log.e("AD_DEBUG", "HomeFragment onResume end")
             }
         }
 

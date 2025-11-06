@@ -76,17 +76,13 @@ class NativeAdImpl(override var adPosition: String?, override var adItem: AdConf
                         bodyView = binding.textBody.apply { text = ad.body ?: "" }
                         callToActionView = binding.btnAction.apply { text = ad.callToAction ?: "" }
 
-                        val mediaView = mediaView?.apply {
+                        mediaView?.apply {
                             imageScaleType = ImageView.ScaleType.CENTER_CROP
                             mediaContent = ad.mediaContent
                         }
 
-                        registerNativeAd(ad, mediaView)
+                        registerNativeAd(ad, binding.media)
                     }
-//                    parent?.apply {
-//                        removeAllViews()
-//                        addView(binding.root)
-//                    }
                     parent?.post {
                         parent.removeAllViews()
                         parent.addView(binding.root)
@@ -103,17 +99,13 @@ class NativeAdImpl(override var adPosition: String?, override var adItem: AdConf
                         bodyView = binding.textBody.apply { text = ad.body ?: "" }
                         callToActionView = binding.btnAction.apply { text = ad.callToAction ?: "" }
 
-                        val mediaView = mediaView?.apply {
+                        mediaView?.apply {
                             imageScaleType = ImageView.ScaleType.CENTER_CROP
                             mediaContent = ad.mediaContent
                         }
 
-                        registerNativeAd(ad, mediaView)
+                        registerNativeAd(ad, binding.media)
                     }
-//                    parent?.apply {
-//                        removeAllViews()
-//                        addView(binding.root)
-//                    }
                     parent?.post {
                         parent.removeAllViews()
                         parent.addView(binding.root)

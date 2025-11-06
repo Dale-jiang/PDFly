@@ -1,16 +1,25 @@
 package com.tb.pdfly.page.fragments
 
 import android.content.Intent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.R
+import com.tb.pdfly.admob.AdCenter
+import com.tb.pdfly.admob.interfaces.IAd
 import com.tb.pdfly.databinding.FragmentSettingsBinding
+import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.page.base.BaseFragment
 import com.tb.pdfly.page.guide.LanguageActivity
 import com.tb.pdfly.page.web.WebViewActivity
 import com.tb.pdfly.parameter.PRIVACY_URL
 import com.tb.pdfly.parameter.WEB_URL_KEY
 import com.tb.pdfly.parameter.toActivity
+import com.tb.pdfly.report.ReportCenter
 import com.tb.pdfly.utils.applife.HotStartManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsBinding::inflate) {
 
@@ -34,7 +43,16 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
                 }
             }
 
+        }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(1000)
+            if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                showMainNatAd()
+            }
         }
     }
 
@@ -51,5 +69,27 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         startActivity(Intent.createChooser(shareIntent, getString(R.string.share_app_link_via)))
     }
 
+    private var ad: IAd? = null
+    private fun showMainNatAd() {
+        if (AdCenter.adNoNeededShow()) return
+        ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to "pdfly_main_nat"))
+        val nAd = AdCenter.pdflyMainNat
+        val ac = requireActivity() as MainActivity
+        nAd.waitingNativeAd(ac) {
+            if (nAd.canShow(ac)) {
+                binding?.adContainer?.apply {
+                    ad?.destroy()
+                    nAd.showNativeAd(ac, this, "pdfly_main_nat") {
+                        ad = it
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ad?.destroy()
+    }
 
 }
