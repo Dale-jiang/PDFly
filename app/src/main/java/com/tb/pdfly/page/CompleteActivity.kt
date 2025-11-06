@@ -1,12 +1,20 @@
 package com.tb.pdfly.page
 
 import androidx.activity.addCallback
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import com.tb.pdfly.R
+import com.tb.pdfly.admob.AdCenter
+import com.tb.pdfly.admob.interfaces.IAd
 import com.tb.pdfly.databinding.ActivityCompleteBinding
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.page.read.PDFReadActivity
+import com.tb.pdfly.parameter.CallBack
 import com.tb.pdfly.parameter.FileInfo
 import com.tb.pdfly.parameter.toActivity
+import com.tb.pdfly.report.ReportCenter
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 class CompleteActivity : BaseActivity<ActivityCompleteBinding>(ActivityCompleteBinding::inflate) {
@@ -42,17 +50,54 @@ class CompleteActivity : BaseActivity<ActivityCompleteBinding>(ActivityCompleteB
 //                        findItem?.let { database.fileInfoDao().upsert(findItem) }
 //                    }
 //                }
-
-                toActivity<PDFReadActivity> {
-                    putExtra(PDFReadActivity.FILE_INFO, fileInfo)
+                showViewAd {
+                    toActivity<PDFReadActivity> {
+                        putExtra(PDFReadActivity.FILE_INFO, fileInfo)
+                    }
                 }
-
                 finish()
             }
 
+        }
 
+        showNatAd()
+    }
+
+
+    private fun showViewAd(callBack: CallBack) {
+        ReportCenter.reportManager.report("pdfly_ad_chance", mapOf("ad_pos_id" to "pdfly_scan_int"))
+        lifecycleScope.launch {
+            while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
+            val ad = AdCenter.pdflyScanInt
+            if (ad.canShow(this@CompleteActivity)) {
+                ad.showFullAd(this@CompleteActivity, "pdfly_scan_int", showLoading = true) { callBack() }
+            } else {
+                ad.loadAd(this@CompleteActivity)
+                callBack()
+            }
         }
     }
 
+    private var ad: IAd? = null
+    private fun showNatAd() {
+        if (AdCenter.adNoNeededShow()) return
+        ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to "pdfly_result_nat"))
+        val nAd = AdCenter.pdflyScanNat
+        nAd.waitingNativeAd(this@CompleteActivity) {
+            if (nAd.canShow(this@CompleteActivity)) {
+                binding.adContainer.apply {
+                    ad?.destroy()
+                    nAd.showNativeAd(this@CompleteActivity, this, "pdfly_result_nat") {
+                        ad = it
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ad?.destroy()
+    }
 
 }
