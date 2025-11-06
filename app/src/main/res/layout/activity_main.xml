@@ -23,7 +23,7 @@
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="62dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/ad_container">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btn_home"
@@ -129,5 +129,14 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/ad_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

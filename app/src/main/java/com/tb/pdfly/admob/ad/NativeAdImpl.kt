@@ -13,6 +13,7 @@ import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdLoader
 import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdLoaderCallback
 import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdRequest
 import com.tb.pdfly.admob.AdConfigItem
+import com.tb.pdfly.admob.AdmobRevenueManager.onPaidEventListener
 import com.tb.pdfly.admob.interfaces.IAd
 import com.tb.pdfly.databinding.LayoutAdNativeLargeBinding
 import com.tb.pdfly.databinding.LayoutAdNativeTinyBinding
@@ -43,7 +44,7 @@ class NativeAdImpl(override var adPosition: String?, override var adItem: AdConf
 
                         override fun onAdPaid(value: AdValue) {
                             ReportCenter.reportManager.report("pdfly_ad_impression", mapOf("ad_pos_id" to adPosition))
-                            onPaidEventListener(value, mNative?.getResponseInfo())
+                            onPaidEventListener(value, mNative?.getResponseInfo(), this@NativeAdImpl)
                         }
 
                         override fun onAdClicked() {

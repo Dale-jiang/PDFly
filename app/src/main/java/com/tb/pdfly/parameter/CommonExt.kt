@@ -16,6 +16,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -54,6 +55,10 @@ fun String.showLog(tag: String = "----PDFLY----") {
     if (BuildConfig.DEBUG) {
         Log.e(tag, this)
     }
+}
+
+fun Context.getScreenWidth(): Float {
+    return resources.displayMetrics.widthPixels/ resources.displayMetrics.density
 }
 
 fun AppCompatActivity.myEnableEdgeToEdge(parentView: ViewGroup? = null, topPadding: Boolean = true, bottomPadding: Boolean = true) {

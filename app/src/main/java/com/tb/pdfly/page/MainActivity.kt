@@ -1,6 +1,7 @@
 package com.tb.pdfly.page
 
 import android.net.Uri
+import android.os.Bundle
 import android.os.Environment
 import android.widget.Toast
 import androidx.activity.addCallback
@@ -13,11 +14,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.libraries.ads.mobile.sdk.banner.AdSize
+import com.google.android.libraries.ads.mobile.sdk.banner.BannerAd
+import com.google.android.libraries.ads.mobile.sdk.banner.BannerAdEventCallback
+import com.google.android.libraries.ads.mobile.sdk.banner.BannerAdRequest
+import com.google.android.libraries.ads.mobile.sdk.common.AdLoadCallback
+import com.google.android.libraries.ads.mobile.sdk.common.AdValue
+import com.google.android.libraries.ads.mobile.sdk.common.LoadAdError
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
 import com.tb.pdfly.R
 import com.tb.pdfly.admob.AdCenter
+import com.tb.pdfly.admob.AdmobRevenueManager.onBannerPaidEventListener
 import com.tb.pdfly.databinding.ActivityMainBinding
 import com.tb.pdfly.page.base.BaseFilePermissionActivity
 import com.tb.pdfly.page.dialog.RenameDialog
@@ -29,9 +38,11 @@ import com.tb.pdfly.page.vm.GlobalVM
 import com.tb.pdfly.parameter.CallBack
 import com.tb.pdfly.parameter.FileInfo
 import com.tb.pdfly.parameter.database
+import com.tb.pdfly.parameter.getScreenWidth
 import com.tb.pdfly.parameter.hasStoragePermission
 import com.tb.pdfly.parameter.notifyPdfUpdate
 import com.tb.pdfly.parameter.showLoading
+import com.tb.pdfly.parameter.showLog
 import com.tb.pdfly.parameter.showRatingDialog
 import com.tb.pdfly.parameter.toActivity
 import com.tb.pdfly.report.ReportCenter
@@ -62,10 +73,19 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
     }
 
     private val viewModel by viewModels<GlobalVM>()
+    private var isLoadingBannerAd = false
+    private var bannerAd: BannerAd? = null
 
     override fun onResume() {
         super.onResume()
         showRatingDialog()
+
+        lifecycleScope.launch {
+            delay(500)
+            if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                loadBanner()
+            }
+        }
     }
 
     override fun initView() {
@@ -297,6 +317,50 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
                 callBack()
             }
         }
+    }
+
+
+    private fun loadBanner() {
+        if (AdCenter.bannerId.isEmpty()) return
+        ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to "pdfly_main_ban"))
+        if (isLoadingBannerAd) return
+        isLoadingBannerAd = true
+        val extras = Bundle()
+        extras.putString("collapsible", "bottom")
+        val a = getScreenWidth().toInt()
+        val adRequest =
+            BannerAdRequest
+                .Builder(AdCenter.bannerId, AdSize.BANNER)
+                .setGoogleExtrasBundle(extras)
+                .build()
+        BannerAd.load(adRequest, object : AdLoadCallback<BannerAd> {
+            override fun onAdLoaded(ad: BannerAd) {
+                "The last loaded banner is ${if (ad.isCollapsible()) "" else "not "}collapsible.---${a}".showLog()
+                isLoadingBannerAd = false
+                bannerAd?.destroy()
+                bannerAd = ad
+                lifecycleScope.launch(Dispatchers.Main) {
+                    binding.adContainer.removeAllViews()
+                    binding.adContainer.addView(ad.getView(this@MainActivity))
+                }
+
+                ad.adEventCallback = object : BannerAdEventCallback {
+                    override fun onAdImpression() {
+                        ReportCenter.reportManager.report("pdfly_ad_impression", hashMapOf("ad_pos_id" to "pdfly_main_ban"))
+                    }
+
+                    override fun onAdPaid(value: AdValue) {
+                        onBannerPaidEventListener(value, bannerAd?.getResponseInfo())
+                    }
+                }
+            }
+
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                bannerAd = null
+                isLoadingBannerAd = false
+            }
+        }
+        )
     }
 
 }

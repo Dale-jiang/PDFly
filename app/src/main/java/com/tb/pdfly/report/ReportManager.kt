@@ -2,6 +2,7 @@ package com.tb.pdfly.report
 
 import com.google.android.libraries.ads.mobile.sdk.common.AdValue
 import com.google.android.libraries.ads.mobile.sdk.common.ResponseInfo
+import com.tb.pdfly.admob.AdCenter
 import com.tb.pdfly.admob.interfaces.IAd
 import com.tb.pdfly.report.ReportCenter.buildCommonParams
 import com.tb.pdfly.report.ReportCenter.getPrecisionType
@@ -52,5 +53,24 @@ class ReportManager : RequestExecutor() {
         }
     }
 
+    fun reportBannerAdImpressionEvent(adValue: AdValue, responseInfo: ResponseInfo?) {
+        postScope.launch {
+            runCatching {
+                val jsonObj = buildCommonParams().apply {
+                    put("cut", JSONObject().apply {
+                        reportKeys["ad_pre_ecpm"]?.let { put(it, adValue.valueMicros) }
+                        reportKeys["currency"]?.let { put(it, adValue.currencyCode) }
+                        reportKeys["ad_network"]?.let { put(it, responseInfo?.loadedAdSourceResponseInfo?.name ?: "admob") }
+                        reportKeys["ad_source_client"]?.let { put(it, "admob") }
+                        reportKeys["ad_code_id"]?.let { put(it, AdCenter.bannerId) }
+                        reportKeys["ad_pos_id"]?.let { put(it, "pdfly_main_ban") }
+                        reportKeys["ad_format"]?.let { put(it, "ban") }
+                        reportKeys["precision_type"]?.let { put(it, getPrecisionType(adValue.precisionType)) }
+                    })
+                }
+                runRequest("Report: AdImpressionEvent", jsonObj.toString())
+            }
+        }
+    }
 
 }

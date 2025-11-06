@@ -14,6 +14,7 @@ import com.google.android.libraries.ads.mobile.sdk.common.LoadAdError
 import com.google.android.libraries.ads.mobile.sdk.interstitial.InterstitialAd
 import com.google.android.libraries.ads.mobile.sdk.interstitial.InterstitialAdEventCallback
 import com.tb.pdfly.admob.AdConfigItem
+import com.tb.pdfly.admob.AdmobRevenueManager.onPaidEventListener
 import com.tb.pdfly.admob.interfaces.IAd
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.parameter.showLog
@@ -68,7 +69,7 @@ class FullAdImpl(override var adPosition: String?, override var adItem: AdConfig
     }
 
 
-    override fun showAd(activity: BaseActivity<*>, parent: ViewGroup?,nativeType: Int, onClose: () -> Unit) {
+    override fun showAd(activity: BaseActivity<*>, parent: ViewGroup?, nativeType: Int, onClose: () -> Unit) {
         when (val a = mAd) {
             is InterstitialAd -> {
 
@@ -84,7 +85,7 @@ class FullAdImpl(override var adPosition: String?, override var adItem: AdConfig
                     }
 
                     override fun onAdPaid(value: AdValue) {
-                        onPaidEventListener(value, a.getResponseInfo())
+                        onPaidEventListener(value, a.getResponseInfo(), this@FullAdImpl)
                     }
                 }
 
@@ -108,7 +109,7 @@ class FullAdImpl(override var adPosition: String?, override var adItem: AdConfig
 
 
                     override fun onAdPaid(value: AdValue) {
-                        onPaidEventListener(value, a.getResponseInfo())
+                        onPaidEventListener(value, a.getResponseInfo(), this@FullAdImpl)
                     }
 
                 }
