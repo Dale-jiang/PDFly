@@ -1,6 +1,7 @@
 package com.tb.pdfly.app
 
 import android.app.Application
+import cc.admaster.android.proxy.api.AdMasterConfig
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.LogLevel
@@ -25,6 +26,7 @@ class MyApp : Application() {
         RemoteConfigUtils.initRemoteConfig()
         initAdmob()
         initAdjust()
+        initAdMaster()
         CommonUtils.initCountryInfo()
         ReportCenter.infoManager.fetchAllInfo()
     }
@@ -47,7 +49,7 @@ class MyApp : Application() {
         }
     }
 
-    fun initAdjust() = runCatching {
+    private fun initAdjust() = runCatching {
         Adjust.addGlobalCallbackParameter("customer_user_id", ReportCenter.mDistinctId)
         val (appToken, environment) = if (BuildConfig.DEBUG) {
             "ih2pm2dr3k74" to AdjustConfig.ENVIRONMENT_SANDBOX
@@ -60,6 +62,15 @@ class MyApp : Application() {
         Adjust.initSdk(config)
     }.onFailure {
         it.printStackTrace()
+    }
+
+    private fun initAdMaster() = runCatching {
+        AdMasterConfig.Builder().setAdMasterInitListener(object : AdMasterConfig.InitListener {
+            override fun success() {}
+
+            override fun fail(p0: Int, p1: String?) {}
+
+        }).build(this@MyApp, "46ee2df008f022b6a7f105b77cedbf68").init()
     }
 
 }
