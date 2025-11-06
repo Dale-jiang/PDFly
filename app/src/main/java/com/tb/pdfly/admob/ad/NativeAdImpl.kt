@@ -83,9 +83,13 @@ class NativeAdImpl(override var adPosition: String?, override var adItem: AdConf
 
                         registerNativeAd(ad, mediaView)
                     }
-                    parent?.apply {
-                        removeAllViews()
-                        addView(binding.root)
+//                    parent?.apply {
+//                        removeAllViews()
+//                        addView(binding.root)
+//                    }
+                    parent?.post {
+                        parent.removeAllViews()
+                        parent.addView(binding.root)
                     }
                 }
             }
@@ -106,9 +110,13 @@ class NativeAdImpl(override var adPosition: String?, override var adItem: AdConf
 
                         registerNativeAd(ad, mediaView)
                     }
-                    parent?.apply {
-                        removeAllViews()
-                        addView(binding.root)
+//                    parent?.apply {
+//                        removeAllViews()
+//                        addView(binding.root)
+//                    }
+                    parent?.post {
+                        parent.removeAllViews()
+                        parent.addView(binding.root)
                     }
                 }
             }

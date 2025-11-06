@@ -38,7 +38,9 @@ class MyApp : Application() {
         ioScope.launch {
             MobileAds.initialize(
                 this@MyApp,
-                InitializationConfig.Builder(if (BuildConfig.DEBUG) "ca-app-pub-3940256099942544~3347511713" else "").build()
+                InitializationConfig.Builder(if (BuildConfig.DEBUG) "ca-app-pub-3940256099942544~3347511713" else "")
+                    .setNativeValidatorDisabled()
+                    .build()
             ) {
                 "---Adapter initialization is complete---".showLog()
             }

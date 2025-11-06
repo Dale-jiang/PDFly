@@ -2,6 +2,7 @@ package com.tb.pdfly.admob
 
 import android.os.Build
 import com.google.gson.Gson
+import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.admob.loader.FullAdLoader
 import com.tb.pdfly.admob.loader.NativeAdLoader
 import com.tb.pdfly.utils.cloakResult
@@ -11,20 +12,43 @@ object AdCenter {
 
     var pdfly_open = 1
     val buyUserTags = mutableListOf(
-        "fb4a", "instagram", "ig4a",
-        "gclid", "not%20set", "youtubeads",
-        "%7B%22", "adjust", "bytedance",
-        "livead"
+        "fb4a", "instagram", "ig4a", "gclid", "not%20set", "youtubeads", "%7B%22", "adjust", "bytedance", "livead"
     )
 
     val countryCodeList by lazy {
         listOf(
-            "AT", "BE", "BG", "HR",
-            "CY", "CZ", "DK", "EE", "FI",
-            "SI", "ES", "SE", "NO", "IS", "LI",
-            "FR", "DE", "GR", "HU", "IE", "IT",
-            "LV", "LT", "LU", "MT", "NL", "PL", "PT",
-            "RO", "SK", "CH", "GB"
+            "AT",
+            "BE",
+            "BG",
+            "HR",
+            "CY",
+            "CZ",
+            "DK",
+            "EE",
+            "FI",
+            "SI",
+            "ES",
+            "SE",
+            "NO",
+            "IS",
+            "LI",
+            "FR",
+            "DE",
+            "GR",
+            "HU",
+            "IE",
+            "IT",
+            "LV",
+            "LT",
+            "LU",
+            "MT",
+            "NL",
+            "PL",
+            "PT",
+            "RO",
+            "SK",
+            "CH",
+            "GB"
         )
     }
 
@@ -53,7 +77,7 @@ object AdCenter {
     }
 
     fun adNoNeededShow(): Boolean {
-        return false
+        if (BuildConfig.DEBUG) return false
         if (isEmulator()) return true
         if (pdfly_open == 0) return false // 0 不对任何用户屏蔽
         if (isFuckingUser()) return true
@@ -84,22 +108,12 @@ object AdCenter {
             return true
         }
         val model = Build.MODEL
-        if (model.contains("google_sdk") ||
-            model.contains("Emulator") ||
-            model.contains("Android SDK built for x86") ||
-            Build.MANUFACTURER.contains("Genymotion") ||
-            Build.HOST.startsWith("Build")
-        ) {
+        if (model.contains("google_sdk") || model.contains("Emulator") || model.contains("Android SDK built for x86") || Build.MANUFACTURER.contains("Genymotion") || Build.HOST.startsWith("Build")) {
             return true
         }
         val product = Build.PRODUCT
-        return product.contains("sdk_google") ||
-                product.contains("google_sdk") ||
-                product.contains("sdk") ||
-                product.contains("sdk_x86") ||
-                product.contains("sdk_gphone64_arm64") ||
-                product.contains("vbox86p") ||
-                product.contains("emulator") ||
-                product.contains("simulator")
+        return product.contains("sdk_google") || product.contains("google_sdk") || product.contains("sdk") || product.contains("sdk_x86") || product.contains("sdk_gphone64_arm64") || product.contains(
+            "vbox86p"
+        ) || product.contains("emulator") || product.contains("simulator")
     }
 }

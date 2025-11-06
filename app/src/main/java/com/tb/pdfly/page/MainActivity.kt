@@ -72,6 +72,7 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
 
         AdCenter.pdflyScanInt.loadAd(this)
         AdCenter.pdflyBackInt.loadAd(this)
+        AdCenter.pdflyMainNat.loadAd(this)
 
         if (hasStoragePermission()) {
             viewModel.showNoPermissionLiveData.postValue(false)
