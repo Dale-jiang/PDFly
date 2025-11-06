@@ -79,9 +79,8 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
     override fun onResume() {
         super.onResume()
         showRatingDialog()
-
         lifecycleScope.launch {
-            delay(500)
+            delay(1000)
             if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
                 loadBanner()
             }
