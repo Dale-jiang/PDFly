@@ -81,6 +81,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
             }
         }
 
+        if (!isFromSetting) AdCenter.pdflyScanNat.loadAd(app)
         showNatAd()
     }
 
