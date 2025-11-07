@@ -82,12 +82,14 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
     }
 
     private val noticeResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        showRatingDialog()
         if (isGrantedPostNotification()) {
 
         }
     }
 
     private val noticeSetLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        showRatingDialog()
         HotStartManager.navigateToSettingPage(false)
         if (isGrantedPostNotification()) {
 
@@ -101,7 +103,6 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
 
     override fun onResume() {
         super.onResume()
-        showRatingDialog()
         lifecycleScope.launch {
             delay(1000)
             if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
@@ -341,6 +342,7 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
             }
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
+                showRatingDialog()
             }
             .show()
     }

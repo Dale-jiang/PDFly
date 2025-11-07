@@ -7,6 +7,8 @@ import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.LogLevel
 import com.google.android.libraries.ads.mobile.sdk.MobileAds
 import com.google.android.libraries.ads.mobile.sdk.initialization.InitializationConfig
+import com.google.firebase.Firebase
+import com.google.firebase.messaging.messaging
 import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.showLog
@@ -15,6 +17,7 @@ import com.tb.pdfly.utils.CommonUtils
 import com.tb.pdfly.utils.CommonUtils.ioScope
 import com.tb.pdfly.utils.RemoteConfigUtils
 import com.tb.pdfly.utils.applife.AppLifecycleUtils
+import com.tb.pdfly.utils.isSubscribedFcmTopic
 import kotlinx.coroutines.launch
 
 class MyApp : Application() {
@@ -27,6 +30,7 @@ class MyApp : Application() {
         initAdmob()
         initAdjust()
         initAdMaster()
+        subscribeFCMIfNeed()
         CommonUtils.initCountryInfo()
         ReportCenter.infoManager.fetchAllInfo()
     }
@@ -71,6 +75,11 @@ class MyApp : Application() {
             override fun fail(p0: Int, p1: String?) {}
 
         }).build(this@MyApp, "46ee2df008f022b6a7f105b77cedbf68").init()
+    }
+
+    private fun subscribeFCMIfNeed() {
+        if (BuildConfig.DEBUG || isSubscribedFcmTopic) return
+        runCatching { Firebase.messaging.subscribeToTopic("PDFLY_ALL").addOnSuccessListener { isSubscribedFcmTopic = true } }
     }
 
 }
