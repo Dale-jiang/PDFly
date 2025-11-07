@@ -123,7 +123,7 @@ object RemoteConfigUtils {
                             notificationId = jumpPair.second,
                             message = text,
                             btnStr = button,
-                            jumpTYpe = jumpPair.first,
+                            jumpType = jumpPair.first,
                             noticeType = NoticeType.MESSAGE,
                             isRemote = true
                         )

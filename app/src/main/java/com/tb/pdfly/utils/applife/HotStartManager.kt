@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.PowerManager
 import android.util.Log
-import com.tb.pdfly.page.guide.FirstLoadingActivity
 import com.tb.pdfly.page.MainActivity
+import com.tb.pdfly.page.guide.FirstLoadingActivity
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.toActivity
 import kotlinx.coroutines.CoroutineScope
@@ -63,6 +63,8 @@ object HotStartManager {
         }
     }
 
+    fun isAppForeground() = activityReferences > 0
+
     fun resetHotStart() {
         isHotStart = false
     }
@@ -71,9 +73,8 @@ object HotStartManager {
         isToSettingPage = boolean
     }
 
-    private fun isScreenInteractive(): Boolean {
-        val pm = app.getSystemService(Context.POWER_SERVICE) as PowerManager
-        return pm.isInteractive
+    fun isScreenInteractive(): Boolean {
+        return runCatching { (app.getSystemService(Context.POWER_SERVICE) as PowerManager).isInteractive }.getOrNull() ?: false
     }
 
     fun clear() {

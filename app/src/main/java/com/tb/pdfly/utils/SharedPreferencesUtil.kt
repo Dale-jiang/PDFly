@@ -70,3 +70,10 @@ var total001Revenue by PrefDouble(default = 0.0)
 
 var isRequestNotice by PrefBoolean(false)
 var isSubscribedFcmTopic by PrefBoolean(false)
+
+var timerNoticeLastShowTime by PrefLong(default = 0L)
+var unlockNoticeLastShowTime by PrefLong(default = 0L)
+var noticeLastShowTime by PrefLong(default = 0L)
+
+var timerNoticeCounts by PrefInt(default = 0)
+var unlockNoticeCounts by PrefInt(default = 0)

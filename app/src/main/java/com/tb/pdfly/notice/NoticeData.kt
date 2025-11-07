@@ -22,9 +22,10 @@ data class NoticeContent(
     var notificationId: Int = 0,
     var message: String = "",
     var btnStr: String = "",
-    var jumpTYpe: JumpType,
+    var triggerType: String = "",
+    var jumpType: JumpType,
     var noticeType: NoticeType,
-    var isRemote: Boolean = true
+    var isRemote: Boolean = false
 ) : Parcelable
 
 @Parcelize
@@ -33,8 +34,8 @@ data class NoticeConfig(
     var open: Int,
     var pdfly_start: Int,
     var pdfly_end: Int,
-    var pdfly_im: NoticeConfigItem,
-    var pdfly_lk: NoticeConfigItem,
+    var pdfly_im: NoticeConfigItem?,
+    var pdfly_lk: NoticeConfigItem?,
 ) : Parcelable
 
 @Parcelize

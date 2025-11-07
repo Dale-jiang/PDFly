@@ -58,9 +58,9 @@ object FrontNoticeManager {
 
     private fun buildRemoteViews(layoutId: Int): RemoteViews {
         return RemoteViews(app.packageName, layoutId).apply {
-            setOnClickPendingIntent(R.id.layout_scan, createPendingIntent(NoticeContent(jumpTYpe = JumpType.CREATE, noticeType = NoticeType.FRONT)))
-            setOnClickPendingIntent(R.id.layout_view, createPendingIntent(NoticeContent(jumpTYpe = JumpType.HOME, noticeType = NoticeType.FRONT)))
-            setOnClickPendingIntent(R.id.layout_history, createPendingIntent(NoticeContent(jumpTYpe = JumpType.HISTORY, noticeType = NoticeType.FRONT)))
+            setOnClickPendingIntent(R.id.layout_scan, createPendingIntent(NoticeContent(jumpType = JumpType.CREATE, noticeType = NoticeType.FRONT)))
+            setOnClickPendingIntent(R.id.layout_view, createPendingIntent(NoticeContent(jumpType = JumpType.HOME, noticeType = NoticeType.FRONT)))
+            setOnClickPendingIntent(R.id.layout_history, createPendingIntent(NoticeContent(jumpType = JumpType.HISTORY, noticeType = NoticeType.FRONT)))
         }
     }
 

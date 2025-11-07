@@ -75,4 +75,65 @@
     <string name="grant_access_to_get_important_notifications">Grant access to get important notifications</string>
     <string name="grant">Grant</string>
     <string name="history">History</string>
+
+
+    <string name="notice_text_1">📂 Your files are ready!</string>
+    <string name="notice_text_2">🔍 Can’t find your PDF?</string>
+    <string name="notice_text_3">⚡ Instantly open your recent files."</string>
+    <string name="notice_text_4">🧾 Ready to read your document?</string>
+    <string name="notice_text_5">📘 Tap to explore your saved files.</string>
+    <string name="notice_text_6">📑 Continue where you left off.</string>
+    <string name="notice_text_7">🔎 View your PDFs faster than ever.</string>
+    <string name="notice_text_8">🗂️ See all your recent documents.</string>
+    <string name="notice_text_9">📄 Instantly load your last PDF.</string>
+    <string name="notice_text_10">🚀 Quick access to your files.</string>
+
+    <string name="notice_text_11">🕒 Check your recent PDF history instantly!</string>
+    <string name="notice_text_12">📜 Continue where you left off.</string>
+    <string name="notice_text_13">📂 Your last opened files are ready!</string>
+    <string name="notice_text_14">🧾 Access your full PDF history now.</string>
+    <string name="notice_text_15">🕓 Missed a file? Reopen from history.</string>
+    <string name="notice_text_16">📄 Quick access to your past documents.</string>
+    <string name="notice_text_17">🗂️ Revisit your previous PDFs easily.</string>
+    <string name="notice_text_18">⏳ Resume your last viewed document.</string>
+    <string name="notice_text_19">🧠 Keep track of what you’ve read.</string>
+    <string name="notice_text_20">📘 One-tap to open your file history.</string>
+
+    <string name="notice_text_21">📸 Turn paper into PDF instantly.</string>
+    <string name="notice_text_22">🧾 Need a digital copy?</string>
+    <string name="notice_text_23">✨ Capture &amp; convert in one tap.</string>
+    <string name="notice_text_24">📄 Make your document digital.</string>
+    <string name="notice_text_25">🚀 Quick scan to PDF in seconds.</string>
+    <string name="notice_text_26">🖨️ Transform your notes into PDFs.</string>
+    <string name="notice_text_27">📷 Just one shot to make a PDF.</string>
+    <string name="notice_text_28">💡 Scan smarter, faster.</string>
+    <string name="notice_text_29">🧾 Convert real to digital instantly.</string>
+    <string name="notice_text_30">🔍 Ready to digitize your page?</string>
+
+    <string name="notice_text_31">🖼️ Turn your images into a PDF.</string>
+    <string name="notice_text_32">📷 Make a photo album PDF.</string>
+    <string name="notice_text_33">🌈 Convert pictures to one file.</string>
+    <string name="notice_text_34">🧩 scan your photos into a single PDF.</string>
+    <string name="notice_text_35">💫 Create beautiful photo PDFs.</string>
+    <string name="notice_text_36">📸 Choose images and export.</string>
+    <string name="notice_text_37">✨ From gallery to PDF in seconds.</string>
+    <string name="notice_text_38">📷 Save your memories in PDF.</string>
+    <string name="notice_text_39">🎨 Design your photo collection.</string>
+    <string name="notice_text_40">🧾 Turn multiple photos into one file.</string>
+
+    <string name="notice_text_41">🚀 Ready to manage your files?</string>
+    <string name="notice_text_42">📁 Open all tools in one place.</string>
+    <string name="notice_text_43">🧰 Explore all PDF features.</string>
+    <string name="notice_text_44">🏠 Back to main dashboard.</string>
+    <string name="notice_text_45">🔧 Try more smart PDF tools.</string>
+    <string name="notice_text_46">🌟 Discover more useful features.</string>
+    <string name="notice_text_47">📄 Your all-in-one PDF toolkit.</string>
+    <string name="notice_text_48">💼 Manage all files easily.</string>
+    <string name="notice_text_49">⚡ Back to main page.</string>
+    <string name="notice_text_50">🔍 Explore what’s new.</string>
+
+    <string name="go">GO</string>
+    <string name="create">Create</string>
+    <string name="see">See</string>
+
 </resources>
