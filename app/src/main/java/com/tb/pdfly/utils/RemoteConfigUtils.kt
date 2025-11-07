@@ -4,12 +4,19 @@ import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.get
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
+import com.google.gson.Gson
 import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.admob.AD_JSON
 import com.tb.pdfly.admob.AdCenter
 import com.tb.pdfly.admob.AdCenter.buyUserTags
 import com.tb.pdfly.admob.AdCenter.pdfly_open
+import com.tb.pdfly.notice.JumpType
+import com.tb.pdfly.notice.MessageManager
+import com.tb.pdfly.notice.NoticeConfig
+import com.tb.pdfly.notice.NoticeContent
+import com.tb.pdfly.notice.NoticeType
 import com.tb.pdfly.parameter.showLog
+import org.json.JSONArray
 import org.json.JSONObject
 
 object RemoteConfigUtils {
@@ -40,6 +47,8 @@ object RemoteConfigUtils {
     private fun getAllConfigs() {
         getAdConfig()
         getReferConfig()
+        getNoticeConfig()
+        getNoticeContent()
     }
 
     private fun getAdConfig() {
@@ -72,5 +81,58 @@ object RemoteConfigUtils {
         }
     }
 
+    private fun getNoticeConfig() {
+        runCatching {
+            val json = remoteConfig[if (CommonUtils.isSamsungDevice()) "pdfly_pop_sm" else "pdfly_pop"].asString()
+            "RemoteCenter NoticeConfig loaded: $json".showLog()
+            if (json.isNotEmpty()) {
+                MessageManager.remoteNoticeConfig = Gson().fromJson(json, NoticeConfig::class.java)
+            }
+        }
+    }
+
+    private fun getNoticeContent() = runCatching {
+        val json = remoteConfig["pdfly_notify_text"].asString()
+        if (json.isBlank()) return@runCatching
+        MessageManager.remoteMessageList = parseJson(json)
+    }
+
+    private fun parseJson(jsonString: String): List<List<NoticeContent>> {
+        return runCatching {
+            val rootArray = JSONArray(jsonString)
+            val result = mutableListOf<MutableList<NoticeContent>>()
+            for (i in 0 until rootArray.length()) {
+                val pageObject = rootArray.getJSONObject(i)
+                val page = pageObject.getString("jump_page")
+                val contentArray = pageObject.getJSONArray("noti_text")
+                val jumpPair = when (page) {
+                    "view" -> JumpType.HOME to 11012
+                    "history" -> JumpType.HISTORY to 11013
+                    "scan" -> JumpType.CREATE to 11014
+                    "picture" -> JumpType.CREATE to 11015
+                    "other" -> JumpType.HOME to 11016
+                    else -> JumpType.HOME to 11012
+                }
+                val itemResult = mutableListOf<NoticeContent>()
+                for (j in 0 until contentArray.length()) {
+                    val contentItem = contentArray.getJSONObject(j)
+                    val text = contentItem.getString("text")
+                    val button = contentItem.getString("button")
+                    itemResult.add(
+                        NoticeContent(
+                            notificationId = jumpPair.second,
+                            message = text,
+                            btnStr = button,
+                            jumpTYpe = jumpPair.first,
+                            noticeType = NoticeType.MESSAGE,
+                            isRemote = true
+                        )
+                    )
+                }
+                result.add(itemResult)
+            }
+            return@runCatching result
+        }.getOrNull() ?: mutableListOf()
+    }
 
 }

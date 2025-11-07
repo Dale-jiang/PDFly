@@ -26,3 +26,20 @@ data class NoticeContent(
     var noticeType: NoticeType,
     var isRemote: Boolean = true
 ) : Parcelable
+
+@Parcelize
+@Keep
+data class NoticeConfig(
+    var open: Int,
+    var pdfly_start: Int,
+    var pdfly_end: Int,
+    var pdfly_im: NoticeConfigItem,
+    var pdfly_lk: NoticeConfigItem,
+) : Parcelable
+
+@Parcelize
+@Keep
+data class NoticeConfigItem(
+    var pdfly_mi: Int,
+    var pdfly_up: Int,
+) : Parcelable

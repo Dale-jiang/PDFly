@@ -10,6 +10,7 @@ import com.google.android.libraries.ads.mobile.sdk.initialization.Initialization
 import com.google.firebase.Firebase
 import com.google.firebase.messaging.messaging
 import com.tb.pdfly.BuildConfig
+import com.tb.pdfly.notice.MessageTaskWorker
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.showFrontNotice
 import com.tb.pdfly.parameter.showLog
@@ -35,6 +36,7 @@ class MyApp : Application() {
         CommonUtils.initCountryInfo()
         ReportCenter.infoManager.fetchAllInfo()
         showFrontNotice()
+        MessageTaskWorker.startMessageTask()
     }
 
     override fun onTerminate() {
