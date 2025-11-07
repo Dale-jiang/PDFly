@@ -39,6 +39,7 @@ import com.tb.pdfly.R
 import com.tb.pdfly.databinding.DialogFileDetailsBinding
 import com.tb.pdfly.databinding.DialogLoadingBinding
 import com.tb.pdfly.databinding.DialogRenameBinding
+import com.tb.pdfly.notice.FrontNoticeManager
 import com.tb.pdfly.notice.service.FrontNoticeService
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.page.dialog.RateDialog
@@ -385,7 +386,7 @@ fun AppCompatActivity.showRatingDialog() {
 fun Context.showFrontNotice() {
     if ("KR" == firstCountryCode && CommonUtils.isSamsungDevice()) return
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && this is Application) {
-        // MainToolbarManager.buildNotification()
+        FrontNoticeManager.buildNotification()
     } else {
         runCatching {
             if (!FrontNoticeService.isFrontServiceRunning) {

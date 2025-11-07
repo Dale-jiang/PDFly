@@ -3,6 +3,7 @@ package com.tb.pdfly.notice.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import com.tb.pdfly.notice.FrontNoticeManager
 
 class FrontNoticeService : Service() {
 
@@ -21,10 +22,10 @@ class FrontNoticeService : Service() {
         return START_STICKY
     }
 
-    private fun startNotificationMain() {
+    private fun startNotificationMain() = run {
         runCatching {
-            val notification = MainToolbarManager.buildNotification()
-            startForeground(MainToolbarManager.TOOLBAR_ID, notification)
+            val notification = FrontNoticeManager.buildNotification()
+            startForeground(FrontNoticeManager.FRONT_NOTICE_ID, notification)
         }
     }
 

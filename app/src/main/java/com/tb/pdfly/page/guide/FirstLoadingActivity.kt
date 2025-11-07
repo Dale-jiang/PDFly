@@ -18,6 +18,7 @@ import com.tb.pdfly.parameter.CallBack
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.isGrantedPostNotification
 import com.tb.pdfly.parameter.myEnableEdgeToEdge
+import com.tb.pdfly.parameter.showFrontNotice
 import com.tb.pdfly.parameter.toActivity
 import com.tb.pdfly.report.ReportCenter
 import com.tb.pdfly.utils.CountdownTimer
@@ -25,6 +26,7 @@ import com.tb.pdfly.utils.firstCountryCode
 import com.tb.pdfly.utils.hasRequestUMP
 import com.tb.pdfly.utils.isFirstLaunch
 import com.tb.pdfly.utils.isRequestNotice
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -66,6 +68,10 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
 
         if (isGrantedPostNotification() || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             if (hasRequestUMP) startLoading() else doUmpRequest()
+            lifecycleScope.launch(Dispatchers.Main) {
+                delay(2000L)
+                showFrontNotice()
+            }
         } else {
             if (!isRequestNotice) {
                 isRequestNotice = true

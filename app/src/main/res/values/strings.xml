@@ -48,7 +48,7 @@
     <string name="guide_des_1">PDF Reading &amp; Printing</string>
     <string name="guide_des_2">Scan Documents and Images to Create PDF</string>
     <string name="start">Start</string>
-    <string name="Scan">Scan\n</string>
+    <string name="scan">Scan</string>
     <string name="uninstall">Uninstall</string>
     <string name="view">View</string>
     <string name="uninstall_step_1_des_1"><![CDATA[Feedback & Improvement]]></string>
@@ -74,4 +74,5 @@
     <string name="notification_permission">Notification Permission</string>
     <string name="grant_access_to_get_important_notifications">Grant access to get important notifications</string>
     <string name="grant">Grant</string>
+    <string name="history">History</string>
 </resources>

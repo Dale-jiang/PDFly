@@ -37,8 +37,8 @@
         android:enabled="true"
         android:icon="@drawable/ic_shortcuts_create"
         android:shortcutId="shortcut_split"
-        android:shortcutLongLabel="@string/Scan"
-        android:shortcutShortLabel="@string/Scan">
+        android:shortcutLongLabel="@string/scan"
+        android:shortcutShortLabel="@string/scan">
         <intent
             android:action="pdf_uninstall"
             android:targetClass="com.tb.pdfly.page.guide.FirstLoadingActivity"
