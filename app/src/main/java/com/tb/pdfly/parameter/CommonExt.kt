@@ -1,6 +1,7 @@
 package com.tb.pdfly.parameter
 
 import android.app.Activity
+import android.app.Application
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -16,7 +17,6 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -39,12 +39,15 @@ import com.tb.pdfly.R
 import com.tb.pdfly.databinding.DialogFileDetailsBinding
 import com.tb.pdfly.databinding.DialogLoadingBinding
 import com.tb.pdfly.databinding.DialogRenameBinding
+import com.tb.pdfly.notice.service.FrontNoticeService
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.page.dialog.RateDialog
+import com.tb.pdfly.utils.CommonUtils
 import com.tb.pdfly.utils.CommonUtils.isPdfEncrypted
 import com.tb.pdfly.utils.CommonUtils.printPdfFile
 import com.tb.pdfly.utils.alreadyRatedApp
 import com.tb.pdfly.utils.defaultLocalCode
+import com.tb.pdfly.utils.firstCountryCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -59,7 +62,7 @@ fun String.showLog(tag: String = "----PDFLY----") {
 }
 
 fun Context.getScreenWidth(): Float {
-    return resources.displayMetrics.widthPixels/ resources.displayMetrics.density
+    return resources.displayMetrics.widthPixels / resources.displayMetrics.density
 }
 
 
@@ -376,4 +379,18 @@ fun AppCompatActivity.showRatingDialog() {
             }
         }
     }.show(supportFragmentManager, "google_Rate")
+}
+
+
+fun Context.showFrontNotice() {
+    if ("KR" == firstCountryCode && CommonUtils.isSamsungDevice()) return
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && this is Application) {
+        // MainToolbarManager.buildNotification()
+    } else {
+        runCatching {
+            if (!FrontNoticeService.isFrontServiceRunning) {
+                ContextCompat.startForegroundService(this@showFrontNotice, Intent(this@showFrontNotice, FrontNoticeService::class.java))
+            }
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.tb.pdfly.utils
 
 import android.content.Context
 import android.content.Context.PRINT_SERVICE
+import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.print.PrintManager
 import com.shockwave.pdfium.PdfiumCore
@@ -19,6 +20,8 @@ object CommonUtils {
 
     val ioScope by lazy { CoroutineScope(Dispatchers.IO + SupervisorJob() + CoroutineExceptionHandler { _, error -> "Error: ${error.message}".showLog() }) }
     val mainScope by lazy { CoroutineScope(Dispatchers.Main + SupervisorJob() + CoroutineExceptionHandler { _, error -> "Error: ${error.message}".showLog() }) }
+
+    fun isSamsungDevice() = Build.MANUFACTURER.equals("Samsung", ignoreCase = true)
 
     fun isPdfEncrypted(context: Context, filePath: String): Boolean {
         val file = File(filePath)

@@ -11,6 +11,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.messaging.messaging
 import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.parameter.app
+import com.tb.pdfly.parameter.showFrontNotice
 import com.tb.pdfly.parameter.showLog
 import com.tb.pdfly.report.ReportCenter
 import com.tb.pdfly.utils.CommonUtils
@@ -33,6 +34,7 @@ class MyApp : Application() {
         subscribeFCMIfNeed()
         CommonUtils.initCountryInfo()
         ReportCenter.infoManager.fetchAllInfo()
+        showFrontNotice()
     }
 
     override fun onTerminate() {
