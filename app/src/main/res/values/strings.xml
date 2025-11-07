@@ -71,4 +71,7 @@
     <string name="rate_tip">Enjoying our app? Support us with a 5⭐ rating!</string>
     <string name="ok">OK</string>
     <string name="ad_loading">Ad loading</string>
+    <string name="notification_permission">Notification Permission</string>
+    <string name="grant_access_to_get_important_notifications">Grant access to get important notifications</string>
+    <string name="grant">Grant</string>
 </resources>

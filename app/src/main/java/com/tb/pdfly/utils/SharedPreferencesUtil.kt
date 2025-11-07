@@ -67,3 +67,5 @@ var googleIdStr by PrefString("")
 var adTrackEnable by PrefBoolean(false)
 
 var total001Revenue by PrefDouble(default = 0.0)
+
+var isRequestNotice by PrefBoolean(false)

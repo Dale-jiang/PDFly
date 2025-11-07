@@ -1,13 +1,18 @@
 package com.tb.pdfly.page
 
+import android.Manifest
+import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -21,6 +26,7 @@ import com.google.android.libraries.ads.mobile.sdk.banner.BannerAdRequest
 import com.google.android.libraries.ads.mobile.sdk.common.AdLoadCallback
 import com.google.android.libraries.ads.mobile.sdk.common.AdValue
 import com.google.android.libraries.ads.mobile.sdk.common.LoadAdError
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
@@ -37,9 +43,11 @@ import com.tb.pdfly.page.fragments.SettingsFragment
 import com.tb.pdfly.page.vm.GlobalVM
 import com.tb.pdfly.parameter.CallBack
 import com.tb.pdfly.parameter.FileInfo
+import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.database
 import com.tb.pdfly.parameter.getScreenWidth
 import com.tb.pdfly.parameter.hasStoragePermission
+import com.tb.pdfly.parameter.isGrantedPostNotification
 import com.tb.pdfly.parameter.notifyPdfUpdate
 import com.tb.pdfly.parameter.showLoading
 import com.tb.pdfly.parameter.showLog
@@ -47,6 +55,7 @@ import com.tb.pdfly.parameter.showRatingDialog
 import com.tb.pdfly.parameter.toActivity
 import com.tb.pdfly.report.ReportCenter
 import com.tb.pdfly.utils.applife.HotStartManager
+import com.tb.pdfly.utils.isRequestNotice
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -72,9 +81,23 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
         }
     }
 
+    private val noticeResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        if (isGrantedPostNotification()) {
+
+        }
+    }
+
+    private val noticeSetLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        HotStartManager.navigateToSettingPage(false)
+        if (isGrantedPostNotification()) {
+
+        }
+    }
+
     private val viewModel by viewModels<GlobalVM>()
     private var isLoadingBannerAd = false
     private var bannerAd: BannerAd? = null
+    private var isMainShowNoticeDialog = false
 
     override fun onResume() {
         super.onResume()
@@ -111,6 +134,7 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
         }
 
         handleOnBackPressed()
+        showNoticeGuideIfCan()
     }
 
     override fun onStoragePermissionGranted() {
@@ -283,6 +307,42 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
                 }
             } else moveTaskToBack(true)
         }
+    }
+
+
+    private fun showNoticeGuideIfCan(): Boolean = run {
+        if (isGrantedPostNotification()) return false
+        if (isMainShowNoticeDialog) return false
+        isMainShowNoticeDialog = true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (!isRequestNotice) {
+                isRequestNotice = true
+                noticeResultLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.POST_NOTIFICATIONS)) {
+                noticeResultLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            } else {
+                showPermissionNoticeDialog()
+            }
+        } else {
+            showPermissionNoticeDialog()
+        }
+        return true
+    }
+
+    private fun showPermissionNoticeDialog() = run {
+        val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).also { it.putExtra(Settings.EXTRA_APP_PACKAGE, app.packageName) }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.notification_permission))
+            .setMessage(getString(R.string.grant_access_to_get_important_notifications))
+            .setPositiveButton(getString(R.string.grant)) { dialog, _ ->
+                dialog.dismiss()
+                HotStartManager.navigateToSettingPage(true)
+                noticeSetLauncher.launch(intent)
+            }
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun showExitAd(callBack: CallBack) {

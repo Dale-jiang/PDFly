@@ -1,6 +1,9 @@
 package com.tb.pdfly.page.guide
 
+import android.os.Build
 import androidx.activity.addCallback
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.ump.ConsentDebugSettings
@@ -13,6 +16,7 @@ import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.parameter.CallBack
 import com.tb.pdfly.parameter.app
+import com.tb.pdfly.parameter.isGrantedPostNotification
 import com.tb.pdfly.parameter.myEnableEdgeToEdge
 import com.tb.pdfly.parameter.toActivity
 import com.tb.pdfly.report.ReportCenter
@@ -20,10 +24,15 @@ import com.tb.pdfly.utils.CountdownTimer
 import com.tb.pdfly.utils.firstCountryCode
 import com.tb.pdfly.utils.hasRequestUMP
 import com.tb.pdfly.utils.isFirstLaunch
+import com.tb.pdfly.utils.isRequestNotice
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityFirstLoadingBinding::inflate) {
+
+    private val noticeResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        if (hasRequestUMP) startLoading() else doUmpRequest()
+    }
 
     private val keyUninstall by lazy { intent?.getStringExtra("key_uninstall") }
 
@@ -54,7 +63,17 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
         ReportCenter.reportManager.reportSession()
         ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to "pdfly_launch"))
         onBackPressedDispatcher.addCallback { }
-        if (hasRequestUMP) startLoading() else doUmpRequest()
+
+        if (isGrantedPostNotification() || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            if (hasRequestUMP) startLoading() else doUmpRequest()
+        } else {
+            if (!isRequestNotice) {
+                isRequestNotice = true
+                noticeResultLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.POST_NOTIFICATIONS)) {
+                noticeResultLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            } else if (hasRequestUMP) startLoading() else doUmpRequest()
+        }
     }
 
     private fun startLoading() {

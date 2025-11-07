@@ -23,6 +23,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
@@ -60,6 +61,14 @@ fun String.showLog(tag: String = "----PDFLY----") {
 fun Context.getScreenWidth(): Float {
     return resources.displayMetrics.widthPixels/ resources.displayMetrics.density
 }
+
+
+fun Context.isGrantedPostNotification(): Boolean {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+    } else NotificationManagerCompat.from(this).areNotificationsEnabled()
+}
+
 
 fun AppCompatActivity.myEnableEdgeToEdge(parentView: ViewGroup? = null, topPadding: Boolean = true, bottomPadding: Boolean = true) {
     runCatching {
