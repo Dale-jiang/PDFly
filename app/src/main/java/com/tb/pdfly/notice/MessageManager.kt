@@ -13,12 +13,13 @@ import com.tb.pdfly.utils.timerNoticeLastShowTime
 import com.tb.pdfly.utils.unlockNoticeCounts
 import com.tb.pdfly.utils.unlockNoticeLastShowTime
 import java.util.Calendar
+import java.util.concurrent.atomic.AtomicInteger
 
 object MessageManager {
 
     var remoteMessageList: List<List<NoticeContent>> = listOf()
     var remoteNoticeConfig: NoticeConfig? = null
-
+    private val currentGroupIndexAtomic = AtomicInteger(0)
 
     val groupText1: List<NoticeContent>
         get() = listOf(
@@ -232,6 +233,17 @@ object MessageManager {
     @SuppressLint("MissingPermission")
     fun showNotice(type: String) {
         if (!canShow(type)) return
+        val noticeItem = getNoticeItem() ?: return
+    }
+
+    private fun getNoticeItem(): NoticeContent? {
+        val groups = remoteMessageList.ifEmpty {
+            listOf(groupText1, groupText2, groupText3, groupText4, groupText5)
+        }
+        if (groups.isEmpty()) return null
+
+        val index = currentGroupIndexAtomic.getAndIncrement() % groups.size
+        return groups[index].randomOrNull()
     }
 
     private fun canShow(type: String): Boolean {
