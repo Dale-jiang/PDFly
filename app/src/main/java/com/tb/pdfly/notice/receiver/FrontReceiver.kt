@@ -1,5 +1,6 @@
 package com.tb.pdfly.notice.receiver
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -11,6 +12,7 @@ import kotlin.jvm.java
 
 class FrontReceiver : BroadcastReceiver() {
 
+    @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context?, intent: Intent?) {
         if ("KR" == firstCountryCode && CommonUtils.isSamsungDevice()) return
         runCatching {
