@@ -25,7 +25,7 @@ object MessageTaskWorker {
             override fun onReceive(context: Context?, intent: Intent?) {
                 taskScope.launch {
                     delay(1000L)
-                    //   TipAlertManager.show(TypeUnlock)
+                    MessageManager.showNotice("unlock")
                     context?.let {
                         runCatching {
                             FrontJobIntentService.start(context)
@@ -55,7 +55,7 @@ object MessageTaskWorker {
     private fun startTimer() {
         taskScope.launch {
             tickerFlow(60000L, 60000L).collect {
-                //TipAlertManager.show(TypeTimer)
+                MessageManager.showNotice("time")
             }
         }
     }

@@ -6,6 +6,7 @@
     <color name="color_ff212121">#FF212121</color>
     <color name="color_f6f6f6">#F6F6F6</color>
     <color name="color_aaaaaa">#AAAAAA</color>
+    <color name="trans">#00000000</color>
 
     <color name="color_bar_text">#FF000000</color>
 </resources>

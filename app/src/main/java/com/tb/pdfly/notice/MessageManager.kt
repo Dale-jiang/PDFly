@@ -1,8 +1,19 @@
 package com.tb.pdfly.notice
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent
+import android.content.Intent
+import android.os.Build
+import android.text.Html
 import android.text.format.DateUtils
+import android.widget.RemoteViews
+import androidx.core.app.NotificationChannelCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.DecoratedCustomViewStyle
+import androidx.core.app.NotificationManagerCompat
+import com.mbridge.msdk.out.LoadingActivity
 import com.tb.pdfly.R
+import com.tb.pdfly.notice.FrontNoticeManager.KEY_NOTICE_CONTENT
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.isGrantedPostNotification
 import com.tb.pdfly.utils.applife.HotStartManager
@@ -14,9 +25,11 @@ import com.tb.pdfly.utils.unlockNoticeCounts
 import com.tb.pdfly.utils.unlockNoticeLastShowTime
 import java.util.Calendar
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.random.Random
 
 object MessageManager {
 
+    private const val NOTIFICATION_CHANNEL_ID = "MAIN_IMPORTANT_MESSAGE"
     var remoteMessageList: List<List<NoticeContent>> = listOf()
     var remoteNoticeConfig: NoticeConfig? = null
     private val currentGroupIndexAtomic = AtomicInteger(0)
@@ -234,6 +247,69 @@ object MessageManager {
     fun showNotice(type: String) {
         if (!canShow(type)) return
         val noticeItem = getNoticeItem() ?: return
+        noticeItem.triggerType = type
+
+        buildNotificationChannel()
+
+        val builder = NotificationCompat.Builder(app, NOTIFICATION_CHANNEL_ID)
+            .setSmallIcon(R.drawable.icon_small_pdf)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(createPendingIntent(noticeItem))
+            .setAutoCancel(true)
+            .setGroupSummary(false)
+            .setGroup("important_message")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val tiny = buildRemoteViews(noticeItem, R.layout.layout_message_tiny)
+            val large = buildRemoteViews(noticeItem, R.layout.layout_message_large)
+            builder.setCustomContentView(tiny).setCustomHeadsUpContentView(tiny).setCustomBigContentView(large)
+            builder.setStyle(DecoratedCustomViewStyle())
+        } else {
+            val mid = buildRemoteViews(noticeItem, R.layout.layout_message_normal)
+            val large = buildRemoteViews(noticeItem, R.layout.layout_message_large)
+            builder.setCustomContentView(mid).setCustomHeadsUpContentView(mid).setCustomBigContentView(large)
+        }
+        runCatching {
+            NotificationManagerCompat.from(app).notify(noticeItem.notificationId, builder.build())
+            updateNoticeShowCounts(type)
+        }
+
+    }
+
+    private fun buildRemoteViews(noticeContent: NoticeContent, layoutId: Int): RemoteViews {
+
+        val drawableId = when (noticeContent.jumpType) {
+            JumpType.HOME -> R.drawable.image_message_view
+            JumpType.HISTORY -> R.drawable.image_message_history
+            JumpType.CREATE -> R.drawable.image_message_create
+        }
+
+        return RemoteViews(app.packageName, layoutId).also {
+            if (layoutId == R.layout.layout_message_large) {
+                it.setImageViewResource(R.id.image_message, drawableId)
+            }
+            it.setTextViewText(R.id.text_message, Html.fromHtml(noticeContent.message))
+            it.setTextViewText(R.id.text_action, noticeContent.btnStr)
+        }
+    }
+
+    private fun createPendingIntent(noticeContent: NoticeContent): PendingIntent {
+        val intent = Intent(app, LoadingActivity::class.java).apply {
+            putExtra(KEY_NOTICE_CONTENT, noticeContent)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        }
+        return PendingIntent.getActivity(app, Random.nextInt(), intent, PendingIntent.FLAG_IMMUTABLE)
+    }
+
+    private fun buildNotificationChannel() = run {
+        NotificationManagerCompat.from(app).createNotificationChannel(
+            NotificationChannelCompat.Builder(NOTIFICATION_CHANNEL_ID, NotificationManagerCompat.IMPORTANCE_MAX)
+                .setLightsEnabled(true)
+                .setVibrationEnabled(true)
+                .setShowBadge(true)
+                .setName(NOTIFICATION_CHANNEL_ID)
+                .build()
+        )
     }
 
     private fun getNoticeItem(): NoticeContent? {
