@@ -82,7 +82,7 @@
         android:fontFamily="@font/sora"
         android:gravity="center"
         android:includeFontPadding="false"
-        android:text="@string/next"
+        android:text="@string/start"
         android:textColor="#FFFFFFFF"
         android:textSize="15sp"
         android:textStyle="bold"

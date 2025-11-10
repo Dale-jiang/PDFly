@@ -98,7 +98,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
 
     @SuppressLint("SetTextI18n")
     private fun startAutoNext() {
-        if (!isFromSetting) {
+        if (!isFromSetting && AdCenter.isFather()) {
             autoNextJob = lifecycleScope.launch(Dispatchers.Main) {
                 binding.btnNext.text = "${getString(R.string.next)}(3)"
                 delay(1000)

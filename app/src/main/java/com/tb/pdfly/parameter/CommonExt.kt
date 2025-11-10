@@ -36,6 +36,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.R
+import com.tb.pdfly.admob.AdCenter
 import com.tb.pdfly.databinding.DialogFileDetailsBinding
 import com.tb.pdfly.databinding.DialogLoadingBinding
 import com.tb.pdfly.databinding.DialogRenameBinding
@@ -365,7 +366,7 @@ fun Context.updateResources(): Context = run {
 }
 
 fun AppCompatActivity.showRatingDialog() {
-    if (alreadyRatedApp) return
+    if (alreadyRatedApp || !AdCenter.isFather()) return
     alreadyRatedApp = true
     RateDialog {
         runCatching {

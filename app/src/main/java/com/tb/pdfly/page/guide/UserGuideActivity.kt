@@ -40,14 +40,14 @@ class UserGuideActivity : BaseActivity<ActivityUserGuideBinding>(ActivityUserGui
 
         binding.btnNext.setOnClickListener {
             ReportCenter.reportManager.report("guide_feature_confirm_click_count")
-            if (currentIndex < 1) {
-                currentIndex++
-                binding.viewPager.currentItem = currentIndex
-            } else {
-                showNextAd {
-                    toActivity<MainActivity>(finishCurrent = true)
-                }
+//            if (currentIndex < 1) {
+//                currentIndex++
+//                binding.viewPager.currentItem = currentIndex
+//            } else {
+            showNextAd {
+                toActivity<MainActivity>(finishCurrent = true)
             }
+//            }
         }
         binding.btnSkip.setOnClickListener {
             ReportCenter.reportManager.report("guide_feature_skip_click_count")
@@ -60,7 +60,7 @@ class UserGuideActivity : BaseActivity<ActivityUserGuideBinding>(ActivityUserGui
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 currentIndex = position
-                binding.btnNext.text = if (position >= 1) getString(R.string.start) else getString(R.string.next)
+//                binding.btnNext.text = if (position >= 1) getString(R.string.start) else getString(R.string.next)
                 changeIndicatorWidth(position)
                 if (position != 0) showNatAd()
 
