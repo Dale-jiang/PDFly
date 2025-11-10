@@ -10,6 +10,7 @@ import com.tb.pdfly.R
 import com.tb.pdfly.admob.AdCenter
 import com.tb.pdfly.admob.interfaces.IAd
 import com.tb.pdfly.databinding.ActivityLanguageBinding
+import com.tb.pdfly.notice.FrontNoticeManager
 import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.page.adapter.LanguageAdapter
 import com.tb.pdfly.page.base.BaseActivity
@@ -111,6 +112,9 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
     private fun toNextView() {
         defaultLocalCode = mAdapter.data[mAdapter.currentIndex].second
         app.updateResources()
+        runCatching {
+            FrontNoticeManager.buildNotification()
+        }
         if (isFromSetting) {
             toActivity<MainActivity>(finishCurrent = true) { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) }
         } else {

@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import com.adjust.sdk.Adjust
+import com.tb.pdfly.parameter.app
+import com.tb.pdfly.parameter.updateResources
 
 class AppLifecycleCallbacksImpl : Application.ActivityLifecycleCallbacks {
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -15,11 +17,19 @@ class AppLifecycleCallbacksImpl : Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityResumed(activity: Activity) {
-        Adjust.onResume()
+        runCatching {
+            app.updateResources()
+            activity.updateResources()
+        }
+        runCatching {
+            Adjust.onResume()
+        }
     }
 
     override fun onActivityPaused(activity: Activity) {
-        Adjust.onPause()
+        runCatching {
+            Adjust.onPause()
+        }
     }
 
     override fun onActivityStopped(activity: Activity) {

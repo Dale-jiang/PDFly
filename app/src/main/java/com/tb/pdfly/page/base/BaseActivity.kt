@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.tb.pdfly.parameter.myEnableEdgeToEdge
 import com.tb.pdfly.parameter.setDensity
+import com.tb.pdfly.parameter.updateResources
 
 abstract class BaseActivity<T : ViewBinding>(private val inflate: (layoutInflater: LayoutInflater) -> T) : AppCompatActivity() {
 
@@ -15,7 +16,7 @@ abstract class BaseActivity<T : ViewBinding>(private val inflate: (layoutInflate
 
     override fun attachBaseContext(newBase: Context?) {
         printContext = newBase
-        super.attachBaseContext(newBase)
+        if (null != newBase) super.attachBaseContext(newBase.updateResources()) else super.attachBaseContext(null)
     }
 
 
