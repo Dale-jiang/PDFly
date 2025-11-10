@@ -1,0 +1,138 @@
+<resources>
+    <string name="privacy_policy">私隱政策</string>
+    <string name="share_app">分享應用程式</string>
+    <string name="language">語言</string>
+    <string name="file_type">檔案類型</string>
+    <string name="settings">設定</string>
+    <string name="all">全部</string>
+    <string name="pdf">PDF</string>
+    <string name="word">WORD</string>
+    <string name="excel">EXCEL</string>
+    <string name="ppt">PPT</string>
+
+    <string name="no_files_tips">暫時沒有任何檔案！\n點擊下方按鈕以建立或匯入你的第一個文件。</string>
+    <string name="no_history_yet">暫時沒有任何歷史記錄！\n當你開啟或瀏覽文件後，它將顯示在這裡。</string>
+    <string name="no_bookmarks_yet">暫時沒有書籤！\n將你喜愛的文件加入這裡，以便隨時快速開啟。</string>
+
+    <string name="allow_file_permissions_to_manage_documents">允許檔案權限以管理文件</string>
+    <string name="an_unknown_error_occurred">發生未知錯誤</string>
+    <string name="rename">重新命名</string>
+    <string name="share">分享</string>
+    <string name="print">列印</string>
+    <string name="open">開啟</string>
+    <string name="delete">刪除</string>
+    <string name="type_your_pdf_name">請輸入</string>
+    <string name="file_name_already_exists">檔案名稱已存在！</string>
+    <string name="create_cancelled">建立已取消</string>
+    <string name="loading">載入中...</string>
+    <string name="creating">建立中...</string>
+    <string name="create_success">建立成功</string>
+    <string name="create_failed">建立失敗</string>
+    <string name="result">結果</string>
+    <string name="completed">完成</string>
+    <string name="allow">允許</string>
+    <string name="open_it">開啟！</string>
+    <string name="created_successfully">建立成功</string>
+    <string name="check_out_this_app">看看這個應用程式！</string>
+    <string name="i_found_this_amazing_app_check_it_out">我發現了一個超棒的應用程式，快看看吧：%1$s</string>
+    <string name="share_app_link_via">透過以下方式分享應用程式連結</string>
+
+    <string name="enter_password_to_view_pdf">輸入密碼以檢視 PDF</string>
+    <string name="please_enter_password">請輸入密碼</string>
+    <string name="incorrect_password">密碼錯誤</string>
+    <string name="pwd_protected_tips">此功能不支援加密保護的 PDF。</string>
+
+    <string name="next">下一步</string>
+    <string name="skip">跳過</string>
+    <string name="guide_des_1">PDF 閱讀與列印</string>
+    <string name="guide_des_2">掃描文件或圖片以建立 PDF</string>
+    <string name="start">開始</string>
+    <string name="scan">掃描</string>
+
+    <string name="uninstall">解除安裝</string>
+    <string name="view">查看</string>
+    <string name="uninstall_step_1_des_1"><![CDATA[意見回饋與改進]]></string>
+    <string name="uninstall_step_1_des_2">我們重視你的使用體驗，會持續改進</string>
+    <string name="pdf_features_not_working_well">PDF 功能運作不理想？</string>
+    <string name="try_again">再試一次</string>
+    <string name="missing_a_feature_you_need">缺少你需要的功能？</string>
+    <string name="discover_more">探索更多</string>
+    <string name="keep_using">繼續使用</string>
+    <string name="uninstall_step_2_des_1">離開前請幫助我們改進</string>
+    <string name="uninstall_step_2_des_2">你可以選擇多個原因</string>
+    <string name="not_user_friendly">介面不夠友善</string>
+    <string name="too_many_ads_displayed">廣告太多</string>
+    <string name="viewing_experience_could_be_better">檢視體驗可再改善</string>
+    <string name="notifications_are_too_frequent">通知太頻繁</string>
+    <string name="missing_some_editing_features">缺少部分編輯功能</string>
+    <string name="prefer_using_phone_s_built_in_pdf_tool">我更喜歡使用手機內建的 PDF 工具</string>
+    <string name="cancel">取消</string>
+    <string name="confirm_uninstall_pdfly">確認解除安裝 PDFly？</string>
+    <string name="rate_tip">喜歡我們的應用程式嗎？給我們 5⭐ 支持一下！</string>
+    <string name="ok">確定</string>
+
+    <string name="ad_loading">正在載入廣告</string>
+    <string name="notification_permission">通知權限</string>
+    <string name="grant_access_to_get_important_notifications">請授權以接收重要通知</string>
+    <string name="grant">授權</string>
+    <string name="history">歷史記錄</string>
+
+    <string name="notice_text_1">📂 你的文件已準備好！</string>
+    <string name="notice_text_2">🔍 找不到你的 PDF？</string>
+    <string name="notice_text_3">⚡ 即時開啟你最近的文件。</string>
+    <string name="notice_text_4">🧾 準備好閱讀你的文件了嗎？</string>
+    <string name="notice_text_5">📘 點擊查看已儲存的文件。</string>
+    <string name="notice_text_6">📑 從上次中斷的地方繼續。</string>
+    <string name="notice_text_7">🔎 比以往更快地開啟 PDF。</string>
+    <string name="notice_text_8">🗂️ 檢視所有最近的文件。</string>
+    <string name="notice_text_9">📄 立即載入你最後的 PDF。</string>
+    <string name="notice_text_10">🚀 快速存取你的文件。</string>
+
+    <string name="notice_text_11">🕒 立即檢視你的 PDF 歷史！</string>
+    <string name="notice_text_12">📜 繼續閱讀上次的進度。</string>
+    <string name="notice_text_13">📂 最近開啟的文件已準備好！</string>
+    <string name="notice_text_14">🧾 現在可存取完整 PDF 歷史。</string>
+    <string name="notice_text_15">🕓 找不到文件？從歷史重新開啟。</string>
+    <string name="notice_text_16">📄 快速存取之前的文件。</string>
+    <string name="notice_text_17">🗂️ 輕鬆重溫你的舊 PDF。</string>
+    <string name="notice_text_18">⏳ 繼續上次閱讀的文件。</string>
+    <string name="notice_text_19">🧠 保留你的閱讀記錄。</string>
+    <string name="notice_text_20">📘 一鍵開啟歷史記錄。</string>
+
+    <string name="notice_text_21">📸 即時將紙張轉成 PDF。</string>
+    <string name="notice_text_22">🧾 想要數位副本？</string>
+    <string name="notice_text_23">✨ 一鍵拍攝並轉換。</string>
+    <string name="notice_text_24">📄 讓你的文件數位化。</string>
+    <string name="notice_text_25">🚀 幾秒內快速掃描成 PDF。</string>
+    <string name="notice_text_26">🖨️ 將筆記轉換成 PDF。</string>
+    <string name="notice_text_27">📷 一拍即成 PDF。</string>
+    <string name="notice_text_28">💡 更聰明、更快速的掃描。</string>
+    <string name="notice_text_29">🧾 立即將實體轉為數位。</string>
+    <string name="notice_text_30">🔍 準備好將頁面數位化了嗎？</string>
+
+    <string name="notice_text_31">🖼️ 將圖片轉成 PDF。</string>
+    <string name="notice_text_32">📷 建立相簿 PDF。</string>
+    <string name="notice_text_33">🌈 將多張圖片合成一個檔案。</string>
+    <string name="notice_text_34">🧩 將相片掃描成單一 PDF。</string>
+    <string name="notice_text_35">💫 建立精美的照片 PDF。</string>
+    <string name="notice_text_36">📸 選擇圖片並匯出。</string>
+    <string name="notice_text_37">✨ 從相簿快速生成 PDF。</string>
+    <string name="notice_text_38">📷 將回憶儲存在 PDF 中。</string>
+    <string name="notice_text_39">🎨 設計你的相片合集。</string>
+    <string name="notice_text_40">🧾 將多張相片合併成一個文件。</string>
+
+    <string name="notice_text_41">🚀 準備好管理你的文件？</string>
+    <string name="notice_text_42">📁 一處開啟所有工具。</string>
+    <string name="notice_text_43">🧰 探索所有 PDF 功能。</string>
+    <string name="notice_text_44">🏠 返回主畫面。</string>
+    <string name="notice_text_45">🔧 嘗試更多智慧 PDF 工具。</string>
+    <string name="notice_text_46">🌟 發現更多實用功能。</string>
+    <string name="notice_text_47">📄 你的全方位 PDF 工具箱。</string>
+    <string name="notice_text_48">💼 輕鬆管理所有檔案。</string>
+    <string name="notice_text_49">⚡ 返回主頁面。</string>
+    <string name="notice_text_50">🔍 探索最新功能。</string>
+
+    <string name="go">前往</string>
+    <string name="create">建立</string>
+    <string name="see">查看</string>
+</resources>

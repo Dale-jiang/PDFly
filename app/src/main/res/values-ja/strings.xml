@@ -1,0 +1,136 @@
+<resources>
+    <string name="privacy_policy">プライバシーポリシー</string>
+    <string name="share_app">アプリを共有</string>
+    <string name="language">言語</string>
+    <string name="file_type">ファイルタイプ</string>
+    <string name="settings">設定</string>
+    <string name="all">すべて</string>
+    <string name="pdf">PDF</string>
+    <string name="word">WORD</string>
+    <string name="excel">EXCEL</string>
+    <string name="ppt">PPT</string>
+
+    <string name="no_files_tips">まだファイルがありません！\n下のボタンをタップして最初のドキュメントを作成またはインポートしてください。</string>
+    <string name="no_history_yet">まだ履歴がありません！\nドキュメントを開くか表示すると、ここに表示されます。</string>
+    <string name="no_bookmarks_yet">まだブックマークがありません！\nお気に入りのドキュメントをここに追加して、いつでも素早くアクセスできます。</string>
+
+    <string name="allow_file_permissions_to_manage_documents">ドキュメントを管理するためにファイルアクセスを許可してください</string>
+    <string name="an_unknown_error_occurred">不明なエラーが発生しました</string>
+    <string name="rename">名前を変更</string>
+    <string name="share">共有</string>
+    <string name="print">印刷</string>
+    <string name="open">開く</string>
+    <string name="delete">削除</string>
+    <string name="type_your_pdf_name">入力してください</string>
+    <string name="file_name_already_exists">ファイル名は既に存在します！</string>
+    <string name="create_cancelled">作成がキャンセルされました</string>
+    <string name="loading">読み込み中...</string>
+    <string name="creating">作成中...</string>
+    <string name="create_success">作成に成功しました</string>
+    <string name="create_failed">作成に失敗しました</string>
+    <string name="result">結果</string>
+    <string name="completed">完了</string>
+    <string name="allow">許可</string>
+    <string name="open_it">開く！</string>
+    <string name="created_successfully">正常に作成されました</string>
+    <string name="check_out_this_app">このアプリをチェック！</string>
+    <string name="i_found_this_amazing_app_check_it_out">この素晴らしいアプリを見つけました。ぜひお試しください：%1$s</string>
+    <string name="share_app_link_via">アプリリンクを共有</string>
+    <string name="enter_password_to_view_pdf">PDFを表示するにはパスワードを入力してください</string>
+    <string name="please_enter_password">パスワードを入力してください</string>
+    <string name="incorrect_password">パスワードが正しくありません</string>
+    <string name="pwd_protected_tips">パスワードで保護されたPDFはこの機能ではサポートされていません。</string>
+
+    <string name="next">次へ</string>
+    <string name="skip">スキップ</string>
+    <string name="guide_des_1">PDFの読み取りと印刷</string>
+    <string name="guide_des_2">ドキュメントや画像をスキャンしてPDFを作成</string>
+    <string name="start">開始</string>
+    <string name="scan">スキャン</string>
+
+    <string name="uninstall">アンインストール</string>
+    <string name="view">表示</string>
+    <string name="uninstall_step_1_des_1"><![CDATA[フィードバックと改善]]></string>
+    <string name="uninstall_step_1_des_2">皆様のご意見を大切にし、改善を続けます</string>
+    <string name="pdf_features_not_working_well">PDF機能が正しく動作していませんか？</string>
+    <string name="try_again">再試行</string>
+    <string name="missing_a_feature_you_need">必要な機能がありませんか？</string>
+    <string name="discover_more">もっと見る</string>
+    <string name="keep_using">続ける</string>
+    <string name="uninstall_step_2_des_1">削除する前に改善のためご協力ください</string>
+    <string name="uninstall_step_2_des_2">複数の理由を選択できます</string>
+    <string name="not_user_friendly">使いにくい</string>
+    <string name="too_many_ads_displayed">広告が多すぎます</string>
+    <string name="viewing_experience_could_be_better">閲覧体験を改善できます</string>
+    <string name="notifications_are_too_frequent">通知が多すぎます</string>
+    <string name="missing_some_editing_features">一部の編集機能がありません</string>
+    <string name="prefer_using_phone_s_built_in_pdf_tool">スマホ内蔵のPDFツールを使いたい</string>
+    <string name="cancel">キャンセル</string>
+    <string name="confirm_uninstall_pdfly">PDFlyをアンインストールしますか？</string>
+    <string name="rate_tip">このアプリが気に入りましたか？ 5⭐で応援してください！</string>
+    <string name="ok">OK</string>
+    <string name="ad_loading">広告を読み込み中</string>
+    <string name="notification_permission">通知の許可</string>
+    <string name="grant_access_to_get_important_notifications">重要な通知を受け取るために許可を与えてください</string>
+    <string name="grant">許可</string>
+    <string name="history">履歴</string>
+
+    <string name="notice_text_1">📂 ファイルの準備ができました！</string>
+    <string name="notice_text_2">🔍 PDFが見つかりませんか？</string>
+    <string name="notice_text_3">⚡ 最近のファイルをすぐに開く。</string>
+    <string name="notice_text_4">🧾 ドキュメントを読む準備はできましたか？</string>
+    <string name="notice_text_5">📘 保存したファイルをタップして表示。</string>
+    <string name="notice_text_6">📑 前回の続きから再開。</string>
+    <string name="notice_text_7">🔎 これまで以上に速くPDFを閲覧。</string>
+    <string name="notice_text_8">🗂️ 最近のドキュメントをすべて確認。</string>
+    <string name="notice_text_9">📄 最後に開いたPDFを即時ロード。</string>
+    <string name="notice_text_10">🚀 ファイルに素早くアクセス。</string>
+
+    <string name="notice_text_11">🕒 すぐにPDF履歴を確認！</string>
+    <string name="notice_text_12">📜 前回の場所から再開。</string>
+    <string name="notice_text_13">📂 最近開いたファイルの準備完了！</string>
+    <string name="notice_text_14">🧾 PDF履歴全体に今すぐアクセス。</string>
+    <string name="notice_text_15">🕓 ファイルを見逃しましたか？履歴から再オープン。</string>
+    <string name="notice_text_16">📄 過去のドキュメントにすぐアクセス。</string>
+    <string name="notice_text_17">🗂️ 以前のPDFを簡単に再表示。</string>
+    <string name="notice_text_18">⏳ 最後に見たドキュメントを再開。</string>
+    <string name="notice_text_19">🧠 読書履歴を記録しましょう。</string>
+    <string name="notice_text_20">📘 ワンタップで履歴を開く。</string>
+
+    <string name="notice_text_21">📸 紙をすぐにPDFへ変換。</string>
+    <string name="notice_text_22">🧾 デジタルコピーが必要ですか？</string>
+    <string name="notice_text_23">✨ ワンタップで撮影して変換。</string>
+    <string name="notice_text_24">📄 ドキュメントをデジタル化。</string>
+    <string name="notice_text_25">🚀 数秒でスキャンしてPDF化。</string>
+    <string name="notice_text_26">🖨️ ノートをPDFに変換。</string>
+    <string name="notice_text_27">📷 ワンショットでPDF作成。</string>
+    <string name="notice_text_28">💡 よりスマートで高速なスキャン。</string>
+    <string name="notice_text_29">🧾 実物を瞬時にデジタル化。</string>
+    <string name="notice_text_30">🔍 ページをデジタル化する準備はできましたか？</string>
+
+    <string name="notice_text_31">🖼️ 画像をPDFに変換。</string>
+    <string name="notice_text_32">📷 写真アルバムPDFを作成。</string>
+    <string name="notice_text_33">🌈 複数の画像を1つのファイルに。</string>
+    <string name="notice_text_34">🧩 写真をスキャンして単一PDFに。</string>
+    <string name="notice_text_35">💫 美しいフォトPDFを作成。</string>
+    <string name="notice_text_36">📸 画像を選択してエクスポート。</string>
+    <string name="notice_text_37">✨ ギャラリーからPDFを数秒で作成。</string>
+    <string name="notice_text_38">📷 思い出をPDFに保存。</string>
+    <string name="notice_text_39">🎨 自分だけのフォトコレクションをデザイン。</string>
+    <string name="notice_text_40">🧾 複数の写真を1つのPDFにまとめる。</string>
+
+    <string name="notice_text_41">🚀 ファイルを管理する準備はできていますか？</string>
+    <string name="notice_text_42">📁 すべてのツールを1か所で開く。</string>
+    <string name="notice_text_43">🧰 すべてのPDF機能を探索。</string>
+    <string name="notice_text_44">🏠 メインダッシュボードに戻る。</string>
+    <string name="notice_text_45">🔧 よりスマートなPDFツールを試す。</string>
+    <string name="notice_text_46">🌟 さらに便利な機能を発見。</string>
+    <string name="notice_text_47">📄 オールインワンPDFツールキット。</string>
+    <string name="notice_text_48">💼 すべてのファイルを簡単に管理。</string>
+    <string name="notice_text_49">⚡ メインページに戻る。</string>
+    <string name="notice_text_50">🔍 新機能をチェック。</string>
+
+    <string name="go">移動</string>
+    <string name="create">作成</string>
+    <string name="see">見る</string>
+</resources>

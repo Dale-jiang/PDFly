@@ -1,0 +1,127 @@
+<resources>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="share_app">مشاركة التطبيق</string>
+    <string name="language">اللغة</string>
+    <string name="file_type">نوع الملف</string>
+    <string name="settings">الإعدادات</string>
+    <string name="all">الكل</string>
+    <string name="pdf">PDF</string>
+    <string name="word">WORD</string>
+    <string name="excel">EXCEL</string>
+    <string name="ppt">PPT</string>
+    <string name="no_files_tips">لا توجد ملفات بعد!\nاضغط على الزر أدناه لإنشاء أو استيراد أول مستند لك.</string>
+    <string name="no_history_yet">لا يوجد سجل بعد!\nعند فتحك أو عرضك لمستند، سيظهر هنا.</string>
+    <string name="no_bookmarks_yet">لا توجد إشارات بعد!\nأضف مستنداتك المفضلة هنا للوصول السريع في أي وقت.</string>
+    <string name="allow_file_permissions_to_manage_documents">السماح بأذونات الملفات لإدارة المستندات</string>
+    <string name="an_unknown_error_occurred">حدث خطأ غير معروف</string>
+    <string name="rename">إعادة التسمية</string>
+    <string name="share">مشاركة</string>
+    <string name="print">طباعة</string>
+    <string name="open">فتح</string>
+    <string name="delete">حذف</string>
+    <string name="type_your_pdf_name">يرجى الإدخال</string>
+    <string name="file_name_already_exists">اسم الملف موجود بالفعل!</string>
+    <string name="create_cancelled">تم إلغاء الإنشاء</string>
+    <string name="loading">جار التحميل...</string>
+    <string name="creating">جار الإنشاء...</string>
+    <string name="create_success">تم الإنشاء بنجاح</string>
+    <string name="create_failed">فشل الإنشاء</string>
+    <string name="result">النتيجة</string>
+    <string name="completed">اكتمل</string>
+    <string name="allow">السماح</string>
+    <string name="open_it">افتحه!</string>
+    <string name="created_successfully">تم الإنشاء بنجاح</string>
+    <string name="check_out_this_app">جرب هذا التطبيق!</string>
+    <string name="i_found_this_amazing_app_check_it_out">وجدت هذا التطبيق الرائع، جربه: %1$s</string>
+    <string name="share_app_link_via">شارك رابط التطبيق عبر</string>
+    <string name="enter_password_to_view_pdf">أدخل كلمة المرور لعرض ملف PDF</string>
+    <string name="please_enter_password">يرجى إدخال كلمة المرور</string>
+    <string name="incorrect_password">كلمة المرور غير صحيحة</string>
+    <string name="pwd_protected_tips">ملفات PDF المحمية بكلمة مرور غير مدعومة لهذه الميزة.</string>
+    <string name="next">التالي</string>
+    <string name="skip">تخطي</string>
+    <string name="guide_des_1">قراءة وطباعة ملفات PDF</string>
+    <string name="guide_des_2">مسح المستندات والصور لإنشاء ملف PDF</string>
+    <string name="start">ابدأ</string>
+    <string name="scan">مسح ضوئي</string>
+    <string name="uninstall">إلغاء التثبيت</string>
+    <string name="view">عرض</string>
+    <string name="uninstall_step_1_des_1">ملاحظات وتحسينات</string>
+    <string name="uninstall_step_1_des_2">نقدر تجربتك وسنستمر في التحسين</string>
+    <string name="pdf_features_not_working_well">ميزات PDF لا تعمل بشكل جيد؟</string>
+    <string name="try_again">حاول مرة أخرى</string>
+    <string name="missing_a_feature_you_need">هل تفتقد ميزة تحتاجها؟</string>
+    <string name="discover_more">اكتشف المزيد</string>
+    <string name="keep_using">استمر في الاستخدام</string>
+    <string name="uninstall_step_2_des_1">ساعدنا على التحسين قبل المغادرة</string>
+    <string name="uninstall_step_2_des_2">يمكنك تحديد أسباب متعددة</string>
+    <string name="not_user_friendly">غير سهل الاستخدام</string>
+    <string name="too_many_ads_displayed">عدد كبير جدًا من الإعلانات</string>
+    <string name="viewing_experience_could_be_better">يمكن أن تكون تجربة العرض أفضل</string>
+    <string name="notifications_are_too_frequent">الإشعارات كثيرة جدًا</string>
+    <string name="missing_some_editing_features">بعض ميزات التحرير مفقودة</string>
+    <string name="prefer_using_phone_s_built_in_pdf_tool">أفضل استخدام أداة PDF المدمجة في الهاتف</string>
+    <string name="cancel">إلغاء</string>
+    <string name="confirm_uninstall_pdfly">تأكيد إلغاء تثبيت PDFly؟</string>
+    <string name="rate_tip">هل تستمتع بتطبيقنا؟ ادعمنا بتقييم 5⭐!</string>
+    <string name="ok">موافق</string>
+    <string name="ad_loading">يتم تحميل الإعلان</string>
+    <string name="notification_permission">إذن الإشعارات</string>
+    <string name="grant_access_to_get_important_notifications">امنح الإذن لتلقي الإشعارات الهامة</string>
+    <string name="grant">السماح</string>
+    <string name="history">السجل</string>
+    <string name="notice_text_1">📂 ملفاتك جاهزة!</string>
+    <string name="notice_text_2">🔍 لا يمكنك العثور على ملف PDF؟</string>
+    <string name="notice_text_3">⚡ افتح ملفاتك الأخيرة فورًا.</string>
+    <string name="notice_text_4">🧾 جاهز لقراءة المستند؟</string>
+    <string name="notice_text_5">📘 اضغط لاستكشاف ملفاتك المحفوظة.</string>
+    <string name="notice_text_6">📑 تابع من حيث توقفت.</string>
+    <string name="notice_text_7">🔎 اعرض ملفات PDF بسرعة أكبر.</string>
+    <string name="notice_text_8">🗂️ شاهد جميع مستنداتك الأخيرة.</string>
+    <string name="notice_text_9">📄 افتح آخر ملف PDF فورًا.</string>
+    <string name="notice_text_10">🚀 وصول سريع إلى ملفاتك.</string>
+    <string name="notice_text_11">🕒 تحقق من سجل PDF الخاص بك فورًا!</string>
+    <string name="notice_text_12">📜 تابع من حيث توقفت.</string>
+    <string name="notice_text_13">📂 ملفاتك المفتوحة مؤخرًا جاهزة!</string>
+    <string name="notice_text_14">🧾 ادخل إلى سجل PDF الكامل الآن.</string>
+    <string name="notice_text_15">🕓 هل فاتك ملف؟ أعد فتحه من السجل.</string>
+    <string name="notice_text_16">📄 وصول سريع إلى مستنداتك السابقة.</string>
+    <string name="notice_text_17">🗂️ أعد زيارة ملفات PDF السابقة بسهولة.</string>
+    <string name="notice_text_18">⏳ استأنف المستند الذي عرضته مؤخرًا.</string>
+    <string name="notice_text_19">🧠 تتبع ما قرأته.</string>
+    <string name="notice_text_20">📘 افتح سجل ملفاتك بنقرة واحدة.</string>
+    <string name="notice_text_21">📸 حوّل الورق إلى PDF فورًا.</string>
+    <string name="notice_text_22">🧾 هل تحتاج إلى نسخة رقمية؟</string>
+    <string name="notice_text_23">✨ التقط وحوّل بلمسة واحدة.</string>
+    <string name="notice_text_24">📄 اجعل مستندك رقميًا.</string>
+    <string name="notice_text_25">🚀 مسح سريع إلى PDF في ثوانٍ.</string>
+    <string name="notice_text_26">🖨️ حوّل ملاحظاتك إلى ملفات PDF.</string>
+    <string name="notice_text_27">📷 لقطة واحدة فقط لإنشاء PDF.</string>
+    <string name="notice_text_28">💡 امسح بذكاء وسرعة.</string>
+    <string name="notice_text_29">🧾 حوّل الورقي إلى رقمي فورًا.</string>
+    <string name="notice_text_30">🔍 هل أنت جاهز لتحويل الصفحة إلى رقمية؟</string>
+    <string name="notice_text_31">🖼️ حوّل صورك إلى PDF.</string>
+    <string name="notice_text_32">📷 أنشئ ألبوم صور PDF.</string>
+    <string name="notice_text_33">🌈 حوّل الصور إلى ملف واحد.</string>
+    <string name="notice_text_34">🧩 امسح صورك إلى ملف PDF واحد.</string>
+    <string name="notice_text_35">💫 أنشئ ملفات PDF جميلة للصور.</string>
+    <string name="notice_text_36">📸 اختر الصور وصدّرها.</string>
+    <string name="notice_text_37">✨ من المعرض إلى PDF في ثوانٍ.</string>
+    <string name="notice_text_38">📷 احفظ ذكرياتك في PDF.</string>
+    <string name="notice_text_39">🎨 صمم مجموعة صورك.</string>
+    <string name="notice_text_40">🧾 حوّل صورًا متعددة إلى ملف واحد.</string>
+    <string name="notice_text_41">🚀 جاهز لإدارة ملفاتك؟</string>
+    <string name="notice_text_42">📁 افتح كل الأدوات في مكان واحد.</string>
+    <string name="notice_text_43">🧰 استكشف جميع ميزات PDF.</string>
+    <string name="notice_text_44">🏠 العودة إلى لوحة التحكم الرئيسية.</string>
+    <string name="notice_text_45">🔧 جرب أدوات PDF الذكية الأخرى.</string>
+    <string name="notice_text_46">🌟 اكتشف المزيد من الميزات المفيدة.</string>
+    <string name="notice_text_47">📄 مجموعة أدوات PDF الكل في واحد.</string>
+    <string name="notice_text_48">💼 إدارة جميع الملفات بسهولة.</string>
+    <string name="notice_text_49">⚡ العودة إلى الصفحة الرئيسية.</string>
+    <string name="notice_text_50">🔍 اكتشف الجديد.</string>
+    <string name="go">اذهب</string>
+    <string name="create">إنشاء</string>
+    <string name="see">عرض</string>
+
+</resources>
