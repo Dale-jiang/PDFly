@@ -8,8 +8,8 @@ plugins {
     id 'kotlin-kapt'
     id 'stringfog'
 
-    id 'com.google.gms.google-services'
-    id 'com.google.firebase.crashlytics'
+//    id 'com.google.gms.google-services'
+//    id 'com.google.firebase.crashlytics'
 }
 
 
@@ -29,7 +29,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.show.cat.caar.best.newbest.fastvpn"
+        applicationId "com.tb.pdfly"
         minSdk 26
         targetSdk 36
         versionCode 1

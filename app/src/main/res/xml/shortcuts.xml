@@ -10,7 +10,7 @@
         <intent
             android:action="pdf_uninstall"
             android:targetClass="com.tb.pdfly.page.guide.FirstLoadingActivity"
-            android:targetPackage="com.show.cat.caar.best.newbest.fastvpn">
+            android:targetPackage="com.tb.pdfly">
             <extra
                 android:name="key_uninstall"
                 android:value="shortcut_uninstall" />
@@ -26,7 +26,7 @@
         <intent
             android:action="pdf_uninstall"
             android:targetClass="com.tb.pdfly.page.guide.FirstLoadingActivity"
-            android:targetPackage="com.show.cat.caar.best.newbest.fastvpn">
+            android:targetPackage="com.tb.pdfly">
             <extra
                 android:name="key_uninstall"
                 android:value="shortcut_view" />
@@ -42,7 +42,7 @@
         <intent
             android:action="pdf_uninstall"
             android:targetClass="com.tb.pdfly.page.guide.FirstLoadingActivity"
-            android:targetPackage="com.show.cat.caar.best.newbest.fastvpn">
+            android:targetPackage="com.tb.pdfly">
             <extra
                 android:name="key_uninstall"
                 android:value="shortcut_scan" />
