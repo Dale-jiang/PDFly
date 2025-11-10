@@ -14,7 +14,7 @@
     <string name="no_history_yet">Nessuna cronologia ancora!\nQuando apri o visualizzi un documento, apparirà qui.</string>
     <string name="no_bookmarks_yet">Nessun segnalibro ancora!\nAggiungi qui i tuoi documenti preferiti per accedervi rapidamente in qualsiasi momento.</string>
 
-    <string name="allow_file_permissions_to_manage_documents">Consenti l'accesso ai file per gestire i documenti</string>
+    <string name="allow_file_permissions_to_manage_documents">Consenti l\'accesso ai file per gestire i documenti</string>
     <string name="an_unknown_error_occurred">Si è verificato un errore sconosciuto</string>
     <string name="rename">Rinomina</string>
     <string name="share">Condividi</string>
@@ -69,9 +69,9 @@
     <string name="confirm_uninstall_pdfly">Confermare la disinstallazione di PDFly?</string>
     <string name="rate_tip">Ti piace la nostra app? Supportaci con 5⭐!</string>
     <string name="ok">OK</string>
-    <string name="ad_loading">Caricamento dell'annuncio</string>
+    <string name="ad_loading">Caricamento dell\'annuncio</string>
     <string name="notification_permission">Permesso di notifica</string>
-    <string name="grant_access_to_get_important_notifications">Concedi l'accesso per ricevere notifiche importanti</string>
+    <string name="grant_access_to_get_important_notifications">Concedi l\'accesso per ricevere notifiche importanti</string>
     <string name="grant">Consenti</string>
     <string name="history">Cronologia</string>
 
@@ -94,7 +94,7 @@
     <string name="notice_text_15">🕓 Hai perso un file? Riaprilo dalla cronologia.</string>
     <string name="notice_text_16">📄 Accesso rapido ai tuoi documenti passati.</string>
     <string name="notice_text_17">🗂️ Rivisita facilmente i tuoi PDF precedenti.</string>
-    <string name="notice_text_18">⏳ Riprendi l'ultimo documento visualizzato.</string>
+    <string name="notice_text_18">⏳ Riprendi l\'ultimo documento visualizzato.</string>
     <string name="notice_text_19">🧠 Tieni traccia di ciò che hai letto.</string>
     <string name="notice_text_20">📘 Apri la tua cronologia con un tocco.</string>
 
