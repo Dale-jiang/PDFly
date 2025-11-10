@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">PDFly</string>
-    <string name="facebook_id" translatable="false">00000</string>
-    <string name="facebook_token" translatable="false">0000</string>
+    <string name="facebook_id" translatable="false">2584696448368083</string>
+    <string name="facebook_token" translatable="false">770f8aedabf5d6613d612c0de8d51939</string>
 
 
     <string name="privacy_policy">Privacy Policy</string>

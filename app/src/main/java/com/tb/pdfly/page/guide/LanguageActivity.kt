@@ -19,7 +19,9 @@ import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.toActivity
 import com.tb.pdfly.parameter.updateResources
 import com.tb.pdfly.report.ReportCenter
+import com.tb.pdfly.utils.CommonUtils
 import com.tb.pdfly.utils.defaultLocalCode
+import com.tb.pdfly.utils.firstCountryCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -113,7 +115,9 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         defaultLocalCode = mAdapter.data[mAdapter.currentIndex].second
         app.updateResources()
         runCatching {
-            FrontNoticeManager.buildNotification()
+            if (!("KR" == firstCountryCode && CommonUtils.isSamsungDevice())) {
+                FrontNoticeManager.buildNotification()
+            }
         }
         if (isFromSetting) {
             toActivity<MainActivity>(finishCurrent = true) { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) }
@@ -168,7 +172,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
                 if (nAd.canShow(this@LanguageActivity)) {
                     binding.adContainer.apply {
                         ad?.destroy()
-                        nAd.showNativeAd(this@LanguageActivity, this, posId) {
+                        nAd.showNativeAd(this@LanguageActivity, this, posId, 2) {
                             ad = it
                         }
                     }

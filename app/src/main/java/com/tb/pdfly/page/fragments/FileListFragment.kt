@@ -167,13 +167,13 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
     }
 
     private fun showViewAd(callBack: CallBack) {
-        ReportCenter.reportManager.report("pdfly_ad_chance", mapOf("ad_pos_id" to "pdfly_scan_int"))
+        ReportCenter.reportManager.report("pdfly_ad_chance", mapOf("ad_pos_id" to "pdfly_file_int"))
         lifecycleScope.launch {
             while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
             val ad = AdCenter.pdflyScanInt
             val ac = requireActivity() as MainActivity
             if (ad.canShow(ac)) {
-                ad.showFullAd(ac, "pdfly_scan_int", showLoading = true) { callBack() }
+                ad.showFullAd(ac, "pdfly_file_int", showLoading = true) { callBack() }
             } else {
                 ad.loadAd(ac)
                 callBack()

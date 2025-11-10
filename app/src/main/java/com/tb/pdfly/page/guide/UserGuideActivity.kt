@@ -131,7 +131,7 @@ class UserGuideActivity : BaseActivity<ActivityUserGuideBinding>(ActivityUserGui
                 if (nAd.canShow(this@UserGuideActivity)) {
                     binding.adContainer.apply {
                         ad?.destroy()
-                        nAd.showNativeAd(this@UserGuideActivity, this, "new_intro_nat") {
+                        nAd.showNativeAd(this@UserGuideActivity, this, "new_intro_nat", nativeAdType = 2) {
                             ad = it
                         }
                     }

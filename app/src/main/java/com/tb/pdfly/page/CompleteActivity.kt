@@ -33,7 +33,9 @@ class CompleteActivity : BaseActivity<ActivityCompleteBinding>(ActivityCompleteB
         binding.apply {
 
             onBackPressedDispatcher.addCallback {
-                finish()
+                showBackAd {
+                    finish()
+                }
             }
             ivBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
 
@@ -85,6 +87,24 @@ class CompleteActivity : BaseActivity<ActivityCompleteBinding>(ActivityCompleteB
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun showBackAd(callBack: CallBack) {
+        if (AdCenter.adNoNeededShow()) {
+            callBack()
+            return
+        }
+        ReportCenter.reportManager.report("pdfly_ad_chance", mapOf("ad_pos_id" to "pdfly_back_int"))
+        lifecycleScope.launch {
+            while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) delay(200L)
+            val ad = AdCenter.pdflyBackInt
+            if (ad.canShow(this@CompleteActivity)) {
+                ad.showFullAd(this@CompleteActivity, "pdfly_back_int", showLoading = true) { callBack() }
+            } else {
+                ad.loadAd(this@CompleteActivity)
+                callBack()
             }
         }
     }

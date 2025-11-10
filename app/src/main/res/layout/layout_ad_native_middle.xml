@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nativeAdView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shape_ad_bg">
+
+        <com.google.android.libraries.ads.mobile.sdk.nativead.MediaView
+            android:id="@+id/media"
+            android:layout_width="190dp"
+            android:layout_height="150dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_icon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/media"
+            app:layout_constraintTop_toTopOf="@+id/media"
+            tools:src="@mipmap/ic_launcher" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/text_body"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/media"
+            app:layout_constraintTop_toBottomOf="@+id/image_icon"
+            tools:text="sdefdqw" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="18dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/btn_action"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/media"
+            app:layout_constraintTop_toBottomOf="@+id/text_title"
+            tools:text="xxxxxxxxx!" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_action"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/ripple_primary_10"
+            android:gravity="center"
+            android:minWidth="78dp"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/media"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/media"
+            tools:text="sdasdsa" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tip"
+            android:layout_width="25dp"
+            android:layout_height="16dp"
+            android:background="@drawable/shape_primary_10"
+            android:backgroundTint="#8ED385"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="AD"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdView>

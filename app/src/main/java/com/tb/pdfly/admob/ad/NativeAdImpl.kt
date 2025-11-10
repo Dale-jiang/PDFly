@@ -16,6 +16,7 @@ import com.tb.pdfly.admob.AdConfigItem
 import com.tb.pdfly.admob.AdmobRevenueManager.onPaidEventListener
 import com.tb.pdfly.admob.interfaces.IAd
 import com.tb.pdfly.databinding.LayoutAdNativeLargeBinding
+import com.tb.pdfly.databinding.LayoutAdNativeMiddleBinding
 import com.tb.pdfly.databinding.LayoutAdNativeTinyBinding
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.parameter.showLog
@@ -90,6 +91,30 @@ class NativeAdImpl(override var adPosition: String?, override var adItem: AdConf
                     }
                 }
             }
+
+            2 -> {
+                mNative?.let { ad ->
+                    val binding = LayoutAdNativeMiddleBinding.inflate(LayoutInflater.from(activity), parent, false)
+                    binding.root.apply {
+                        iconView = binding.imageIcon.apply { setImageDrawable(ad.icon?.drawable) }
+                        headlineView = binding.textTitle.apply { text = ad.headline ?: "" }
+                        bodyView = binding.textBody.apply { text = ad.body ?: "" }
+                        callToActionView = binding.btnAction.apply { text = ad.callToAction ?: "" }
+
+                        mediaView?.apply {
+                            imageScaleType = ImageView.ScaleType.CENTER_CROP
+                            mediaContent = ad.mediaContent
+                        }
+
+                        registerNativeAd(ad, binding.media)
+                    }
+                    parent?.post {
+                        parent.removeAllViews()
+                        parent.addView(binding.root)
+                    }
+                }
+            }
+
 
             else -> {
                 mNative?.let { ad ->

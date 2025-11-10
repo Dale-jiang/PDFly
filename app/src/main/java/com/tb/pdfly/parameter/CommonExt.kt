@@ -384,6 +384,9 @@ fun AppCompatActivity.showRatingDialog() {
 
 
 fun Context.showFrontNotice() {
+
+    "----currentCountryCode = $firstCountryCode ,the device is samsung = ${CommonUtils.isSamsungDevice()}".showLog("AAAAA")
+
     if ("KR" == firstCountryCode && CommonUtils.isSamsungDevice()) return
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && this is Application) {
         FrontNoticeManager.buildNotification()

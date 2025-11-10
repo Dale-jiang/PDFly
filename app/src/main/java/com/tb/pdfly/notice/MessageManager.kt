@@ -257,7 +257,7 @@ object MessageManager {
         val builder = NotificationCompat.Builder(app, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.icon_small_pdf)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
             .setContentIntent(createPendingIntent(noticeItem))
             .setAutoCancel(true)
             .setGroupSummary(false)

@@ -152,7 +152,8 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
 
             }
         } else {
-            showNoticeGuideIfCan()
+            if (!showNoticeGuideIfCan()) showRatingDialog()
+
         }
     }
 

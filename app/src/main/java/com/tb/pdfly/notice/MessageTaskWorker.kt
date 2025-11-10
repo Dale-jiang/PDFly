@@ -8,6 +8,8 @@ import com.tb.pdfly.notice.service.FrontJobIntentService
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.showLog
 import com.tb.pdfly.report.ReportCenter
+import com.tb.pdfly.utils.CommonUtils
+import com.tb.pdfly.utils.firstCountryCode
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,8 +39,11 @@ object MessageTaskWorker {
     }
 
     fun startMessageTask() = runCatching {
-        startTimer()
+
         startBackSession()
+
+        if ("KR" == firstCountryCode && CommonUtils.isSamsungDevice()) return@runCatching
+        startTimer()
         app.registerReceiver(unlockReceiver, IntentFilter().also {
             it.addAction(Intent.ACTION_USER_PRESENT)
         })
