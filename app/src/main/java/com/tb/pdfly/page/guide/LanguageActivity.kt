@@ -158,7 +158,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
 
     private var ad: IAd? = null
     private fun showNatAd() {
-        if (AdCenter.adNoNeededShow() && !isFromSetting) return
+        if (AdCenter.adNoNeededShow()) return
         val posId = if (isFromSetting) "langua_nat" else "new_langua_nat"
         ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to posId))
         val nAd = AdCenter.pdflyMainNat
