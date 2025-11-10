@@ -7,6 +7,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="36dp"
         android:drawableTop="@drawable/image_no_permission"
         android:drawablePadding="15dp"

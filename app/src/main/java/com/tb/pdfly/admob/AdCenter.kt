@@ -77,7 +77,7 @@ object AdCenter {
     }
 
     fun adNoNeededShow(): Boolean {
-        if (BuildConfig.DEBUG) return false
+//        if (BuildConfig.DEBUG) return false
         if (isEmulator()) return true
         if (pdfly_open == 0) return false // 0 不对任何用户屏蔽
         if (isFuckingUser()) return true

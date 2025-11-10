@@ -31,11 +31,11 @@ object RemoteConfigUtils {
     }
 
     fun initRemoteConfig() {
-        if (BuildConfig.DEBUG) {
-            AdCenter.initAdConfig()
-            MessageManager.remoteNoticeConfig = Gson().fromJson(testJson, NoticeConfig::class.java)
-            return
-        }
+//        if (BuildConfig.DEBUG) {
+//            AdCenter.initAdConfig()
+//            MessageManager.remoteNoticeConfig = Gson().fromJson(testJson, NoticeConfig::class.java)
+//            return
+//        }
         fetchAndActivateRemoteConfig()
     }
 
