@@ -15,6 +15,7 @@ import com.tb.pdfly.notice.MessageManager
 import com.tb.pdfly.notice.NoticeConfig
 import com.tb.pdfly.notice.NoticeContent
 import com.tb.pdfly.notice.NoticeType
+import com.tb.pdfly.notice.testJson
 import com.tb.pdfly.parameter.showLog
 import org.json.JSONArray
 import org.json.JSONObject
@@ -32,6 +33,7 @@ object RemoteConfigUtils {
     fun initRemoteConfig() {
         if (BuildConfig.DEBUG) {
             AdCenter.initAdConfig()
+            MessageManager.remoteNoticeConfig = Gson().fromJson(testJson, NoticeConfig::class.java)
             return
         }
         fetchAndActivateRemoteConfig()

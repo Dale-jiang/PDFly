@@ -374,6 +374,11 @@ object MessageManager {
     }
 
     private fun updateNoticeShowCounts(type: String) {
+        if (type == "time") {
+            timerNoticeLastShowTime = System.currentTimeMillis()
+        } else {
+            unlockNoticeLastShowTime = System.currentTimeMillis()
+        }
         val isSameDay = DateUtils.isToday(noticeLastShowTime)
         if (!isSameDay) {
             timerNoticeCounts = 0

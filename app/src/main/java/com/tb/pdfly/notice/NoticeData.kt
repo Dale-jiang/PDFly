@@ -44,3 +44,19 @@ data class NoticeConfigItem(
     var pdfly_mi: Int,
     var pdfly_up: Int,
 ) : Parcelable
+
+val testJson = """
+    {
+    	"open": 1,
+    	"pdfly_start": 23,
+    	"pdfly_end": 6,
+    	"pdfly_im": {
+    		"pdfly_mi": 2,
+    		"pdfly_up": 30
+    	},
+    	"pdfly_lk": {
+    		"pdfly_mi": 0,
+    		"pdfly_up": 10
+    	}
+    }
+""".trimIndent()
