@@ -8,6 +8,7 @@ import android.util.Log
 import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.page.guide.FirstLoadingActivity
 import com.tb.pdfly.parameter.app
+import com.tb.pdfly.parameter.showLog
 import com.tb.pdfly.parameter.toActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

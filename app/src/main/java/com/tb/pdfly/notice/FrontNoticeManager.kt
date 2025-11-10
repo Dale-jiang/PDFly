@@ -9,8 +9,8 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.mbridge.msdk.out.LoadingActivity
 import com.tb.pdfly.R
+import com.tb.pdfly.page.guide.FirstLoadingActivity
 import com.tb.pdfly.parameter.app
 import kotlin.random.Random
 
@@ -65,7 +65,7 @@ object FrontNoticeManager {
     }
 
     private fun createPendingIntent(noticeContent: NoticeContent): PendingIntent {
-        val intent = Intent(app, LoadingActivity::class.java).apply {
+        val intent = Intent(app, FirstLoadingActivity::class.java).apply {
             putExtra(KEY_NOTICE_CONTENT, noticeContent)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }

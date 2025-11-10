@@ -14,6 +14,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.mbridge.msdk.out.LoadingActivity
 import com.tb.pdfly.R
 import com.tb.pdfly.notice.FrontNoticeManager.KEY_NOTICE_CONTENT
+import com.tb.pdfly.page.guide.FirstLoadingActivity
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.isGrantedPostNotification
 import com.tb.pdfly.utils.applife.HotStartManager
@@ -294,7 +295,7 @@ object MessageManager {
     }
 
     private fun createPendingIntent(noticeContent: NoticeContent): PendingIntent {
-        val intent = Intent(app, LoadingActivity::class.java).apply {
+        val intent = Intent(app, FirstLoadingActivity::class.java).apply {
             putExtra(KEY_NOTICE_CONTENT, noticeContent)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }

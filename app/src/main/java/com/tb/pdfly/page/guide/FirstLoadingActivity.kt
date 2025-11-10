@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.ump.ConsentDebugSettings
@@ -12,6 +13,8 @@ import com.google.android.ump.UserMessagingPlatform
 import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.admob.AdCenter
 import com.tb.pdfly.databinding.ActivityFirstLoadingBinding
+import com.tb.pdfly.notice.FrontNoticeManager.KEY_NOTICE_CONTENT
+import com.tb.pdfly.notice.NoticeContent
 import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.parameter.CallBack
@@ -30,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@Suppress("DEPRECATION")
 class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityFirstLoadingBinding::inflate) {
 
     private val noticeResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -37,6 +41,7 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
     }
 
     private val keyUninstall by lazy { intent?.getStringExtra("key_uninstall") }
+    private val noticeContent by lazy { intent?.getParcelableExtra<NoticeContent>(KEY_NOTICE_CONTENT) }
 
     @Suppress("DEPRECATION")
     private val countdownTimer by lazy {
@@ -80,6 +85,13 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
                 noticeResultLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
             } else if (hasRequestUMP) startLoading() else doUmpRequest()
         }
+
+        noticeContent?.apply {
+            runCatching {
+                NotificationManagerCompat.from(app).cancel(this.notificationId)
+            }
+        }
+
     }
 
     private fun startLoading() {
@@ -136,7 +148,9 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
 
             else -> {
                 toGuideIfNeeded {
-                    toActivity<MainActivity>(finishCurrent = true)
+                    toActivity<MainActivity>(finishCurrent = true) {
+                        putExtra(KEY_NOTICE_CONTENT, noticeContent)
+                    }
                 }
             }
         }

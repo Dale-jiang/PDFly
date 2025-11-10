@@ -62,7 +62,7 @@ class MyApp : Application() {
         val (appToken, environment) = if (BuildConfig.DEBUG) {
             "ih2pm2dr3k74" to AdjustConfig.ENVIRONMENT_SANDBOX
         } else {
-            "" to AdjustConfig.ENVIRONMENT_PRODUCTION
+            "wmy564teokjk" to AdjustConfig.ENVIRONMENT_PRODUCTION
         }
         val config = AdjustConfig(this@MyApp, appToken, environment).apply {
             setLogLevel(LogLevel.WARN)

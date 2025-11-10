@@ -52,11 +52,11 @@ val testJson = """
     	"pdfly_end": 6,
     	"pdfly_im": {
     		"pdfly_mi": 2,
-    		"pdfly_up": 30
+    		"pdfly_up": 300
     	},
     	"pdfly_lk": {
     		"pdfly_mi": 0,
-    		"pdfly_up": 10
+    		"pdfly_up": 100
     	}
     }
 """.trimIndent()

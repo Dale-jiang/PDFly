@@ -34,6 +34,9 @@ import com.tb.pdfly.R
 import com.tb.pdfly.admob.AdCenter
 import com.tb.pdfly.admob.AdmobRevenueManager.onBannerPaidEventListener
 import com.tb.pdfly.databinding.ActivityMainBinding
+import com.tb.pdfly.notice.FrontNoticeManager.KEY_NOTICE_CONTENT
+import com.tb.pdfly.notice.JumpType
+import com.tb.pdfly.notice.NoticeContent
 import com.tb.pdfly.page.base.BaseFilePermissionActivity
 import com.tb.pdfly.page.dialog.RenameDialog
 import com.tb.pdfly.page.fragments.CollectionFragment
@@ -101,6 +104,8 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
     private var bannerAd: BannerAd? = null
     private var isMainShowNoticeDialog = false
 
+    private val noticeContent by lazy { intent?.getParcelableExtra<NoticeContent>(KEY_NOTICE_CONTENT) }
+
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
@@ -135,7 +140,19 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
         }
 
         handleOnBackPressed()
-        showNoticeGuideIfCan()
+        if (noticeContent != null) {
+            when (noticeContent!!.jumpType) {
+                JumpType.HOME -> {}
+                JumpType.HISTORY -> {
+                    binding.btnHistory.performClick()
+                }
+
+                JumpType.CREATE -> goCreatePdf()
+
+            }
+        } else {
+            showNoticeGuideIfCan()
+        }
     }
 
     override fun onStoragePermissionGranted() {
