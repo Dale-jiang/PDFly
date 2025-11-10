@@ -132,6 +132,7 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
         initViewPager()
 
         binding.btnCreate.setOnClickListener {
+            ReportCenter.reportManager.report("scan_image_to_pdf_click_count")
             goCreatePdf()
         }
 

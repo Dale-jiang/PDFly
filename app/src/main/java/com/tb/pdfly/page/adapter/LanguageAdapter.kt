@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tb.pdfly.R
 import com.tb.pdfly.databinding.ItemLanguageBinding
+import com.tb.pdfly.parameter.CallBack
 
-class LanguageAdapter(private val context: Context, var currentIndex: Int = 0, val data: List<Pair<String, String>>) :
+class LanguageAdapter(private val context: Context, var currentIndex: Int = 0, val data: List<Pair<String, String>>, private val callBack: CallBack) :
     RecyclerView.Adapter<LanguageAdapter.LanguageViewHolder>() {
 
     class LanguageViewHolder(val binding: ItemLanguageBinding) : RecyclerView.ViewHolder(binding.root)
@@ -31,6 +32,7 @@ class LanguageAdapter(private val context: Context, var currentIndex: Int = 0, v
                 currentIndex = holder.layoutPosition
                 notifyItemChanged(lastIndex)
                 notifyItemChanged(currentIndex)
+                callBack.invoke()
             }
         }
     }

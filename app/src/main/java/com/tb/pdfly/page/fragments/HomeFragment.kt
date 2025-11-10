@@ -59,6 +59,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         lifecycleScope.launch(Dispatchers.Main) {
             delay(1000)
             if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                ReportCenter.reportManager.report("home_show_count")
                 showMainNatAd()
             }
         }

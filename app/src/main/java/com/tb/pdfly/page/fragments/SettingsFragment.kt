@@ -51,6 +51,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         lifecycleScope.launch(Dispatchers.Main) {
             delay(1000)
             if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                ReportCenter.reportManager.report("tools_show_count")
                 showMainNatAd()
             }
         }

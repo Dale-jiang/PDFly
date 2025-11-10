@@ -33,9 +33,13 @@ class UserGuideActivity : BaseActivity<ActivityUserGuideBinding>(ActivityUserGui
     }
 
     override fun initView() {
+
+        ReportCenter.reportManager.report("guide_feature_show_count")
+
         onBackPressedDispatcher.addCallback {}
 
         binding.btnNext.setOnClickListener {
+            ReportCenter.reportManager.report("guide_feature_confirm_click_count")
             if (currentIndex < 1) {
                 currentIndex++
                 binding.viewPager.currentItem = currentIndex
@@ -46,6 +50,7 @@ class UserGuideActivity : BaseActivity<ActivityUserGuideBinding>(ActivityUserGui
             }
         }
         binding.btnSkip.setOnClickListener {
+            ReportCenter.reportManager.report("guide_feature_skip_click_count")
             showNextAd {
                 toActivity<MainActivity>(finishCurrent = true)
             }

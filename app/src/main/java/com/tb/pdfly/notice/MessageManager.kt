@@ -11,12 +11,12 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.DecoratedCustomViewStyle
 import androidx.core.app.NotificationManagerCompat
-import com.mbridge.msdk.out.LoadingActivity
 import com.tb.pdfly.R
 import com.tb.pdfly.notice.FrontNoticeManager.KEY_NOTICE_CONTENT
 import com.tb.pdfly.page.guide.FirstLoadingActivity
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.isGrantedPostNotification
+import com.tb.pdfly.report.ReportCenter
 import com.tb.pdfly.utils.applife.HotStartManager
 import com.tb.pdfly.utils.applife.HotStartManager.isScreenInteractive
 import com.tb.pdfly.utils.noticeLastShowTime
@@ -249,6 +249,8 @@ object MessageManager {
         if (!canShow(type)) return
         val noticeItem = getNoticeItem() ?: return
         noticeItem.triggerType = type
+
+        ReportCenter.reportManager.report("notification_trigger_count", hashMapOf("list" to (if (type == "time") "times" else "lock")))
 
         buildNotificationChannel()
 

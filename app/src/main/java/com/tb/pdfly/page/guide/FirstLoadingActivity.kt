@@ -15,6 +15,7 @@ import com.tb.pdfly.admob.AdCenter
 import com.tb.pdfly.databinding.ActivityFirstLoadingBinding
 import com.tb.pdfly.notice.FrontNoticeManager.KEY_NOTICE_CONTENT
 import com.tb.pdfly.notice.NoticeContent
+import com.tb.pdfly.notice.NoticeType
 import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.page.base.BaseActivity
 import com.tb.pdfly.parameter.CallBack
@@ -68,6 +69,7 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
 
     override fun initView() {
         ReportCenter.reportManager.reportSession()
+        if (isFirstLaunch) ReportCenter.reportManager.report("first_loading_show_count")
         ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to "pdfly_launch"))
         onBackPressedDispatcher.addCallback { }
 
@@ -89,6 +91,21 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
         noticeContent?.apply {
             runCatching {
                 NotificationManagerCompat.from(app).cancel(this.notificationId)
+            }
+            when (this.noticeType) {
+                NoticeType.FRONT -> {
+                    ReportCenter.reportManager.report("loading_show_count", hashMapOf("list" to "noti"))
+                    ReportCenter.reportManager.report("persistent_notification_click_count")
+                }
+
+                NoticeType.MESSAGE -> {
+                    ReportCenter.reportManager.report("loading_show_count", hashMapOf("list" to "popup"))
+                    if (this.triggerType == "time") {
+                        ReportCenter.reportManager.report("notification_click_count", hashMapOf("list" to "times"))
+                    } else {
+                        ReportCenter.reportManager.report("notification_click_count", hashMapOf("list" to "lock"))
+                    }
+                }
             }
         }
 

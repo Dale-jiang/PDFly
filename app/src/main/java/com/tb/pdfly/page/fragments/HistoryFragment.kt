@@ -38,6 +38,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(FragmentHistoryBind
         lifecycleScope.launch(Dispatchers.Main) {
             delay(1000)
             if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                ReportCenter.reportManager.report("history_show_count")
                 showMainNatAd()
             }
         }

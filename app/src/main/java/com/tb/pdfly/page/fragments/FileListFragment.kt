@@ -93,6 +93,7 @@ class FileListFragment : BaseFragment<FragmentFileListBinding>(FragmentFileListB
 
     private fun initAdapter() {
         mAdapter = FileListAdapter(requireContext(), mTabType, itemClick = {
+            if (mTabType== TabType.HOME) ReportCenter.reportManager.report("home_file_click_count")
             showViewAd {
                 if (it.getFileType() != FileType.PDF) {
 

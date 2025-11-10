@@ -74,14 +74,21 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
                 val listData = languages.toMutableList().sortedByDescending { it.second == defaultLocalCode }
                 var defaultIndex = listData.indexOfFirst { defaultLocalCode == it.second }
                 if (defaultIndex == -1) defaultIndex = 0
-                mAdapter = LanguageAdapter(this@LanguageActivity, defaultIndex, listData)
+                mAdapter = LanguageAdapter(this@LanguageActivity, defaultIndex, listData) {
+                    if (!isFromSetting) {
+                        ReportCenter.reportManager.report("guide_multilang_click_count")
+                    }
+                }
                 binding.recyclerView.itemAnimator = null
                 binding.recyclerView.adapter = mAdapter
                 startAutoNext()
             }
         }
 
-        if (!isFromSetting) AdCenter.pdflyScanNat.loadAd(app)
+        if (!isFromSetting) {
+            AdCenter.pdflyScanNat.loadAd(app)
+            ReportCenter.reportManager.report("guide_multilang_show_count")
+        }
         AdCenter.pdflyBackInt.loadAd(app)
         showNatAd()
     }
