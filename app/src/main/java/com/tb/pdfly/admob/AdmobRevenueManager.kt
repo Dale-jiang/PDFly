@@ -43,6 +43,7 @@ object AdmobRevenueManager {
             "ad_impression_revenue",
             hashMapOf(FirebaseAnalytics.Param.VALUE to (adValue.valueMicros / 1000000.0), FirebaseAnalytics.Param.CURRENCY to "USD")
         )
+        reportGoogle25(adValue.valueMicros)
         reportGoogle30(adValue.valueMicros)
         report2Firebase(adValue.valueMicros)
         report2FaceBook(adValue.valueMicros)
@@ -50,7 +51,7 @@ object AdmobRevenueManager {
     }
 
 
-    fun reportGoogle25(adValue: Long) {
+    fun reportGoogle25(adValue: Long) = runCatching {
         val revenue: Double = adValue / 1000000.0
         val now = System.currentTimeMillis()
         if (!DateUtils.isToday(topPercentDatetime)) {
@@ -69,14 +70,16 @@ object AdmobRevenueManager {
             adltvTop10 to "AdLTV_OneDay_Top10Percent"
         )
 
-        if (list.any { it.first <= 0 }) return
+        if (list.any { it.first <= 0 }) return@runCatching
 
         list.forEach { (threshold, event) ->
             if (before < threshold && topPercentRevenue >= threshold) {
-                ReportCenter.reportManager.report(event, hashMapOf(
-                    FirebaseAnalytics.Param.VALUE to threshold,
-                    FirebaseAnalytics.Param.CURRENCY to "USD"
-                ))
+                ReportCenter.reportManager.report(
+                    event, hashMapOf(
+                        FirebaseAnalytics.Param.VALUE to threshold,
+                        FirebaseAnalytics.Param.CURRENCY to "USD"
+                    )
+                )
             }
         }
     }
