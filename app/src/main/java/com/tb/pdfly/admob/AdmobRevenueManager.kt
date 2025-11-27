@@ -43,7 +43,7 @@ object AdmobRevenueManager {
             "ad_impression_revenue",
             hashMapOf(FirebaseAnalytics.Param.VALUE to (adValue.valueMicros / 1000000.0), FirebaseAnalytics.Param.CURRENCY to "USD")
         )
-        reportGoogle25(adValue.valueMicros)
+//        reportGoogle25(adValue.valueMicros)
         reportGoogle30(adValue.valueMicros)
         report2Firebase(adValue.valueMicros)
         report2FaceBook(adValue.valueMicros)
@@ -93,10 +93,14 @@ object AdmobRevenueManager {
         val eventName = "TotalAdRevenue001"
 
         if (updatedRevenue >= revenueThreshold) {
+            total001Revenue = 0.0
             runCatching {
-                total001Revenue = 0.0
-                ReportCenter.reportManager.report(eventName, hashMapOf(FirebaseAnalytics.Param.VALUE to updatedRevenue, FirebaseAnalytics.Param.CURRENCY to currency))
+                ReportCenter.firebaseAnalytics.logEvent(eventName, Bundle().apply {
+                    putDouble(FirebaseAnalytics.Param.VALUE, updatedRevenue)
+                    putString(FirebaseAnalytics.Param.CURRENCY, currency)
+                })
             }
+            ReportCenter.reportManager.report(eventName, hashMapOf(FirebaseAnalytics.Param.VALUE to updatedRevenue, FirebaseAnalytics.Param.CURRENCY to currency))
         } else {
             total001Revenue = updatedRevenue
         }
