@@ -1,6 +1,7 @@
 package com.tb.pdfly.admob
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustAdRevenue
 import com.google.android.libraries.ads.mobile.sdk.common.AdValue
@@ -9,10 +10,18 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.admob.interfaces.IAd
 import com.tb.pdfly.report.ReportCenter
+import com.tb.pdfly.utils.topPercentDatetime
+import com.tb.pdfly.utils.topPercentRevenue
 import com.tb.pdfly.utils.total001Revenue
 import java.util.Currency
 
 object AdmobRevenueManager {
+
+    var adltvTop10: Double = 1.0
+    var adltvTop20: Double = 0.8
+    var adltvTop30: Double = 0.6
+    var adltvTop40: Double = 0.5
+    var adltvTop50: Double = 0.1
 
     fun onPaidEventListener(adValue: AdValue, responseInfo: ResponseInfo?, iAd: IAd) {
 
@@ -38,6 +47,38 @@ object AdmobRevenueManager {
         report2Firebase(adValue.valueMicros)
         report2FaceBook(adValue.valueMicros)
         report2Adjust(adValue, responseInfo)
+    }
+
+
+    fun reportGoogle25(adValue: Long) {
+        val revenue: Double = adValue / 1000000.0
+        val now = System.currentTimeMillis()
+        if (!DateUtils.isToday(topPercentDatetime)) {
+            topPercentRevenue = 0.0
+        }
+
+        val before = topPercentRevenue
+        topPercentDatetime = now
+        topPercentRevenue += revenue
+
+        val list = listOf(
+            adltvTop50 to "AdLTV_OneDay_Top50Percent",
+            adltvTop40 to "AdLTV_OneDay_Top40Percent",
+            adltvTop30 to "AdLTV_OneDay_Top30Percent",
+            adltvTop20 to "AdLTV_OneDay_Top20Percent",
+            adltvTop10 to "AdLTV_OneDay_Top10Percent"
+        )
+
+        if (list.any { it.first <= 0 }) return
+
+        list.forEach { (threshold, event) ->
+            if (before < threshold && topPercentRevenue >= threshold) {
+                ReportCenter.reportManager.report(event, hashMapOf(
+                    FirebaseAnalytics.Param.VALUE to threshold,
+                    FirebaseAnalytics.Param.CURRENCY to "USD"
+                ))
+            }
+        }
     }
 
     private fun reportGoogle30(adValue: Long) = run {

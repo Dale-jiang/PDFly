@@ -10,6 +10,11 @@ import com.tb.pdfly.admob.AD_JSON
 import com.tb.pdfly.admob.AdCenter
 import com.tb.pdfly.admob.AdCenter.buyUserTags
 import com.tb.pdfly.admob.AdCenter.pdfly_open
+import com.tb.pdfly.admob.AdmobRevenueManager.adltvTop10
+import com.tb.pdfly.admob.AdmobRevenueManager.adltvTop20
+import com.tb.pdfly.admob.AdmobRevenueManager.adltvTop30
+import com.tb.pdfly.admob.AdmobRevenueManager.adltvTop40
+import com.tb.pdfly.admob.AdmobRevenueManager.adltvTop50
 import com.tb.pdfly.notice.JumpType
 import com.tb.pdfly.notice.MessageManager
 import com.tb.pdfly.notice.NoticeConfig
@@ -51,6 +56,26 @@ object RemoteConfigUtils {
         getReferConfig()
         getNoticeConfig()
         getNoticeContent()
+        getTopPercentConfig()
+    }
+
+
+    private fun getTopPercentConfig() {
+        runCatching {
+            val jsonString = remoteConfig["pdfly_daytop_percent"].asString()
+            if (jsonString.isBlank()) {
+                return
+            }
+            val jsonObject = JSONObject(jsonString)
+            adltvTop10 = jsonObject.optDouble("pdfly_oneday_top10", 1.0)
+            adltvTop20 = jsonObject.optDouble("pdfly_oneday_top20", 0.8)
+            adltvTop30 = jsonObject.optDouble("pdfly_oneday_top30", 0.6)
+            adltvTop40 = jsonObject.optDouble("pdfly_oneday_top40", 0.5)
+            adltvTop50 = jsonObject.optDouble("pdfly_oneday_top50", 0.1)
+
+        }.onFailure { exception ->
+            "RemoteConfig Failed to get top percent: ${exception.message}".showLog()
+        }
     }
 
     private fun getAdConfig() {
