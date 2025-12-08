@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import com.tb.pdfly.notice.MessageManager.scheduleNextAlarm
 import com.tb.pdfly.notice.service.FrontJobIntentService
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.showLog
@@ -48,7 +47,6 @@ object MessageTaskWorker {
 
         if ("KR" == firstCountryCode && CommonUtils.isSamsungDevice()) return@runCatching
         startTimer()
-        scheduleNextAlarm()
         app.registerReceiver(unlockReceiver, IntentFilter().also {
             it.addAction(Intent.ACTION_USER_PRESENT)
         })

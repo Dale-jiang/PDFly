@@ -1,5 +1,6 @@
 package com.tb.pdfly.page.guide
 
+import android.content.Intent
 import android.os.Build
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,6 +24,7 @@ import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.isGrantedPostNotification
 import com.tb.pdfly.parameter.myEnableEdgeToEdge
 import com.tb.pdfly.parameter.showFrontNotice
+import com.tb.pdfly.parameter.showLog
 import com.tb.pdfly.parameter.toActivity
 import com.tb.pdfly.report.ReportCenter
 import com.tb.pdfly.utils.CountdownTimer
@@ -67,49 +69,61 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
         myEnableEdgeToEdge(binding.container, topPadding = true, bottomPadding = true)
     }
 
-    override fun initView() {
-        ReportCenter.reportManager.reportSession()
-        if (isFirstLaunch) ReportCenter.reportManager.report("first_loading_show_count")
-        ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to "pdfly_launch"))
-        onBackPressedDispatcher.addCallback { }
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            delay(1000L)
+            if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                "------------------FirstLoadingActivity onResume--------------------".showLog("AAAA")
+                ReportCenter.reportManager.reportSession()
+                if (isFirstLaunch) ReportCenter.reportManager.report("first_loading_show_count")
+                ReportCenter.reportManager.report("pdfly_ad_chance", hashMapOf("ad_pos_id" to "pdfly_launch"))
 
-        if (isGrantedPostNotification() || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            if (hasRequestUMP) startLoading() else doUmpRequest()
-            lifecycleScope.launch(Dispatchers.Main) {
-                delay(2000L)
-                showFrontNotice()
-            }
-        } else {
-            if (!isRequestNotice) {
-                isRequestNotice = true
-                noticeResultLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-            } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.POST_NOTIFICATIONS)) {
-                noticeResultLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-            } else if (hasRequestUMP) startLoading() else doUmpRequest()
-        }
-
-        noticeContent?.apply {
-            runCatching {
-                NotificationManagerCompat.from(app).cancel(this.notificationId)
-            }
-            when (this.noticeType) {
-                NoticeType.FRONT -> {
-                    ReportCenter.reportManager.report("loading_show_count", hashMapOf("list" to "noti"))
-                    ReportCenter.reportManager.report("persistent_notification_click_count")
+                if (isGrantedPostNotification() || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                    if (hasRequestUMP) startLoading() else doUmpRequest()
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        delay(1000L)
+                        showFrontNotice()
+                    }
+                } else {
+                    if (!isRequestNotice) {
+                        isRequestNotice = true
+                        noticeResultLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                    } else if (ActivityCompat.shouldShowRequestPermissionRationale(this@FirstLoadingActivity, android.Manifest.permission.POST_NOTIFICATIONS)) {
+                        noticeResultLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                    } else if (hasRequestUMP) startLoading() else doUmpRequest()
                 }
 
-                NoticeType.MESSAGE -> {
-                    ReportCenter.reportManager.report("loading_show_count", hashMapOf("list" to "popup"))
-                    if (this.triggerType == "time") {
-                        ReportCenter.reportManager.report("notification_click_count", hashMapOf("list" to "times"))
-                    } else if (this.triggerType == "alarm") {
-                        ReportCenter.reportManager.report("notification_click_count", hashMapOf("list" to "alarm"))
-                    } else {
-                        ReportCenter.reportManager.report("notification_click_count", hashMapOf("list" to "lock"))
+                noticeContent?.apply {
+                    runCatching {
+                        NotificationManagerCompat.from(app).cancel(this.notificationId)
+                    }
+                    when (this.noticeType) {
+                        NoticeType.FRONT -> {
+                            ReportCenter.reportManager.report("loading_show_count", hashMapOf("list" to "noti"))
+                            ReportCenter.reportManager.report("persistent_notification_click_count")
+                        }
+
+                        NoticeType.MESSAGE -> {
+                            ReportCenter.reportManager.report("loading_show_count", hashMapOf("list" to "popup"))
+                            if (this.triggerType == "time") {
+                                ReportCenter.reportManager.report("notification_click_count", hashMapOf("list" to "times"))
+                            } else if (this.triggerType == "alarm") {
+                                ReportCenter.reportManager.report("notification_click_count", hashMapOf("list" to "alarm"))
+                            } else {
+                                ReportCenter.reportManager.report("notification_click_count", hashMapOf("list" to "lock"))
+                            }
+                        }
                     }
                 }
+
             }
         }
+    }
+
+    override fun initView() {
+
+        onBackPressedDispatcher.addCallback { }
 
     }
 
@@ -162,7 +176,15 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
             }
 
             "shortcut_uninstall" -> {
-                toActivity<UninstallStep1Activity>(finishCurrent = true)
+                startActivities(
+                    arrayOf(
+                        Intent(this, MainActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        },
+                        Intent(this, UninstallStep1Activity::class.java),
+                    )
+                )
+                finish()
             }
 
             else -> {
@@ -183,9 +205,18 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
 
         if (isFirstLaunch) {
             isFirstLaunch = false
-            toActivity<LanguageActivity>(finishCurrent = true) {
-                putExtra(LanguageActivity.INTENT_KEY, false)
-            }
+
+            startActivities(
+                arrayOf(
+                    Intent(this, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    },
+                    Intent(this, LanguageActivity::class.java).apply {
+                        putExtra(LanguageActivity.INTENT_KEY, false)
+                    },
+                )
+            )
+            finish()
             return
         }
         next.invoke()

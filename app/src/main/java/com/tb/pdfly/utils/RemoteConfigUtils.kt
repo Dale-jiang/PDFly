@@ -17,6 +17,7 @@ import com.tb.pdfly.admob.AdmobRevenueManager.adltvTop40
 import com.tb.pdfly.admob.AdmobRevenueManager.adltvTop50
 import com.tb.pdfly.notice.JumpType
 import com.tb.pdfly.notice.MessageManager
+import com.tb.pdfly.notice.MessageManager.scheduleNextAlarm
 import com.tb.pdfly.notice.NoticeConfig
 import com.tb.pdfly.notice.NoticeContent
 import com.tb.pdfly.notice.NoticeType
@@ -39,7 +40,7 @@ object RemoteConfigUtils {
         if (BuildConfig.DEBUG) {
             AdCenter.initAdConfig()
             MessageManager.remoteNoticeConfig = Gson().fromJson(testJson, NoticeConfig::class.java)
-            return
+            // return
         }
         fetchAndActivateRemoteConfig()
     }
@@ -114,6 +115,7 @@ object RemoteConfigUtils {
             "RemoteCenter NoticeConfig loaded: $json".showLog()
             if (json.isNotEmpty()) {
                 MessageManager.remoteNoticeConfig = Gson().fromJson(json, NoticeConfig::class.java)
+                scheduleNextAlarm()
             } else {
                 MessageManager.remoteNoticeConfig = Gson().fromJson(testJson, NoticeConfig::class.java)
             }
