@@ -176,6 +176,9 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
     }
 
     private fun toGuideIfNeeded(next: () -> Unit) {
+
+        if (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) return
+
         if (isFirstLaunch) {
             isFirstLaunch = false
             toActivity<LanguageActivity>(finishCurrent = true) {

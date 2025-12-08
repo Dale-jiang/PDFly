@@ -8,27 +8,21 @@ import android.util.Log
 import com.tb.pdfly.page.MainActivity
 import com.tb.pdfly.page.guide.FirstLoadingActivity
 import com.tb.pdfly.parameter.app
-import com.tb.pdfly.parameter.showLog
 import com.tb.pdfly.parameter.toActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 object HotStartManager {
 
     private var isHotStart = false
     private var isToSettingPage = false
     private var activityReferences = 0
-    private var activityJob: Job? = null
     private val coroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     fun onActivityStarted(activity: Activity) {
         activityReferences++
-        activityJob?.cancel()
 
         if (isHotStart && isScreenInteractive()) {
             resetHotStart()
@@ -37,30 +31,37 @@ object HotStartManager {
                 return
             }
 
-            if (activity is FirstLoadingActivity) return
+//            if (activity is FirstLoadingActivity) return
+//            activity.toActivity<FirstLoadingActivity> {
+//                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//            }
+
+
+            val oldExtras = activity.intent?.extras
+
             activity.toActivity<FirstLoadingActivity> {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                if (activity is FirstLoadingActivity) {
+                    oldExtras?.let { putExtras(it) }
+                }
             }
+
         }
     }
 
     fun onActivityStopped(activity: Activity) {
         activityReferences--
         if (!isToSettingPage && activityReferences <= 0) {
-            scheduleHotStart(activity)
+            scheduleHotStart()
         }
     }
 
-    private fun scheduleHotStart(activity: Activity) {
-        activityJob?.cancel()
-        activityJob = coroutineScope.launch {
-            runCatching {
-                delay(3000L)
-                isHotStart = true
-                ActivityManager.finishSpecificActivities(MainActivity::class.java)
-            }.onFailure {
-                Log.e("HotStartManager", "Error during hot start scheduling", it)
-            }
+    private fun scheduleHotStart() {
+        runCatching {
+            isHotStart = true
+            ActivityManager.finishSpecificActivities(MainActivity::class.java, FirstLoadingActivity::class.java)
+        }.onFailure {
+            Log.e("HotStartManager", "Error during hot start scheduling", it)
         }
     }
 
