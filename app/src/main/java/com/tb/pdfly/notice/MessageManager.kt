@@ -20,6 +20,7 @@ import com.tb.pdfly.notice.receiver.AlarmTaskReceiver
 import com.tb.pdfly.page.guide.FirstLoadingActivity
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.isGrantedPostNotification
+import com.tb.pdfly.parameter.showLog
 import com.tb.pdfly.report.ReportCenter
 import com.tb.pdfly.utils.alarmNoticeCounts
 import com.tb.pdfly.utils.alarmNoticeLastShowTime
@@ -261,7 +262,9 @@ object MessageManager {
         val noticeItem = getNoticeItem() ?: return
         noticeItem.triggerType = type
 
-        ReportCenter.reportManager.report("notification_trigger_count", hashMapOf("list" to (if (type == "time") "times" else "lock")))
+        ReportCenter.reportManager.report("notification_trigger_count", hashMapOf("list" to (if (type == "time") "times" else if (type == "alarm") "alarm" else "lock")))
+
+        "$type has been triggered".showLog()
 
         buildNotificationChannel()
 

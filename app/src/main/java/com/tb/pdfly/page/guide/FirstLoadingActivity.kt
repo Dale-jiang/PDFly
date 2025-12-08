@@ -102,6 +102,8 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
                     ReportCenter.reportManager.report("loading_show_count", hashMapOf("list" to "popup"))
                     if (this.triggerType == "time") {
                         ReportCenter.reportManager.report("notification_click_count", hashMapOf("list" to "times"))
+                    } else if (this.triggerType == "alarm") {
+                        ReportCenter.reportManager.report("notification_click_count", hashMapOf("list" to "alarm"))
                     } else {
                         ReportCenter.reportManager.report("notification_click_count", hashMapOf("list" to "lock"))
                     }
