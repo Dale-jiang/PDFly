@@ -36,6 +36,7 @@ data class NoticeConfig(
     var pdfly_end: Int,
     var pdfly_im: NoticeConfigItem?,
     var pdfly_lk: NoticeConfigItem?,
+    var pdfly_al: NoticeConfigItem?,
 ) : Parcelable
 
 @Parcelize
@@ -51,11 +52,15 @@ val testJson = """
     	"pdfly_start": 23,
     	"pdfly_end": 6,
     	"pdfly_im": {
-    		"pdfly_mi": 2,
-    		"pdfly_up": 300
+    		"pdfly_mi": 20,
+    		"pdfly_up": 30
     	},
     	"pdfly_lk": {
     		"pdfly_mi": 0,
+    		"pdfly_up": 30
+    	},
+    	"pdfly_al": {
+    		"pdfly_mi": 2,
     		"pdfly_up": 100
     	}
     }

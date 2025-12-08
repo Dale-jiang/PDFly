@@ -1,24 +1,31 @@
 package com.tb.pdfly.notice
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.text.Html
 import android.text.format.DateUtils
 import android.widget.RemoteViews
+import androidx.core.app.AlarmManagerCompat
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.DecoratedCustomViewStyle
 import androidx.core.app.NotificationManagerCompat
 import com.tb.pdfly.R
 import com.tb.pdfly.notice.FrontNoticeManager.KEY_NOTICE_CONTENT
+import com.tb.pdfly.notice.receiver.AlarmTaskReceiver
 import com.tb.pdfly.page.guide.FirstLoadingActivity
 import com.tb.pdfly.parameter.app
 import com.tb.pdfly.parameter.isGrantedPostNotification
 import com.tb.pdfly.report.ReportCenter
+import com.tb.pdfly.utils.alarmNoticeCounts
+import com.tb.pdfly.utils.alarmNoticeLastShowTime
 import com.tb.pdfly.utils.applife.HotStartManager
 import com.tb.pdfly.utils.applife.HotStartManager.isScreenInteractive
+import com.tb.pdfly.utils.nextAlarmSetTime
 import com.tb.pdfly.utils.noticeLastShowTime
 import com.tb.pdfly.utils.timerNoticeCounts
 import com.tb.pdfly.utils.timerNoticeLastShowTime
@@ -34,6 +41,10 @@ object MessageManager {
     var remoteMessageList: List<List<NoticeContent>> = listOf()
     var remoteNoticeConfig: NoticeConfig? = null
     private val currentGroupIndexAtomic = AtomicInteger(0)
+
+    private val alarmManager by lazy {
+        app.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    }
 
     val groupText1: List<NoticeContent>
         get() = listOf(
@@ -332,10 +343,10 @@ object MessageManager {
         if (0 == remoteNoticeConfig!!.open) return false
         if (app.isGrantedPostNotification().not()) return false
 
-        val item = if (type == "time") remoteNoticeConfig!!.pdfly_im else remoteNoticeConfig!!.pdfly_lk
+        val item = if (type == "time") remoteNoticeConfig!!.pdfly_im else if (type == "alarm") remoteNoticeConfig!!.pdfly_al else remoteNoticeConfig!!.pdfly_lk
         if (item == null) return false
 
-        val lastShowTime = if (type == "time") timerNoticeLastShowTime else unlockNoticeLastShowTime
+        val lastShowTime = if (type == "time") timerNoticeLastShowTime else if (type == "alarm") alarmNoticeLastShowTime else unlockNoticeLastShowTime
         if (item.pdfly_mi != 0 && (System.currentTimeMillis() - lastShowTime) < (item.pdfly_mi * 60000L)) return false
 
         if (item.pdfly_up != 0 && getNoticeShowCounts(type) >= item.pdfly_up) return false
@@ -371,14 +382,17 @@ object MessageManager {
         if (!isSameDay) {
             timerNoticeCounts = 0
             unlockNoticeCounts = 0
+            alarmNoticeCounts = 0
             noticeLastShowTime = System.currentTimeMillis()
         }
-        return if (type == "time") timerNoticeCounts else unlockNoticeCounts
+        return if (type == "time") timerNoticeCounts else if (type == "alarm") alarmNoticeCounts else unlockNoticeCounts
     }
 
     private fun updateNoticeShowCounts(type: String) {
         if (type == "time") {
             timerNoticeLastShowTime = System.currentTimeMillis()
+        } else if (type == "alarm") {
+            alarmNoticeLastShowTime = System.currentTimeMillis()
         } else {
             unlockNoticeLastShowTime = System.currentTimeMillis()
         }
@@ -386,9 +400,31 @@ object MessageManager {
         if (!isSameDay) {
             timerNoticeCounts = 0
             unlockNoticeCounts = 0
+            alarmNoticeCounts = 0
             noticeLastShowTime = System.currentTimeMillis()
         }
-        if (type == "time") timerNoticeCounts++ else unlockNoticeCounts++
+        if (type == "time") timerNoticeCounts++ else if (type == "alarm") alarmNoticeCounts++ else unlockNoticeCounts++
+    }
+
+    fun scheduleNextAlarm() {
+        val interval = remoteNoticeConfig?.pdfly_al?.pdfly_mi ?: 0
+        if (interval <= 0) return
+        if (nextAlarmSetTime > System.currentTimeMillis()) return
+
+        val nextTime = System.currentTimeMillis() + interval * 60_000L
+        nextAlarmSetTime = nextTime
+
+        runCatching {
+            AlarmManagerCompat.setAndAllowWhileIdle(
+                alarmManager, AlarmManager.RTC_WAKEUP, nextTime,
+                PendingIntent.getBroadcast(
+                    app,
+                    Random.nextInt(777, 7777),
+                    Intent(app, AlarmTaskReceiver::class.java),
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+            )
+        }
     }
 
 }

@@ -121,6 +121,11 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver
+            android:name=".notice.receiver.AlarmTaskReceiver"
+            android:exported="true"
+            tools:ignore="ExportedReceiver" />
+
+        <receiver
             android:name=".notice.receiver.FrontReceiver"
             android:exported="true">
             <intent-filter android:priority="999">

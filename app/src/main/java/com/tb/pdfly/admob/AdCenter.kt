@@ -2,9 +2,9 @@ package com.tb.pdfly.admob
 
 import android.os.Build
 import com.google.gson.Gson
-import com.tb.pdfly.BuildConfig
 import com.tb.pdfly.admob.loader.FullAdLoader
 import com.tb.pdfly.admob.loader.NativeAdLoader
+import com.tb.pdfly.report.ReportCenter
 import com.tb.pdfly.utils.cloakResult
 import com.tb.pdfly.utils.installReferrerStr
 
@@ -78,7 +78,10 @@ object AdCenter {
 
     fun adNoNeededShow(): Boolean {
 //        if (BuildConfig.DEBUG) return false
-        if (isEmulator()) return true
+        if (isEmulator()) {
+            ReportCenter.reportManager.report("Ad_te")
+            return true
+        }
         if (pdfly_open == 0) return false // 0 不对任何用户屏蔽
         if (isFuckingUser()) return true
         if (pdfly_open == 1 && !isFather()) return true

@@ -114,6 +114,8 @@ object RemoteConfigUtils {
             "RemoteCenter NoticeConfig loaded: $json".showLog()
             if (json.isNotEmpty()) {
                 MessageManager.remoteNoticeConfig = Gson().fromJson(json, NoticeConfig::class.java)
+            } else {
+                MessageManager.remoteNoticeConfig = Gson().fromJson(testJson, NoticeConfig::class.java)
             }
         }
     }

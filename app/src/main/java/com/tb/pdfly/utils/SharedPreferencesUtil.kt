@@ -75,7 +75,11 @@ var isSubscribedFcmTopic by PrefBoolean(false)
 
 var timerNoticeLastShowTime by PrefLong(default = 0L)
 var unlockNoticeLastShowTime by PrefLong(default = 0L)
+var alarmNoticeLastShowTime by PrefLong(default = 0L)
 var noticeLastShowTime by PrefLong(default = 0L)
 
 var timerNoticeCounts by PrefInt(default = 0)
 var unlockNoticeCounts by PrefInt(default = 0)
+var alarmNoticeCounts by PrefInt(default = 0)
+
+var nextAlarmSetTime by PrefLong(default = 0L)
