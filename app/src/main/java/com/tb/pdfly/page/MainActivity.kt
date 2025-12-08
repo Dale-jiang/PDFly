@@ -379,7 +379,7 @@ class MainActivity : BaseFilePermissionActivity<ActivityMainBinding>(ActivityMai
             if (ad.canShow(this@MainActivity)) {
                 ad.showFullAd(this@MainActivity, "exit_launch", showLoading = false) { callBack() }
             } else {
-                ad.loadAd(this@MainActivity)
+                ad.loadLaunchAd(this@MainActivity)
                 callBack()
             }
         }

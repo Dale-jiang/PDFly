@@ -17,6 +17,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 object MessageTaskWorker {
 
@@ -26,8 +27,10 @@ object MessageTaskWorker {
         object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 taskScope.launch {
-                    delay(1000L)
-                    MessageManager.showNotice("unlock")
+                    delay(800L)
+                    withContext(Dispatchers.Main) {
+                        MessageManager.showNotice("unlock")
+                    }
                     context?.let {
                         runCatching {
                             FrontJobIntentService.start(context)
@@ -59,8 +62,10 @@ object MessageTaskWorker {
 
     private fun startTimer() {
         taskScope.launch {
-            tickerFlow(60000L, 60000L).collect {
-                MessageManager.showNotice("time")
+            tickerFlow(1_000L, 60000L).collect {
+                withContext(Dispatchers.Main) {
+                    MessageManager.showNotice("time")
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.tb.pdfly.admob.loader
 
+import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -45,6 +46,19 @@ class FullAdLoader(override val adPosition: String) : IAdLoader {
         if (adLoadList.isEmpty()) {
             isLoading = true
             doAdLoad(context, 0)
+        }
+    }
+
+    fun loadLaunchAd(activity: Activity) {
+        if (mAdItems.isEmpty() || isLoading) return
+
+        adLoadList.firstOrNull()?.apply {
+            if (isAdExpire()) adLoadList.remove(this)
+        }
+
+        if (adLoadList.isEmpty()) {
+            isLoading = true
+            doAdLoad(activity, 0)
         }
     }
 

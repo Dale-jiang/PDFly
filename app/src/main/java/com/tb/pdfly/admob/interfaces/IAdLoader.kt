@@ -1,5 +1,6 @@
 package com.tb.pdfly.admob.interfaces
 
+import android.app.Activity
 import android.content.Context
 import com.tb.pdfly.admob.AdConfigItem
 import com.tb.pdfly.admob.ad.FullAdImpl
@@ -24,7 +25,7 @@ interface IAdLoader {
         return when (item.adPlatform) {
             "admob" -> when (item.adType) {
                 "op", "int" -> FullAdImpl(adPosition, adItem = item, System.currentTimeMillis())
-                 "nat" -> NativeAdImpl(adPosition, adItem = item, System.currentTimeMillis())
+                "nat" -> NativeAdImpl(adPosition, adItem = item, System.currentTimeMillis())
                 else -> null
             }
 
@@ -32,10 +33,61 @@ interface IAdLoader {
         }
     }
 
+    fun doAdLoad(activity: Activity, startIndex: Int) {
+
+        var currentIndex = startIndex
+
+        fun tryLoadNext() {
+            if (activity.isFinishing || activity.isDestroyed) {
+                isLoading = false
+                onLoaded?.invoke(false)
+                return
+            }
+
+            val item = mAdItems.getOrNull(currentIndex)
+            if (item == null) {
+                currentIndex = 0
+                tryLoadNext()
+                return
+            }
+
+            val baseAd = createAd(item)
+            if (baseAd == null) {
+                currentIndex = (currentIndex + 1) % mAdItems.size
+                tryLoadNext()
+                return
+            }
+
+            baseAd.loadAd(activity) { success, msg ->
+
+                if (activity.isFinishing || activity.isDestroyed) {
+                    isLoading = false
+                    onLoaded?.invoke(false)
+                    return@loadAd
+                }
+
+                if (success) {
+                    "$adPosition ${item.adType} - ${item.adId} load success".showLog()
+                    isLoading = false
+                    onAdLoaded(baseAd)
+                } else {
+                    "$adPosition ${item.adType} - ${item.adId} load failed: $msg".showLog()
+
+                    currentIndex = (currentIndex + 1) % mAdItems.size
+
+                    tryLoadNext()
+                }
+            }
+        }
+
+        tryLoadNext()
+    }
+
+
     fun doAdLoad(context: Context, startIndex: Int) {
 
         fun loadNextAd(index: Int) {
-            val item = mAdItems.getOrNull(index) ?: if (adPosition == "pdfly_launch") mAdItems.getOrNull(0) else null
+            val item = mAdItems.getOrNull(index)
             if (item == null) {
                 onLoaded?.invoke(false)
                 isLoading = false

@@ -112,7 +112,7 @@ class FirstLoadingActivity : BaseActivity<ActivityFirstLoadingBinding>(ActivityF
     }
 
     private fun startLoading() {
-        AdCenter.pdflyLaunch.loadAd(this)
+        AdCenter.pdflyLaunch.loadLaunchAd(this)
         hasRequestUMP = true
         countdownTimer.start()
     }
