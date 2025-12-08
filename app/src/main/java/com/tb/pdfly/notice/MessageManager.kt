@@ -40,7 +40,12 @@ object MessageManager {
 
     private const val NOTIFICATION_CHANNEL_ID = "MAIN_IMPORTANT_MESSAGE"
     var remoteMessageList: List<List<NoticeContent>> = listOf()
-    var remoteNoticeConfig: NoticeConfig? = null
+    var remoteNoticeConfig: NoticeConfig? = NoticeConfig(
+        1, 0, 0,
+        NoticeConfigItem(20, 20),
+        NoticeConfigItem(5, 20),
+        NoticeConfigItem(30, 20)
+    )
     private val currentGroupIndexAtomic = AtomicInteger(0)
 
     private val alarmManager by lazy {
@@ -427,6 +432,7 @@ object MessageManager {
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
             )
+            "alarm has been scheduled".showLog()
         }
     }
 

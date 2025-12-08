@@ -49,8 +49,8 @@ data class NoticeConfigItem(
 val testJson = """
     {
     	"open": 1,
-    	"pdfly_start": 23,
-    	"pdfly_end": 6,
+    	"pdfly_start": 0,
+    	"pdfly_end": 0,
     	"pdfly_im": {
     		"pdfly_mi": 20,
     		"pdfly_up": 30
@@ -60,7 +60,7 @@ val testJson = """
     		"pdfly_up": 30
     	},
     	"pdfly_al": {
-    		"pdfly_mi": 2,
+    		"pdfly_mi": 1,
     		"pdfly_up": 100
     	}
     }
